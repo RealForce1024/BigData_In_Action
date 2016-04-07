@@ -1,0 +1,730 @@
+<!DOCTYPE html><html><head><title>day04</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
+
+<h1 id="day04">day04</h1>
+
+<p></p>
+
+<p>有任何问题，随时和我联系  <br>
+<strong>微信公众号</strong>: 鲅鱼饺子品技术 <br>
+<strong>邮箱</strong> : happymark.fqc@foxmail.com <br>
+<strong>手机</strong> : 152 010 98976 <br>
+<strong>时间</strong> : 2016-04-02 <br>
+<strong>QQ</strong> : 337940626 <br>
+<strong>作者</strong>: 冯琪超 <br>
+<strong>说明</strong>：实时记录+个人理解+拓展阅读 <br>
+梳理讲课路线，方便回顾复习。 <br>
+文章结构、专业术语、英文、伪代码  <strong>不保证合理正确</strong></p>
+
+<p>该页面随时梳理更新</p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day04">day04</a><ul>
+<li><a href="#问题回顾">问题回顾</a><ul>
+<li><a href="#集群不工作">集群不工作</a></li>
+</ul>
+</li>
+<li><a href="#推荐两本书">推荐两本书</a><ul>
+<li><a href="#多线程回顾">多线程回顾</a><ul>
+<li><a href="#进程">进程</a></li>
+<li><a href="#线程">线程</a></li>
+<li><a href="#多线程">多线程</a></li>
+<li><a href="#多线程运行的原理">多线程运行的原理</a></li>
+<li><a href="#实现线程的两种方式">实现线程的两种方式</a></li>
+<li><a href="#java同步关键词解释">Java同步关键词解释</a><ul>
+<li><a href="#synchronized">synchronized</a></li>
+<li><a href="#lock-对象非java关键字">Lock 对象(非Java关键字)</a></li>
+<li><a href="#readwritelock">readwritelock</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#线程池">线程池</a></li>
+</ul>
+</li>
+<li><a href="#消息队列">消息队列</a><ul>
+<li><a href="#实现">实现</a></li>
+<li><a href="#blockingqueue">BlockingQueue</a></li>
+</ul>
+</li>
+<li><a href="#jms">JMS</a><ul>
+<li><a href="#topic">topic</a></li>
+<li><a href="#什么是jms">什么是Jms</a><ul>
+<li><a href="#体系架构">体系架构</a></li>
+</ul>
+</li>
+<li><a href="#两种模型">两种模型</a><ul>
+<li><a href="#点对点或队列模型">点对点或队列模型</a></li>
+<li><a href="#发布与订阅模型">发布与订阅模型</a></li>
+</ul>
+</li>
+<li><a href="#jms实现">Jms实现</a></li>
+<li><a href="#代码演示">代码演示</a><ul>
+<li><a href="#安装activemq">安装activemq</a></li>
+<li><a href="#配置-confactivemqxml">配置 conf/activemq.xml</a></li>
+<li><a href="#topic-案例">topic 案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#java动态代理反射">Java动态代理、反射</a><ul>
+<li><a href="#反射">反射</a></li>
+<li><a href="#动态代理">动态代理</a><ul>
+<li><a href="#什么是动态代理">什么是动态代理?</a></li>
+<li><a href="#如何实现">如何实现</a><ul>
+<li><a href="#代码实现图讲解">代码实现图讲解</a></li>
+<li><a href="#案例-卖衣服">案例 卖衣服</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#socket">Socket</a><ul>
+<li><a href="#需求">需求</a></li>
+<li><a href="#实现-1">实现</a></li>
+<li><a href="#代码演示-1">代码演示</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content">
+
+<h2 id="问题回顾">问题回顾</h2>
+
+<p>zk客户端连接失败 <br>
+getData失败，集群都正常的情况… <br>
+zk不可靠….?????!!!!! <br>
+数据的一致性， zk的上传数据同步怎么保证的？ leader先知道，大家投票，半数以上的通信更新了，有些节点可能没有更新。 不能用在非常严格的场景上。 <br>
+场景： 上下线感知，配置的管理（solr cloud，短暂时间没有拿到也是可以的），dubbo服务…. <br>
+zk数据一致性并不是严格的，一致性要求严格的场景不建议用。 <br>
+数据一致性理论：三个特性   无法兼得…..</p>
+
+<p>lost connection  <br>
+zk = new zk(); //内部工作原理 connection 、listener 通信握手会话（过程会很漫长，响应不及时，listener()connect() 没准备好） <br>
+zk.getConnection();</p>
+
+<p>state = zk.getState()   // connected  connectinning  association  <br>
+while(state.CONNECTED !=state){ <br>
+sleep(100); //等待下 <br>
+}</p>
+
+<p><strong>内功修炼的问题</strong></p>
+
+</div><div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
+
+<h3 id="集群不工作">集群不工作</h3>
+
+<p>进程在，但是zk集群不工作 <br>
+99% 防火未关闭</p>
+
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
+
+<h2 id="推荐两本书">推荐两本书</h2>
+
+<p>《Java并发编程实战》 <br>
+《深入理解Java虚拟机–Jvm高级特性与最佳实践(第二版)》</p>
+
+<p>多线程、netty、nio 底层的 偏理论  水深  内功修炼 研究</p>
+
+<p>大部分目的 面试用的….</p>
+
+</div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
+
+<h3 id="多线程回顾">多线程回顾</h3>
+
+</div><div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+<h4 id="进程">进程</h4>
+
+<p>内存中分配一块独立的空间</p>
+
+</div><div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+<h4 id="线程">线程</h4>
+
+<p>进程中一部分独立的空间，栈存局部变量。 图形化程序，线程是使用的很多。一个web请求..就是线程（tomcat servlet已经实现，我们没过多关注）。 后台程序（非mybatis…..）服务多个客户端….</p>
+
+</div><div id="wmd-preview-section-9" class="wmd-preview-section preview-content">
+
+<h4 id="多线程">多线程</h4>
+
+<p>进程中开启多个线程，后台服务系统可以用多个线程响应多个客户端的请求</p>
+
+</div><div id="wmd-preview-section-10" class="wmd-preview-section preview-content">
+
+<h4 id="多线程运行的原理">多线程运行的原理</h4>
+
+<p>cpu在线程中做时间片的切换</p>
+
+<p>th.start() 开启新的线程空间 <br>
+th.run()在main方法空间中</p>
+
+</div><div id="wmd-preview-section-11" class="wmd-preview-section preview-content">
+
+<h4 id="实现线程的两种方式">实现线程的两种方式</h4>
+
+<p>实例：start() 与run()方法的区别 <br>
+run()打出来的其实都是thread.currentthred.getname()   main <br>
+面试时注意 <br>
+如果调用thread的run方法只是普通的方法调用，不会开启新的线程。</p>
+
+</div><div id="wmd-preview-section-12" class="wmd-preview-section preview-content">
+
+<h4 id="java同步关键词解释">Java同步关键词解释</h4>
+
+</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
+
+<h5 id="synchronized">synchronized</h5>
+
+<blockquote>
+  <p>public void get(){ <br>
+  soust… <br>
+  synchrozided{  同样的代码块，只能一个线程在使用。 传入任意对象(锁) <br>
+          代码块中 操作共享的块 （<strong>关键是锁是同一把锁</strong>…火车上厕所案例(zxx)（一个人进去了，门就锁了….逻辑可以不同）） <br>
+      } <br>
+  } <br>
+  <strong>持有同一把锁的线程存在竞争关系</strong> 不同锁无关</p>
+</blockquote>
+
+<p>缺陷： 一个线程获得修饰的锁，另外的线程会一直等待 阻塞状态（可能会等很长时间，降低程序效率。 如何解决？ 使用lock可以不用使其一直等待。）。 <br>
+synchronized会自动释放，可能一直不释放，如果拿到锁的线程进入异常也会释放掉 <br>
+<strong>代码演示</strong> 异常释放后，等待线程获取锁</p>
+
+</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
+
+<h5 id="lock-对象非java关键字">Lock 对象(非Java关键字)</h5>
+
+<p><strong>Lock 不是Java关键字，而是Java concurrent包中的对象</strong> <br>
+也是同步锁的工具，类似syncronized <br>
+区别 ： 用户必须自己手动释放锁 <br>
+util.concurrent.locks  <br>
+interface Lock{ <br>
+void lock(); <br>
+void lockInterruptily throws InturruptedException ; //该锁是可以被中断的 是等待的人是可以被中断，注意！！！ B等待是，调用B的interrupt….</p>
+
+<p>tryLock() // 会有返回值，尝试获取返回锁 一调用就会立即返回 锁，拿到 没拿到  可以做些异步的功能，拿不到 待会可以再试</p>
+
+<p>tryLock(loing time,Timeunit unit)  //调用返回后，会等待一段时间看能否拿到锁 <br>
+}</p>
+
+<p>案例： JDK 中 ReentrantLock 有以上接口的实现。 <br>
+MyLockTest <br>
+MyTryLock  拿不到就会立即返回  <br>
+用这种方式开发需要想的周全，才能健壮。 <br>
+MyInterruptily t2等两秒钟被中断  异常抛出去。。。 t1得到了锁，就不会被中断…中断等待的人。</p>
+
+</div><div id="wmd-preview-section-15" class="wmd-preview-section preview-content">
+
+<h5 id="readwritelock">readwritelock</h5>
+
+<p>多线程中两种操作，一般认为 读操作互相不冲突，写的时候会产生冲突。但是synchronize是不管的，代码块一刀切…. 而 读写锁 就可以做这些细粒度的工作。</p>
+
+<p>interface ReadWriteLock{ <br>
+    Lock readLock(); //大家都能读 <br>
+    Lock writeLock();//其他人不能写 <br>
+}</p>
+
+<p>案例： ReentranReadWriteLock ..与MySynchronizedReadWriteLock <br>
+i%4==0 读操作多…. <br>
+<strong>使用读写锁，可以实现读写分离锁，读操作并发操作，写操作锁定单个线程</strong></p>
+
+<p>总结： Lock 与 Synchronized  <br>
+synchronidzed  异常会自动释放锁，但互相死锁是逻辑问题 <br>
+Lock 是接口，注意自己手动释放锁 ，可以让等待锁的线程响应中断，继续做其他的事情。 <br>
+通过Lock可以知道有无成功获取锁，而synchronized却无法搬到。 <br>
+lock 可以提供多线程读写操作的效率。 <br>
+性能上来说，竞争不激烈的话， 两者性能差不多。 但是大量线程同时竞争的时候,Lock的优势就会大大的提高。</p>
+
+</div><div id="wmd-preview-section-16" class="wmd-preview-section preview-content">
+
+<h3 id="线程池">线程池</h3>
+
+<p>需求场景： <br>
+上面的是多线程很基础的问题，加入每来一个请求 new t1.start（） ，都会启动一个线程，线程多了，系统的性能就会急剧下降，线程不能无限制。 <br>
+所以实际工作中，<strong>线程池是非常重要的</strong>对于系统的性能是非常重要的</p>
+
+<p>线程池的分配 <br>
+    1. 固定大小的， <br>
+    2. 弹性伸缩的 <br>
+线程池 是一种 数据结构  数组 linkedList ，我们使用稳定的线程的。</p>
+
+<p>jdk1.5 concurrent 包中有很多线程池的概念  ，当然不止，还有很多的概念， <br>
+包含原子量（讲解 ）昨天的zk修改serverlist ，假如有多个线程修改，则会出问题。 <br>
+valitle 。。等线程操作完成返回后，其他的线程才能拿到。会出问题的。 <br>
+线程锁是没有该问题的，但效率较低。 <br>
+原子量，保证大家看到的数据视图是一样的。</p>
+
+<p>其他概念在书中查看。</p>
+
+<p><strong>线程池是我们目前讲解的重点</strong></p>
+
+<p>线程池的5种创建方式：</p>
+
+<ol><li rel="1">SingleThread Executor:</li>
+<li rel="2">Cached Threadd Pool: 老的可用线程会被新的线程重新触发执行。如果线程超过60秒没有被执行，那么将被终止从线程池中删除。 可伸缩的，弹性的。</li>
+<li rel="3">Fixed Thread Pool  不会被清除 。 线程到底开多少个？ 运算密集型的（线程少些最好，切换费时） IO密集型的(cpu很快，做轮换，大家可以同时进行。 但是io很重，硬盘承受量也是很重，开再多的线程也是很累的 。  阻塞很少的情况，一般与cpu的数量保持一致。  int cpuNums = Runtime.getRuntime().aviableProcessors() 以cpu核数为准)</li>
+<li rel="4">Scheduled Thread Pool ： 调度执行任务的线程池</li>
+<li rel="5">Single Thread Schedule Pool:</li>
+</ol>
+
+<p>案例 : ThreadPoolWithRunnable <br>
+ ThreadPoolWithcallable  会从线程任务中返回 Future&lt;?&gt;  这里有些玄，驻现场如何拿到子线程中的返回值 ，这里会有 回调函数  11：25左右可以再听下。 <br>
+ 注意： 从future中get结果，该方式是会别阻塞的，一直要等到线程任务返回结果。 <br>
+ callable runnable 的区别。 <br>
+ runnable 的run方法不会有任何返回结果，所以主线程无法获得任务线程的返回值（设置共享变量，但是这里就需要锁了，缺点就会性能下降） <br>
+callable的call方法可以返回结果，但是主线程是被阻塞的，需要等待任务返回结果才能继续执行。</p>
+
+<p>案例 ： TestPool  <br>
+提交任务，会有回调句柄 11：33分分析理解 fixedThreadPool <br>
+任何很快就提交上了，业务逻辑不一样有快有慢，但是只要有人完成就能拿到结果，没玩则阻塞。 完成的可以接受新的任务。</p>
+
+<p>TaskCallable  sechedule 可以延迟执行，</p>
+
+<p>案例 ： ExecutorDemo 列出并发包中的各种线程池。</p>
+
+</div><div id="wmd-preview-section-17" class="wmd-preview-section preview-content">
+
+<h2 id="消息队列">消息队列</h2>
+
+<p>concurrent包中的  BlockingQueue （阻塞式mq，也可以非阻塞式……） <br>
+拿锁的顺序是不可控的。</p>
+
+<p>任务运行放到队列中是按照顺序的 可以控制 。</p>
+
+<p>add(Object) 可以容纳，返回true，否则异常 <br>
+offer(Object) 可容纳，true，否则false。判断 什么时候放进去什么时候不用尝试。 <br>
+put（object） 阻塞 等待可以容纳有空间的时候再继续放</p>
+
+<p>读取：  <br>
+    poll (time) 非阻塞式  <br>
+    take() 阻塞式 <br>
+其他： <br>
+int remainingCapacity() <br>
+boolean remove(Object ) <br>
+cotains(Obj) <br>
+drainTo(Collection&lt;?&gt; c) 统统放进去 <br>
+drainTo(Collection&lt;?&gt; c，int maxElements) 统统放进去</p>
+
+</div><div id="wmd-preview-section-18" class="wmd-preview-section preview-content">
+
+<h3 id="实现">实现</h3>
+
+<p>ArrayBlockingQueue <br>
+LinkedBlockingQueue 大小不定的，不传有 Integer.MAX_VALUE 预分配</p>
+
+<p>案例 <br>
+生产者  线程 Producer  <br>
+消费者  Consumer 不断从队列取出队列元素并打印 <br>
+主类 Blockingqueue package -&gt; Test</p>
+
+<p>blockingqueue.main package -&gt; 效果更佳明显</p>
+
+<p><strong>下午</strong></p>
+
+<p>volatile 保证看到的值是唯一的，貌似是线程安全的，实际非线程安全的。  <br>
+实例测试即可 测试volatile是否是线程安全的。  <br>
+TestVolatile <br>
+多线程操作后结果 每次都是不一样的。 非安全的。  <br>
+原因在于 变量本身是一致性的， ++是非安全性的。</p>
+
+<p>线程拿到工作内存，主内存瞬间是一样的，但是内部做了操作，先将其放到栈顶操作，移动….别的线程也是如此操作，两者是不冲突的，++ 操作也做了 。 <strong>线程安全不光变量本身的考虑，也要考虑对变量的操作。</strong></p>
+
+<p>主内存  <br>
+工作内存 – 运算过程 4 个步骤  返回刷新回去。 volatile保证计算完成后一定刷回去，但是在刷回去之前还是有步骤的，所以可能还没来得及返回， 主内存中的值被另一个线程拿回去操作，运算返回去 大家都是++。 所以volatile非线程安全的。 绝对的安全那就加锁喽….. <br>
+那volatile在哪里用呢？  一个人去写，很多人去读 的场景</p>
+
+<blockquote>
+  <p>volatile flag = ture;  if () {flag = false} <br>
+  while(true){ }  //每次判断运算的时候都会去主内存取flag变量。  并没有改，只要有一个人改了， zk服务器的上下线场景。 一个人改了，其他人都能看到的场景 这样是有效的。 而非多人竞争。 如果没有volatile，则无法保证如此的及时，将会导致数据的混乱。</p>
+</blockquote>
+
+<p>如果想深入了解volatile其他关键字…研究下《深入理解Java虚拟机》  <br>
+concurrent中的原子量不见得是线程安全的，只是代表其实原子性的.. 14:47 分这里听下</p>
+
+</div><div id="wmd-preview-section-19" class="wmd-preview-section preview-content">
+
+<h3 id="blockingqueue">BlockingQueue</h3>
+
+<p>在storm源码中使用的很多 <br>
+<strong>双十一案例</strong>  <br>
+实时的不断刷新 如何实现的？ <br>
+非数据库统计出来的 <br>
+订单的 生成不是直接插入数据库中的，那将是同步调用，等待很久。。肯定会死掉。 <br>
+使用异步方式，将其丢到多个队列中 库存 金额验证 等等</p>
+
+<p>从队列中取 处理…..分布式计算系统…. <br>
+kafka  —&gt;    spout—-bolt…  汇总…  redis/前端 <br>
+问题 ： 顺序处理 问题   BlockingQueue</p>
+
+<p>底层框架都会使用….写电商的也会常用。</p>
+
+<p>并发编程的总结</p>
+
+<ol><li rel="1">不使用线程池的缺点 <br>
+<ol>
+<li rel="2">新建线程的 开销</li>
+<li rel="3">资源消耗量</li>
+<li rel="4">稳定性</li></ol></li>
+<li rel="5">制定执行的策略 <br>
+<ol>
+<li rel="6">任务以什么顺序执行</li>
+<li rel="7">同时并发数多少</li>
+<li rel="8">并发等待数</li>
+<li rel="9">系统过载的时候，应该放弃哪些业务》。。</li>
+<li rel="10">。。。。</li></ol></li>
+<li rel="11">5种线程池</li>
+<li rel="12">线程池的饱和策略 <br>
+<ol>
+<li rel="13">setRejetedExcutionHandler 拒绝任务的策略 需要告诉上层 如何处理 <br>
+<ol>
+<li rel="14">abortPolicy CallerRunsPolicy discardPolicy DiscrardOldest，Policy</li>
+<li rel="15">看jdk文档 </li></ol></li></ol></li>
+</ol>
+
+</div><div id="wmd-preview-section-20" class="wmd-preview-section preview-content">
+
+<h2 id="jms">JMS</h2>
+
+<p>线程在单机中是受控的，但是在分布式中..不好控制，也不经常用。  <br>
+锁的场景尽量避免掉。 <br>
+线程的使用场景  逻辑分开，大家分开进行，尽量不依赖。 <br>
+分布式中 并发 多线程 我们怎么做 ？  红包，抢商品等 <br>
+用户抢购 案例分析  <br>
+多请求，修改库存 （多线程修改数据 ，锁？线程会等 池？ 后面也会有很多任务，基本就会卡死）  <br>
+将请求丢到队列中（内存队列） 排队很快（可以使页面返回不卡死），但是另一边修改的很慢（相对） 异步解耦操作 1先返回2继续执行结果然后返回</p>
+
+<p>队列问题   队列的压力很强大 <br>
+而且也会有很多不同业务的队列  <br>
+内存压力很大 <br>
+抽取出 消息队列服务器…. 例如 JMS —ActiveMQ…..等各种实现 <br>
+抢不到小米5 买个苹果过度下…..</p>
+
+</div><div id="wmd-preview-section-21" class="wmd-preview-section preview-content">
+
+<h3 id="topic">topic</h3>
+
+<p>为不同的主题建立不同的消息队列  <br>
+线程中不是很有用的，用的多的是消息队列，当然前面的请求 线程池还是很有用的。 11：20分 重听下。 <br>
+下午将</p>
+
+</div><div id="wmd-preview-section-22" class="wmd-preview-section preview-content">
+
+<h3 id="什么是jms">什么是Jms</h3>
+
+<p>一套消息队列接口，有多种实现。</p>
+
+</div><div id="wmd-preview-section-23" class="wmd-preview-section preview-content">
+
+<h4 id="体系架构">体系架构</h4>
+
+<p>提供者 provider  – ActiveMQ ,提供消息队列服务 <br>
+客户 <br>
+    生产者  发送消息 <br>
+    消费者  获取消息 <br>
+消息 <br>
+队列</p>
+
+</div><div id="wmd-preview-section-24" class="wmd-preview-section preview-content">
+
+<h3 id="两种模型">两种模型</h3>
+
+</div><div id="wmd-preview-section-25" class="wmd-preview-section preview-content">
+
+<h4 id="点对点或队列模型">点对点或队列模型</h4>
+
+<pre class="prettyprint hljs-dark"><code class="hljs">生产者与消费者是一种类似线性的关系<br></code></pre>
+
+</div><div id="wmd-preview-section-26" class="wmd-preview-section preview-content">
+
+<h4 id="发布与订阅模型">发布与订阅模型</h4>
+
+<pre class="prettyprint hljs-dark"><code class="hljs">生产者与消费者没有直连的关系<br></code></pre>
+
+</div><div id="wmd-preview-section-27" class="wmd-preview-section preview-content">
+
+<h3 id="jms实现">Jms实现</h3>
+
+<p>apache ActiveMQ <br>
+zeroMQ <br>
+JBOSS MQ <br>
+WEBSPHERE MQ <br>
+why Kafka not Jms implemention ?  很多内容是没有实现的 。本质是：消息缓存。 可看官网说明指明自己不是jms <br>
+<strong>消息服务一般是跨(多)语言的   这里就需要 语言通信协议</strong> stomp mqtt ws openwire </p>
+
+</div><div id="wmd-preview-section-28" class="wmd-preview-section preview-content">
+
+<h3 id="代码演示">代码演示</h3>
+
+</div><div id="wmd-preview-section-29" class="wmd-preview-section preview-content">
+
+<h4 id="安装activemq">安装activemq</h4>
+
+</div><div id="wmd-preview-section-30" class="wmd-preview-section preview-content">
+
+<h4 id="配置-confactivemqxml">配置 conf/activemq.xml</h4>
+
+<p>transportConnectors <br>
+。。。5.9版本演示启动成功 <br>
+5.12没成功。。。再看</p>
+
+</div><div id="wmd-preview-section-31" class="wmd-preview-section preview-content">
+
+<h4 id="topic-案例">topic 案例</h4>
+
+<p>案例代码 <br>
+03_mq.topic  <br>
+producerTool 发送消息的工具</p>
+
+<ul><li>subject </li>
+<li>初始化 连接工厂 连接 会话 创建主题 创建生产者   设置发送模式 </li>
+<li>发送消息  session创建消息 </li>
+<li>关闭连接…  <br>
+producerTest  实例测试</li>
+</ul>
+
+<p>消费者代码演示 <br>
+ConsumerTool  实现与producerTool基本类似 <br>
+设置消息监听 设置异常发生时监听….等 <br>
+<strong>消息处理函数</strong> <br>
+    - <strong>会调用 onMessage(Message msg)</strong> <br>
+onException {is connecton=false}</p>
+
+<p>测试 ProducerTest <br>
+之前的消息没了 <br>
+默认未做消息持久化，kafka默认都在（可以设置消息过期时间，之后会讲）</p>
+
+<p>ActiveMQ 的 pub sub 模式 自己研究去吧  javaEE中用的较多 <br>
+<strong>kafka 用于大数据 ，我们的重点</strong> <br>
+之后会将kafka <br>
+京东的推荐，浏览过的内容 ，这些内容是经过大数据实时计算的，点击行为是相当庞大的，这种行为数据比订单数据多了去了…..所以背后的支撑 需要消息队列 kafka ，但其是无序的，为何还用它？ <br>
+web 系统   日志 使用生产者 读日志 给kafka    为何不直接给 spout ，而要经过 kafka，因为生产者与消费者的处理速度不一致， kafka起到了一个<strong>消息缓存池</strong>的作用  <br>
+另一个原因是  是可以给多个业务系统使用，充当<strong>消息总线</strong>的作用。</p>
+
+</div><div id="wmd-preview-section-32" class="wmd-preview-section preview-content">
+
+<h2 id="java动态代理反射">Java动态代理、反射</h2>
+
+</div><div id="wmd-preview-section-33" class="wmd-preview-section preview-content">
+
+<h3 id="反射">反射</h3>
+
+<p>通过字符串获取该字符串代表的类对象的信息。 <br>
+写的时候根部不知道具体哪个类，代码中是不知道的。 <br>
+Human p = new Person(); <br>
+                           Moneky(); <br>
+配置文件中 定义了  <br>
+class = fengqichao  这里是字符串 <br>
+通过字符串获取类的实例，拿到其各种信息。</p>
+
+<p>案例： 04_reflect  package  MyReflect Person <br>
+//拿到类的定义 <br>
+clazz = class.forName(“className”);</p>
+
+<p>//获取类的对象 <br>
+clazz.getClass </p>
+
+<p>//创建类的实例 <br>
+clazz.newInstance(); //本质调用无参构造</p>
+
+<p>//获取构造函数  <br>
+clazz.getConsturctor(参数类型……及 个数注意)； <br>
+//通过构造函数构造实例 <br>
+（强制转换）constructor.newInstance();</p>
+
+<p>//获取私有的构造 <br>
+Constructor  con = clazz.getDeclaredDconstructor(参数类型); <br>
+con.setAccessible(true)//强制取消Java的权限检测</p>
+
+<p>//访问获取非私有的成员变量 <br>
+clazz.getFiled(filedName); <br>
+field.set(objInstace,”lisi”); //这里为了演示，直接通过 obj.set()也可以。</p>
+
+<p>//获取四哟的成员变量 <br>
+getDecla…… <br>
+setAccesible….</p>
+
+<p>获取非私有的成员函数 <br>
+clazz.getMethod() <br>
+clazz.getMethod(“toString”.invoke(obj)//调用该对象的toString方法 <br>
+<strong>直接调用？ 自己不知道调什么，是由调用者传递给我的。</strong> 框架者的思想… <br>
+rpc和动态代理中使用广泛，其中有很多这类的应用….rpc框架中各种反射…</p>
+
+<p>//获取私有的成员函数 <br>
+clazz.getDecla… <br>
+….getme …invok()</p>
+
+<p>getClassLoader() <br>
+class[] getInterfaces()</p>
+
+<p>//获取该类的直接父类 <br>
+getGenericSuperclass() <br>
+//使用类加载器获取资源 / 开头 classPath根目录。 否则，该类所在的包下取资源 <br>
+//clazz.getResourceAsStream(“/log4j….”)</p>
+
+<p>//判断clazz对象的实际类型 <br>
+clazz.isArray() <br>
+isEnum() <br>
+isInterface()</p>
+
+<p>instanceOf</p>
+
+</div><div id="wmd-preview-section-34" class="wmd-preview-section preview-content">
+
+<h3 id="动态代理">动态代理</h3>
+
+</div><div id="wmd-preview-section-35" class="wmd-preview-section preview-content">
+
+<h4 id="什么是动态代理">什么是动态代理?</h4>
+
+<p>系统中的service不能满足我们业务，我们需要增加策略，比如有了 优惠券的功能，在原有基础上改？ 可以，但是可能有很多其他业务线在使用。 此时我们需要动态代理。 <br>
+需要改动的业务线 产生一个代理对象 请求内部拦截，然后在调用原有的service，在前后都可以进行业务的修改。</p>
+
+</div><div id="wmd-preview-section-36" class="wmd-preview-section preview-content">
+
+<h4 id="如何实现">如何实现</h4>
+
+</div><div id="wmd-preview-section-37" class="wmd-preview-section preview-content">
+
+<h5 id="代码实现图讲解">代码实现图讲解</h5>
+
+<p>接口 原有实现 <br>
+代理对象实现  （核心） Proxy.newProxyInstance(被代理对象的加载器，实现接口数组，new <strong>InvocationHandler</strong>(){ <br>
+    public Object invoke(Object proxy(this),Method,method,Object[] args)j{ <br>
+    //logic   do what you want to do  增加逻辑处理  前后都可以增加处理 <br>
+        //anything    【method.invoke()…】</p>
+
+<p>} <br>
+}) <br>
+<strong>rpc中含有各种动态代理的实现</strong></p>
+
+</div><div id="wmd-preview-section-38" class="wmd-preview-section preview-content">
+
+<h5 id="案例-卖衣服">案例 卖衣服</h5>
+
+<p>05_proxy   action service impl  …</p>
+
+<p>自己的增强业务方法getProxy(<strong>传递自己的业务参数…..</strong>){ <br>
+    new Proxy**…{ <br>
+    invoke…. <br>
+    } <br>
+}</p>
+
+<p>繁琐的东西，一般简单….  proxy <br>
+简单的代码，背后原理可能很深… volatile</p>
+
+</div><div id="wmd-preview-section-39" class="wmd-preview-section preview-content">
+
+<h2 id="socket">Socket</h2>
+
+<p>大数据通信的基础 rpc基础…..</p>
+
+</div><div id="wmd-preview-section-40" class="wmd-preview-section preview-content">
+
+<h3 id="需求">需求</h3>
+
+<p>client      如何调用server端的getData方法 <br>
+server   getData()</p>
+
+</div><div id="wmd-preview-section-41" class="wmd-preview-section preview-content">
+
+<h3 id="实现-1">实现</h3>
+
+<p>方案1  ws  http协议  太过冗余 <br>
+方案2 socket 通信 <br>
+socketServer accept() 接收客户端连接 获取到socket 发送消息</p>
+
+<p>客户端 <br>
+socket = new socket();  tcp连接建立 <br>
+socket.send(request)  ==&gt;tcp socket 套接字 <br>
+<strong>request = “Clazz”</strong> <br>
+server端 <br>
+**request = socket.read(); <br>
+clazz.forName()    //反射方式，更加通用~ <br>
+…. <br>
+result = clazz.getData()** <br>
+socket.send(result)</p>
+
+<p>client <br>
+result =  socket.read()</p>
+
+</div><div id="wmd-preview-section-42" class="wmd-preview-section preview-content">
+
+<h3 id="代码演示-1">代码演示</h3>
+
+<p>package bigdata.socket  ….. <br>
+class ServiceServer:</p>
+
+<blockquote>
+  <p>ServerSocket  server = serverServerSocket(); <br>
+  server.bind(new InetSocketAddress(“ip”,8080)); <br>
+  //接收客户端的连接请求 ，进入阻塞状态，会一直等待，直到有客户端请求连接返回 <br>
+  Socket socket  <br>
+  while(true){ <br>
+   socket = server.accept();  <br>
+   //业务逻辑处理 ，注意要<strong>使用线程</strong> <br>
+   new Thread(new Runable{  //这里可以抽取出业务方法</p>
+</blockquote>
+
+<p>}).<strong>start()</strong>; <br>
+}</p>
+
+<p>ServiceServerTask implements Runnable{ <br>
+Socket socket; <br>
+//constructor <br>
+//与客户端进行数据交互 <br>
+public void run(){ <br>
+//从socket中获取client之间的网络通信输入流 <br>
+InputStream is =    socket.getInputStream(); // SocketinputStrem <br>
+BufferedReader br = new BufferedReader(new InputStreamReader(in)); <br>
+//读客户端发来的数据 <br>
+//注意： SocketInputStream 的读数据的方法都是阻塞的,所以加个while <br>
+while(()line =br.readline() )!=null){ <br>
+String param = br.readLine(); //readLine<strong>客户端需要有回车行</strong> ，否则会有阻塞. 老师的代码读一行就结束。 <br>
+new GetDataServiceImpl(); //使用反射实现更佳 <br>
+String result = GetDataServiceImpl.getData(param); <br>
+PrintWriter pw = new PrintWriter(out); <br>
+pw.println(result); <br>
+pw.flush(); //提交流 刷出 写出  <br>
+finally{ <br>
+    …各种判断的关闭 <br>
+} <br>
+} <br>
+} <br>
+} <br>
+//这里之后使用反射会更好 <br>
+class GetDataServiceImpl { <br>
+    pubblci String getData(get param){</p>
+
+<p>} <br>
+}</p>
+
+<p>客户端 与服务端很类似 ….具体看代码</p>
+
+<p>作业，将客户端发过类的调用类名、方法名、调用该参数类来灵活调用… <br>
+反射，动态代理(权限验证…)</p>
+
+<p>后天  <br>
+jvm netty <br>
+现在客户端很烦的… <br>
+还得自己调用socket… <br>
+如果我们  <br>
+ProxyUtils.getProxy(ServiceNmme.class,”methodName”,[params]) <br>
+service.method(param)… <br>
+…..这样客户端就如本地代码一般， 需要封装出ProxyUtils….就会很通用，自己实现rpc的需求…</p>
+
+</div><div id="wmd-preview-section-43" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
