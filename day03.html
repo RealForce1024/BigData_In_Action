@@ -1,0 +1,786 @@
+<!DOCTYPE html><html><head><title>day03</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
+
+<h1 id="day03">day03</h1>
+
+<p></p>
+
+<p>有任何问题，随时和我联系  <br>
+<strong>邮箱</strong> : happymark.fqc@foxmail.com <br>
+<strong>手机</strong> : 152 010 98976 <br>
+<strong>时间</strong> : 2016-04-05 <br>
+<strong>QQ</strong> : 337940626 <br>
+<strong>说明</strong>：实时记录+个人理解， <br>
+文章结构、专业术语、英文、伪代码 <strong>不保证合理正确</strong> <br>
+之后还会梳理更新</p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day03">day03</a><ul>
+<li><a href="#问题回顾">问题回顾</a><ul>
+<li><a href="#关于nginxkeepalived">关于nginx+keepalived</a></li>
+<li><a href="#本地yum源安装配置">本地yum源安装配置</a></li>
+<li><a href="#minimal-安装系统各种命令的确实">minimal 安装系统各种命令的确实</a></li>
+</ul>
+</li>
+<li><a href="#软件自动化部署">软件自动化部署</a></li>
+<li><a href="#zookeeper">Zookeeper</a><ul>
+<li><a href="#zookeeper概念简介">Zookeeper概念简介</a></li>
+<li><a href="#zookeeper集群安装">zookeeper集群安装</a><ul>
+<li><a href="#zookeeper集群结构">zookeeper集群结构</a></li>
+<li><a href="#zk的安装">zk的安装</a></li>
+<li><a href="#zk命令行客户端使用">zk命令行客户端使用</a></li>
+<li><a href="#节点类型">节点类型</a></li>
+<li><a href="#监听">监听</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#zk-api">ZK API</a><ul>
+<li><a href="#jar包准备">jar包准备</a></li>
+<li><a href="#simplezkclientjava">SimpleZkClient.java</a></li>
+<li><a href="#案例-服务器的动态上下线">案例 ： 服务器的动态上下线</a></li>
+<li><a href="#案例">案例</a><ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#需求-一次只有一个节点访问该资源">需求： 一次只有一个节点访问该资源</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content">
+
+<h2 id="问题回顾">问题回顾</h2>
+
+</div><div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
+
+<h3 id="关于nginxkeepalived">关于nginx+keepalived</h3>
+
+<p>nginx + keepalived是为了练习linux命令，大数据基础，部署具体内容有趣点而…</p>
+
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
+
+<h3 id="本地yum源安装配置">本地yum源安装配置</h3>
+
+<p>两种方式 <br>
+1.每台机器都配一个本地文件系统的yum仓库，缺点每台机器都配。 file:///package/path <br>
+2.http访问下载。 在局域网配置一台节点本地文件系统yum仓库，发布到web服务中 <a href="http://server-base/package/path" target="_blank">http://server-base/package/path</a> 路径放到web服务器中 <br>
+昨天老师录了视频 yum web服务 。 拷贝比较浪费空间，进行挂载好。 /dev/cdrom-&gt;sr0（代表设备文件）</p>
+
+<ul><li>创建目录 mkdir /mnt/cdrom</li>
+<li>ll /mnt/cdrom</li>
+<li>挂载 mount -t iso9660(文件系统类型) -o rw（硬盘读写，光盘一般只读） /dev/cdrom（被挂载的文件）   /mnt/cdrom（挂载的目标位置）。 </li>
+<li>为了避免每次重启后都要手动重新挂载，可以在/etc/fstab中加入配置，即可自动挂载 <br>
+<ul>
+<li>vi /etc/fstab （系统启动时挂载哪些盘，光驱等）</li>
+<li>/dev/cdrom     /mnt/cdrom    iso9660 defaulsts   0(read) 0 (write)</li>
+<li>配置好该文件 ，开机就会自动挂载 <br>
+<ul>
+<li>web服务器 </li>
+<li>直接使用静态资源服务器即可，场景 不用tomcat（相对麻烦）</li>
+<li>yum install httpd</li>
+<li>service httpd start</li>
+<li><a href="http://ip" target="_blank">http://ip</a></li>
+<li>cd var/www</li>
+<li>vim html/ helloworld.html</li>
+<li>ll </li>
+<li>ln -s /mnt/cdrom ./centos    (centos-&gt;/mnt/cdrom) </li>
+<li>cd /etc/yum.repos.d/ </li>
+<li>cp centos-med…..bak  centos-.repo</li>
+<li>vim …</li>
+<li>baseurl=<a href="http://mini4/centos" target="_blank">http://mini4/centos</a>   enabled </li>
+<li>检查能否认识该库  fastestmirror</li>
+<li>yum repolist</li>
+<li>yum clean all</li>
+<li>yum repolist</li>
+<li>理解了原理，怎么搞都能玩转……. <br>
+
+
+<blockquote>
+  总结 制作流程  选择一台机器，挂载一个系统光盘个到本地目录/mnt/cdrom,然后启动一个httpd服务 将/mnt/cdrom 软连接到httpd服务器的/var/www/html目录中 (cd /var/www/html ; ln -s /mnt/cdrom ./centos) <br>
+  然后通过网页测试访问下 会看到光盘的目录内容 <br>
+  至此：web服务版本的私有仓库建立完毕 <br>
+  剩下就是去各 yjm的客户端配置 这个http地址到repo配置文件中。</blockquote></li></ul></li></ul></li>
+  </ul>
+  </div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
+
+
+<h3 id="minimal-安装系统各种命令的确实">minimal 安装系统各种命令的确实</h3>
+
+<ul><li><p>scp 命令缺失 <br>
+yum install scp （没有，命令与软件包的名称不一定相同） <br>
+scp 是属于ssh工具箱的  <br>
+yum list 看仓库中的包  <br>
+yum list | grep ssh （找出含有） <br>
+yum install -y <strong>openssh-clents</strong>.x86_64…..</p>
+
+<p>问题: 两台机器都要安装scp，才能进行scp命令的拷贝。 <br>
+yum erase oepssh-clients <br>
+scp 命令就没了 <br>
+1拷贝到2中 <br>
+scp 是由两台机器协作完成的。 一台机器中明明安装了，但是另一台机器中没有安装。 scp的原理是先登录到另一台机器中，然后进行文件的上传拷贝。</p></li>
+</ul>
+
+</div><div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+<h2 id="软件自动化部署">软件自动化部署</h2>
+
+<p>原理： 配置scp文件 免密ssh登录（非必须） 下载安装包  httpd服务（scp拷贝慢，用wget让其他机器进行下载速度较快）</p>
+
+<p>去他们机器 免密ssh登录   将另一个脚本发给大家，让大家执行</p>
+
+<p>boot.sh  发送一个install.sh 脚本到各台机器上，并启动该脚本 <br>
+    ssh-coy-id xxx 密码怎么指定，是需要输入密码(很麻烦) 。我们需要一个人机交互的命令 <strong>expect 命令</strong></p>
+
+<p>base_server <br>
+servers <br>
+ssh_copy_id_to_all <br>
+expect -c  set timeout -1 不超时 <br>
+spawn  <br>
+expect { <br>
+    <em>(yes/no)</em> {send – yes\r;exp_continue;} <br>
+    <em>password</em> {send –$2\r ;….} <br>
+    eof  {exit 0;} <br>
+}</p>
+
+<p>循环发送 <br>
+scp intall.sh 。。</p>
+
+<p>install.sh -&gt;  <br>
+BASE_SERVER=HTTP://…. / MINI4 <br>
+yum install -y wget <br>
+wget $BASE_SERVER/soft/jdk….tar.gz <br>
+tar -zxvf tar.gz  -C /usr/local <br>
+cat &gt;&gt; /etc/profile &lt;&lt; EOF (临时给一个文件重定向的输入，将以下的内容给予) <br>
+export java_home .. <br>
+export   ….. <br>
+EOF</p>
+
+<p>ECHO 111 &gt; 1.TXT <br>
+ECHO 2222 &gt; 2.TXT <br>
+echo 2.txt &gt;&gt; 1.txt</p>
+
+<p>cat  &gt;&gt; 1.txt &lt;&lt;   EOF</p>
+
+<blockquote>
+  <p>HELLO WORLD <br>
+  EOF</p>
+</blockquote>
+
+<p>虽然运维的工作，但我们之后是需要写shell脚本的 <br>
+hive的job hdfs 定时任务等等 </p>
+
+<p>错误会激发肾上腺素，学习兴趣提高…….</p>
+
+<hr>
+
+<p>系统讲解linux 到此结束 <br>
+进入开发讲解</p>
+
+</div><div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+<h2 id="zookeeper">Zookeeper</h2>
+
+<p>后面所讲的框架会有20左右， <br>
+a. 基本掌握</p>
+
+<ol><li rel="1">要掌握其应用场景 干什么的 what to do</li>
+<li rel="2">核心的工作机制 工作流程</li>
+<li rel="3">组成角色</li>
+</ol>
+
+<p>b. 接下来怎么用它 <br>
+    如何配置 <br>
+    怎么写</p>
+
+<p>c. 深入源码细节 <br>
+    了解内部的原理细节 <br>
+    有些怎么用即可，但重点 hadoop stom spark 重点掌握原理</p>
+
+</div><div id="wmd-preview-section-9" class="wmd-preview-section preview-content">
+
+<h3 id="zookeeper概念简介">Zookeeper概念简介</h3>
+
+<p>是一个分布式协调服务 <br>
+理解：  <br>
+    - 1. 需求讲解 使用场景 <br>
+        - 内部系统要与外部系统进行交互， <br>
+            - 外部提供数据（若干的服务器，诺基亚西门子 端）每秒都会产生很多数据  （ftp 服务端） <br>
+            - 亚信端 若干服务器 数据采集系统  （本质 ftp的客户端程序） 根据文件的生成规则探测下载下来。 <br>
+            - 难点 ： 实时的流式的数据  客户端压力大，可能会down掉，服务端数据没有被采集到可能会被覆盖，时间长了，丢失数据或停了太久，服务器追补数据或丢失数据就会压力很大。 <br>
+                    - 解决方案 keepalived （是用来服务端的高可用，是被访问的。 但目前客户端是访问别人的，抢ip是没意义的。） <br>
+                    - 方案2  主从的方式 （rpc 调用方法 每秒检测，消息通信 ，记录中间的状态信息，哪里？放到数据库中，又很麻烦，也可能会挂，  <br>
+                    -  方案3 有第三方我们的工作可能会减轻点 解耦下。 <br>
+                        -  每个人都可以到 第三方进行服务注册  server01 server02 server03 <br>
+                        -  每个节点的信息  状态信息数据  ip，采集的目录 ，当前状态等节点信息  <strong>提供数据保管</strong> <br>
+                        -  机器挂掉的时候，空闲的机器进行接管。如何感知呢？ 第三方提供监听节点信息，  父节点的子节点发生了改变，其他子节点监听到。  <strong>提供节点监听</strong> <br>
+                        -  选举</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs haml">                    -<span class="ruby">优点 系统可靠</span><br></code></pre>
+
+<ol start="2"><li rel="2">程序为外界提供服务  （）服务器主从选举场景 <br>
+<ul>
+<li>多台服务器  高可用 </li>
+<li>客户端 请求哪个服务器？  服务器主从选举场景</li>
+<li>解决方案  server/server01   servers/server02  第三方注册   state  ip   （<strong>保管数据）</strong></li>
+<li>启动的时候就注册上去   根据选举进行 master slave的状态改变</li>
+<li>客户端请求时查询下 第三方的谁是master进行访问</li>
+<li>如果挂掉的时候，第三方会进行监听，一旦有服务器掉线，进入选举流程（我们的 逻辑）（选举）</li>
+<li>客户端请求原先的master请求不到，再次请求的时候 就会找到新的 master  </li></ul></li>
+<li rel="3">solr 搜索引擎   （lucence的服务器版本）  lucence是工具包，用它进行开发服务 <br>
+<ul>
+<li>solr 数据多的时候，就会变成多台solr服务器 <br>
+<ul>
+<li>每台服务器 分片1  分片2 分片3  管理的同一种商品的服务，大家的配置都一样</li>
+<li>但是 配置会经常在变 ，solr会有这些商品信息的配置 ，因为属于同一个库，所有服务器的配置都需要一样</li>
+<li>一旦进行更新操作，容易出错，也能会很慢，客户端拿到的信息可能不一样了。</li>
+<li>同样的数据，商品库配置放到第三方持有， 一旦更新 ，该服务就会受到消息更新，重新加载即可。 至此 配置管理场景实现（<strong>保管数据，提供监听</strong>）</li></ul></li></ul></li>
+</ol>
+
+<p>这个强大的第三方 zookeeper <br>
+高可靠性 （本身就是集群）半数以上的节点存活就可以保证服务 <br>
+协调服务  状态感知  分布式锁 数据管理 选举</p>
+
+<p>场景： 主从协调  服务器节点动态上下线  统一配置管理  分布式共享锁  统一名称服务…….</p>
+
+<p>核心功能： <br>
+    - 元数据管理 （状态数据（描述数据的数据，该数据一般都不会很大，所以zookeeper的集群压力一般不会很大）的管理） <br>
+    - 为客户端程序提供数据节点监听服务  </p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs nginx"><span class="hljs-title">hadoop</span> hbase storm kafka 等 都用zookeeper进行协调的。不只是大数据领域，对于分布式系统领域都很常用流行。<br></code></pre>
+
+<p>集群机制： <br>
+适合装在<strong>奇数台机器</strong> <br>
+minimal linux  scp mysql jdk tomcat 等安装好   自动化一下 <br>
+source要手动下，因为是在当前会话下。</p>
+
+</div><div id="wmd-preview-section-10" class="wmd-preview-section preview-content">
+
+<h3 id="zookeeper集群安装">zookeeper集群安装</h3>
+
+</div><div id="wmd-preview-section-11" class="wmd-preview-section preview-content">
+
+<h4 id="zookeeper集群结构">zookeeper集群结构</h4>
+
+<ul><li>开始配置的时候并没有指定谁是主从 配置文件里并没有配置谁是主从</li>
+<li>那客户端去找哪一个合适呢？ 其他节点可能数据就没有更新也可能是老版本，所以数据就没有保持一致性。</li>
+<li><strong>在启动时临时选举出来的</strong> 。  选举（投票）算法  paxos 简化后的版本 –&gt; Zab算法</li>
+<li>a b c三台启动 ，配置文件看到有三台，等待的时候就会开始投票 a先启动，投给所有人，此时只有自己， a-myid  +1 ,三个人至少2票，第二台开始启动，此时还是没有主，a ，b 开始投票 a-myid +1 a,b ，b-myid +1 a , 继续投 ，a 看到了自己，看到b-myid 都透出 2，2， 有个选择的算法（id大的选择） 此时b 变为leader，a为follow ，c再启动后自动为follow</li>
+<li>启动时的选举不用配置 自动会选举出leader</li>
+<li>数据一致性的保证（以后深究  1.zookeeper集群很大，一个leader的数据同步时间延迟会很大，应用程序看到的数据可能就不一样，数据更新频繁的时候就不太适合，3，5台集群少的时候即使毫秒可以忽略  ）</li>
+<li>配置 myid servers ，启动时选举是自动选举出的</li>
+</ul>
+
+</div><div id="wmd-preview-section-12" class="wmd-preview-section preview-content">
+
+<h4 id="zk的安装">zk的安装</h4>
+
+<ol><li rel="1">scp 或拖动(yum install lrzsz的提前) 安装包 rz命令可以直接选择文件</li>
+<li rel="2">解压  mkdir apps  tar -zxvf  zook.tar.gz  -C  /apps</li>
+<li rel="3">rm -rf  src/ <em>.xml </em>.txt doc/ dist-maven</li>
+<li rel="4">ll</li>
+<li rel="5">这里就不需要进行编译了， 对于nginx mysql 是c语言程序是需要编译的。</li>
+<li rel="6">Javac 一次编译一个 或包</li>
+<li rel="7"><strong>maven</strong> 就批量打包程序  需要掌握</li>
+<li rel="8">jar 啥的本身就编译好了， c语言程序是依赖本地系统库的，需要根据本地版本的库依赖进行重新编译的 ，在centos能用未必是ubunut可用，是与本地环境关联的。 jvm屏蔽了该细节。</li>
+<li rel="9">cd conf 进入配置文件夹</li>
+<li rel="10">修改  zoo_sample.cfg  注意先拷贝下</li>
+<li rel="11">vi zoo.cfg</li>
+<li rel="12">tickTime 心跳周期 默认2000ms</li>
+<li rel="13">initLimit 初始化默认10个心跳</li>
+<li rel="14">synclimit=5 发送请求超过10秒未响应就认为是挂掉</li>
+<li rel="15">dataDir 数据目录 /tmp/zookeeper 这是很不安全的默认设置。 最好是做了raid的硬盘。 测试时 ，方便 放到  /root/zkdata下</li>
+<li rel="16">clientPort 客户端访问的端口 2181 涉及到防火墙的设置 各种通信间的端口，好多，生产中一般会关掉，不会暴露给外界网络。统统关掉 iptables stop  ,chkconfig iptables off</li>
+<li rel="17">server.1=ip:port (port一般默认 2888:3888)  2888 leader ：follow  3888投票用的 即是  server.1=mini1:2888:3888</li>
+<li rel="18">server.2=mini1:2888:3888</li>
+<li rel="19">server.3=mini1:2888:3888</li>
+<li rel="20">还需要将myid记录到数据文件中</li>
+<li rel="21">mkdir /root/zkdata/ </li>
+<li rel="22">echo 1 &gt; myid</li>
+<li rel="23">scp -r apps/  root(root下省略root)@mini2:/root/</li>
+<li rel="24">到mini2  mkdir zkdata  </li>
+<li rel="25">echo  2 &gt; myid</li>
+<li rel="26">mini3 重复操作即可。。</li>
+<li rel="27">最后 检查防火墙</li>
+<li rel="28">service iptales stop  send chat to all sessions [options chat window]</li>
+<li rel="29">启动 cd apps/zk/bin </li>
+<li rel="30"><strong>zkServer.sh start</strong></li>
+<li rel="30">查看 leader  【cd - 回到上次目录】 <br>
+<ol>
+<li rel="31">zkServer.sh status</li>
+<li rel="32">出错的样子  jps kill  -9 1698  error contacting service … <br>
+安装结束</li></ol></li>
+</ol>
+
+</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
+
+<h4 id="zk命令行客户端使用">zk命令行客户端使用</h4>
+
+<ol><li rel="1">bin/zkCli.sh   要保证服务端正常运行</li>
+<li rel="2">第二次启动就不一定谁是leader了 比数据 比数据的版本号</li>
+<li rel="3">bin/zkCli.sh </li>
+<li rel="4">help 查看如何连接其他的zkServer</li>
+<li rel="5">connect mini2:2181</li>
+<li rel="6">俩功能 ：写数据 ，体统监听</li>
+<li rel="7">zk中的数据 是有的结构  树结构 每个几点 znode ，可以用路径来表示，像文件系统，但只是树状的结构。 创建节点 或获取节点使用路径即可获取。 任何节点都可以用来保存数据</li>
+<li rel="8">ls / 根节点</li>
+<li rel="9">创建自己的节点 create path data acl(权限，有些底层，沃恩可以忽略)</li>
+<li rel="10">create /app1 “this is app1 servers parent”</li>
+<li rel="11">ls / 现在就嫩看到我们刚刚创建的内容</li>
+<li rel="12">create /app1/server01 “192.33.5,100” (集群负载)</li>
+<li rel="13">ls app1</li>
+<li rel="13">获得数据 get app1/  空格 客户端的bug 不认识了，Java程序没问题。</li>
+<li rel="14">czxid 内部数据事务更新的编号 mzxid</li>
+<li rel="15">pzxid 持久化的事无</li>
+<li rel="16">aclversion 权限</li>
+<li rel="17">datelenth 数据长度</li>
+<li rel="18">numChildren 子节点书</li>
+</ol>
+
+</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
+
+<h4 id="节点类型">节点类型</h4>
+
+<p>znode两种类型</p>
+
+<ol><li rel="1">短暂的 （断开连接自己删除）</li>
+<li rel="2"><p>持久的 （断开连接不删除） <br>
+服务器掉线了，其他服务就应该感知，就应该短暂类型，父节点知道子节点被删除了有通知大家…这样就很有用的。 <br>
+create [-s] [-e] path data acl  <br>
+create -e /app-emphemeral  888888 <br>
+get /app-emphemeral  <br>
+quit退出 <br>
+ls / </p></li>
+<li rel="2"><p>znode 四种形式的目录节点</p>
+
+<ol>
+<li rel="3">create /test 888</li>
+<li rel="4">create -s /test/aa 999  -s(自动加序号)   0000000</li>
+<li rel="5">create -s /test/bb 999 序号自增   00000001 自增的id拼接</li>
+<li rel="6">create -e -s /app1/cc 8888 临时的节点 短暂的 退出就没了</li>
+<li rel="7">……. <br>
+8.关于数据节点的实验 <br>
+加入数据节点更新了 <br>
+get /app1 <br>
+set /app1/ uuuuuu <br>
+get /app1 <br>
+set /app1 yyyyyyyy <br>
+bin/  <br>
+11.40-50重听下</li></ol></li>
+</ol>
+
+</div><div id="wmd-preview-section-15" class="wmd-preview-section preview-content">
+
+<h4 id="监听">监听</h4>
+
+<ul><li>get /app1 watch </li>
+<li>在另外一台机器上进行修改  get /app1   set /app1 hhhhhh</li>
+<li>watchedEvent state </li>
+<li>获取数据的时候进行监听 （只监听一次）</li>
+<li>添加子目录 时候 客户端 未监听到 </li>
+<li>get /app1 watch  节点数据的变化监听</li>
+<li>子节点的变化监听  ls /app1 watch </li>
+<li>在增加自己点 就会有监听  nodeChildrenChanged  <br>
+<strong>- 开发中关注 数据变化  子节点发生的变化</strong> </li>
+</ul>
+
+<hr>
+
+<p><strong>下午</strong> </p>
+
+<p>zookeeper的启动麻烦，如何一次性启动多台机器 <br>
+1.脚本 <br>
+2.ssh命令  <br>
+</p><ol start="3"><li rel="3">ssh mini2 mkdir /root/mini1 原理 从一台机器到另一台机器上执行命令。</li>
+<li rel="4">即可以远程执行命令脚本 </li>
+<li rel="5">ssh mini2 /root/apps/zook…./bin/zkServer.sh start （并行进程，需要先source下） <br>
+6.ssh min2 “source /etc/profile;/root/apps/zk../zkServer.sh start”</li>
+<li rel="6">jps 并未启动</li>
+<li rel="7">zookeeper启动需要环境变量，此时是ssh 会话当中 </li>
+<li rel="8">export 命令 上下文环境是？  看不到子进程的变量 ，解决方案是定义为export</li>
+<li rel="9">export a=1 <br></li></ol><p></p>
+
+<blockquote>
+  <p>b=2 <br>
+  echo s1,b = <span class="MathJax_Preview"></span><span class="MathJax_SVG" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true" style="font-size: 100%; display: inline-block;"><span><img type="image/png" width="111" height="19" longdesc="__SVG__undefined" src="data:image/png;base64,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" style="margin-top:0;margin-bottom:0;"></span></span>a <br>
+  ./s2.sh  <br>
+  s2.sh <br>
+  vi s2.sh 
+   <br>
+  <strong>export 当前的进程以及子进程中含有该变量，在父进程中也是看不到的（如何让其生效呢？source s1.sh）</strong> <br>
+  <strong>source 会把脚本里面的变量放到当前shell环境当中</strong></p>
+</blockquote>
+
+<p>用户登录的时候会执行一个脚本 <br>
+.bash_profile  <br>
+. ~/.bashrc  当前进程路径执行  相当于source <br>
+/etc/profile 终端会默认执行一遍 <br>
+都会保证你配置的环境变量执行一遍。  而自己定义的 需要自己source下。</p>
+
+<blockquote>
+  <p>export A=1 定义的变量会对自己所在的shell进程及其子进程生效 <br>
+  B=1 定义的变量，只对自己所在的shell进程生效 <br>
+  在script.sh 中定义的变量，在当前登录的shell进程中，用source script.sh 时，脚本中定义的变量也会进入到当前登录的进程</p>
+</blockquote>
+
+<p><strong>startZk.sh  实验。</strong> <br>
+免密登录</p>
+
+<p><strong>勤动手做实验，很多问题就来了</strong> <br>
+短暂节点里，做一个永久节点问题？  <br>
+逻辑冲突，是不可以的！！ ephmemerals can’t have children</p>
+
+<p>shell 脚本多练习，需要多写，熟悉</p>
+
+</div><div id="wmd-preview-section-16" class="wmd-preview-section preview-content">
+
+<h2 id="zk-api">ZK API</h2>
+
+<p>maven  依赖包 search.maven.org ，坐标依赖放进去即可</p>
+
+</div><div id="wmd-preview-section-17" class="wmd-preview-section preview-content">
+
+<h3 id="jar包准备">jar包准备</h3>
+
+<p>zookeeper.jar <br>
+lib/~folder  <br>
+netty 备课…  netty之上再 封装 rpc ，类似dubbo</p>
+
+</div><div id="wmd-preview-section-18" class="wmd-preview-section preview-content">
+
+<h3 id="simplezkclientjava">SimpleZkClient.java</h3>
+
+<p>` <br>
+public class SimpleZkClient{ <br>
+        private static final String connectString = “mini1:2181,mini2:2181,mini3:2181”; //连接字符串 注意是逗号，不是分好，否则不识别主机  <br>
+        pirvate static final int sessionTimeout = 2000; //超时时间 <br>
+    public static void main(String args[]){ <br>
+        new ZooKeeper(connectString,sessionTimeout,new Watcher() <br>
+            { <br>
+                        //收到时间通知后后的回调函数，我们自己的事件处理逻辑 <br>
+                public void process(VatechedEvent event){ <br>
+                    System.out.println(event.getType() + event.getPath()); <br>
+            } <br>
+      }</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs gherkin">    );<br><br>/<span class="hljs-keyword">*</span><span class="hljs-keyword">*</span><br><span class="hljs-keyword">*</span><span class="hljs-keyword">*</span> 数据的curd (比较底层的api，有第三方的更加高效，这里实验练习下)<br><span class="hljs-keyword">*</span>/参数 节点路径 节点的数据 节点权限 节点类型<br>String nodeCreated = zkClient.create(<span class="hljs-string">"/root"</span>,<span class="hljs-string">"helloworld"</span>.getBytes(),Ids.CREATOR_ALL_ACL|<span class="hljs-string">OPEN_ACL_UNSAFE(内部使用一般就是这个常用),CreateMode.PERSISTENCE);<br>}</span><br></code></pre>
+
+<p>}</p>
+
+<p>运行1  None —null <br>
+改造为JUNIT方式 <br>
+Zookeper zk =  <br>
+Before <br>
+public void init(){ <br>
+    new ZooKeeper(connectString,sessionTimeout,new Watcher() <br>
+            { <br>
+                        //收到时间通知后后的回调函数，我们自己的事件处理逻辑 <br>
+                public void process(VatechedEvent event){ <br>
+                    System.out.println(event.getType() + event.getPath()); <br>
+            } <br>
+}</p>
+
+<p>//创建数据节点到zk中 <br>
+public void testCreate(){</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs 1c">    String nodeCreated = zkClient.create(<span class="hljs-string">"/root"</span>,<span class="hljs-string">"helloworld"</span>.getBytes(),Ids.CREATOR_ALL_ACL<span class="hljs-string">|OPEN_ACL_UNSAFE(内部使用一般就是这个常用),CreateMode.PERSISTENCE);</span><br></code></pre>
+
+<p>// 上传的 数据可以是任意类型，但最终都要保存为byte数组 <br>
+// 使用hadoop 中的 fileUtils / IOUtils 获取配置文件中的数据很方便 <br>
+}</p>
+
+<p>// 获取子节点 <br>
+public void getChildren(){ <br>
+List children =     zkClient.getChildren(“/”,true（重载）);  ls /app watch <br>
+for (String child: children){ <br>
+    System.out.println(child); <br>
+} <br>
+}</p>
+
+<p>命令行测试 create /uu ii <br>
+没反应，让上面的程序睡眠下 <br>
+Thread.sleep(Long.MAX_VALUE) // 再运行程序 ，是可以监听到的。因为没有main方法，所以用来演示而已。</p>
+
+<p>create /uu 88 又测试了，没反应，监听 ，通知一次就没了 <br>
+该如何解决？？？ <br>
+将process方法上处理</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs cs"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span>(<span class="hljs-params">VatechedEvent <span class="hljs-keyword">event</span></span>)</span>{<br>                System.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">event</span>.getType() + <span class="hljs-keyword">event</span>.getPath());<br>                zkClient.getChildren(<span class="hljs-string">"/"</span>,<span class="hljs-keyword">true</span>) <span class="hljs-comment">//true **是重点，又一次进行了监听。**  失效后继续产生监听。 这里关注下源码与原理(如何被回调到的)</span><br>        }<br></code></pre>
+
+<p>此时再进行测试，客户端是都会监听的。</p>
+
+<p>main线程中  zkclient 启动 至少两个线程  一个通信用的，与zkserver上传请求用 <br>
+另一个线程是listener 监听器  该监听器会调用process 其会监听一个端口 ，在<strong>getChildren(“”,/true)</strong> 告诉（<strong>监听</strong>）了zkserver ，zkserver维护了这些监听的信息(clientip port path )  一旦该path发生了变化，就知道客户端在哪里，就通知这些客户端，客户端收到信息即调用process方法。</p>
+
+<p>//判断znode是否存在 <br>
+public void isExist() throws Exception{ <br>
+Stat exists =   zkClient.exists(“/eclipse”,falsep[这里测试就没怎么必要监听]); //节点不在的时候就会调用  Stat是那些元数据的封装，我们可以根据其来进行各种状态数据的判断。 <br>
+System.out.println(stat == null ? “not exist”:”exist”)</p>
+
+<p>}</p>
+
+<p>//获取znode的数据 <br>
+public void getData(){ <br>
+byte[] data =   zkClient.getData(“/eclipse”,false,null[new Stat())  //集群大了，每个版本不一样stat <br>
+System.out.print(new String(data));</p>
+
+<p>}</p>
+
+<p>错误点 ： connection lost  所以环境感觉一样，都是通的， <br>
+看下zk conf <br>
+cat zoo.cfg 是绑定的主机名上， api中也要写一致的，否则出现 connection lost</p>
+
+<p>public void deleteZnode(){ <br>
+    zkClient.delete(“/eclipse”,-1); //参数二代表要删除的版本 -1代表 所有版本。 不会保留原版本。 <br>
+    //然后执行Junit的 是否存在方法。</p>
+
+<p>}</p>
+
+<p>//修改数据 <br>
+public void setData(){ <br>
+    zkClient.setData(“/app1”,”i miss you wangboyi”.getBytes(),-1); //参数二代表要删除的版本 -1代表 所有版本。 不会保留原版本。 <br>
+    //然后执行Junit的 是否存在方法。 <br>
+byte data =     zkClient.getData(“/app1”,false,null); <br>
+System.out.println(new String(data)); <br>
+}</p>
+
+<p>`</p>
+
+<hr>
+
+<p>应用系统，服务器是集群版的。 服务器的负载可能会随时增加，服务器数量会自动发生变化，即服务器动态上下线的情况会时常发生。</p>
+
+<p>那客户端如何知道这些的变化。 如何使用压力小的新上线的机器。 <br>
+我们目前写的是分布式协调的内容</p>
+
+<p>需求：<strong>客户端实时洞察到服务器端上下线的变化</strong> <br>
+思路：  <br>
+    - 架设zookeeper集群 <br>
+    - 启动时 到 zk中 <strong>注册</strong>自己的信息 ，统一写到 /servers/server-01 mini1 …自己的元数据 (mini1 ) 简单演示 serverId+hostname。 即<strong>服务端启动时即去注册信息。</strong> 注意： 注册时的节点 必须是临时节点 ，挂掉的时候才会产生事件，客户端才能感知到。 临时且带序号的最好 <br>
+    - 客户端  启动的时候先扫描服务器端的节点 getChidren() 获取到当前在线的服务器列表。请求是自己有各自的策略的。一旦有人请求到server端 setData id++ id– 。 机器下线后如何通知客户端？  客户端注册监听（服务器宕机就会通知到客户端，即服务上下线事件通知  process(){重新获取服务器列表，并且监听}）。</p>
+
+<p>public class DistributeServer{</p>
+
+<p>private ZooKeeper zk = null; <br>
+pirvate static final String parentNode = “”; <br>
+public static void main(){ <br>
+    //获取zk 连接 <br>
+DistributeServer server =   new DistributeServer(); <br>
+server.getConnection(); <br>
+    //利用zk连接注册服务器信息 <br>
+    server.registerServer(args[0]) <br>
+    //启动业务功能</p>
+
+<p>}</p>
+
+<p>public void getConnnection(){ <br>
+        private static final String connectString = “mini1:2181,mini2:2181,mini3:2181”; //连接字符串 注意是逗号，不是分好，否则不识别主机  <br>
+        pirvate static final int sessionTimeout = 2000; //超时时间</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs cs">    <span class="hljs-keyword">new</span> ZooKeeper(connectString,sessionTimeout,<span class="hljs-keyword">new</span> Watcher()<br>        {<br>                    <span class="hljs-comment">//收到时间通知后后的回调函数，我们自己的事件处理逻辑</span><br>            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">process</span>(<span class="hljs-params">VatechedEvent <span class="hljs-keyword">event</span></span>)</span>{<br>                System.<span class="hljs-keyword">out</span>.println(<span class="hljs-keyword">event</span>.getType() + <span class="hljs-keyword">event</span>.getPath());<br>        }<br>  }<br><br>    );<br></code></pre>
+
+<p>} <br>
+//向zk集群注册服务端信息 <br>
+public void registerServer(String hostName){ //hostname 传进来，这里简单带点 <br>
+    zk.create( …… ,Crete.EPHERRAL _RSEQENT…); // 临时的序号的 <br>
+    System.out.println(hostname + “is online …….” + create【节点路径数据】 ) <br>
+}</p>
+
+<p>//业务功能 do what you want to do  <br>
+public void handlerBusiness(String hostName){ <br>
+    System.out.println(hostname + “start working ……..”); <br>
+    Thred.sleep(Long.MAX_VALUE) //让其一直睡，为了测试。也可以做一个socket监听。 <br>
+}</p>
+
+<p>测试1 ： 1.注意传参 2. 数据节点要存在 create /servers iii <br>
+服务端目前可以了</p>
+
+<p>}</p>
+
+<p>客户端实现 <br>
+public class DistributedClient{</p>
+
+<p>private <strong>volatile</strong> List serverList;  //注意volatile的意义何在？</p>
+
+<blockquote>
+  <p>我们的程序在jvm中运行 <br>
+  堆内存 程序中有很多线程 <br>
+  线程是有线程栈空间  读 写 可能同时存在  <br>
+  会将变量 拿到副本，改完，再放回堆内存中共享 。 此时就会发生数据的脏读，这是加上 volatile ，该变量只在堆内存中了。</p>
+  
+  <pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>      <span class="hljs-comment">//获取zk连接</span><br></code></pre>
+  
+  <p>getConnection();  从上面复制下，process 方法不同 <br>
+         //获取servers的子节点 信息(并监听)，从中获取服务器信息列表 <br>
+      client.getconnection()</p>
+</blockquote>
+
+<pre class="prettyprint hljs-dark"><code class="hljs">}<br></code></pre>
+
+<p>//获取服务器信息列表 <br>
+public void getServerList(){ <br>
+         //获取服务器子节点信息，并对父节点进行监听 <br>
+List chidren =  zk.getChildren(parentNode,true); <br>
+//创建一个局部的list存放服务信息 <br>
+List servers = new ArrayList(): <br>
+for (String chid:chidren){ <br>
+byte[] data =   zk.getData(parentNode + “/” +child,watch,stat) //监听父节点即可（看具体业务逻辑） <br>
+servers.add(new String (data)); //这里是为了给业务线程使用的</p>
+
+<p>} <br>
+//将servers复制给成员变量sefverList，已提供各个业务线程使用。 <br>
+serverList = servers; //重要 <br>
+}</p>
+
+<p>public void handleBusiness(){ <br>
+    …….do what you want to do <br>
+}</p>
+
+<p>}</p>
+
+<p>有个问题 线程一直都在  Thred sleep 。 Listener connect 守护线程。 主的退出了，肯定也会跟着退出。 <br>
+最后打成jar包，放到服务器上运行。</p>
+
+</div><div id="wmd-preview-section-19" class="wmd-preview-section preview-content">
+
+<h3 id="案例-服务器的动态上下线">案例 ： 服务器的动态上下线</h3>
+
+<p>eclipse  export  server.jar <br>
+eclipse  export  client.jar</p>
+
+<p>jar <br>
+runable jar  mainfiest.xml 包信息</p>
+
+<p>cmd  <br>
+java -jar server.jar mini1 </p>
+
+<p>java -jar server.jar mini2 </p>
+
+<p>java -jar client.jar </p>
+
+<p>java -jar server.jar mini3</p>
+
+<p>再来个客户端 <br>
+java -jar clent.jar</p>
+
+<p>干掉mini1  服务器挂了，会有超时时间两秒钟(所以感觉会有点时间长，2秒内zk不认为你是挂掉的)</p>
+
+</div><div id="wmd-preview-section-20" class="wmd-preview-section preview-content">
+
+<h3 id="案例">案例</h3>
+
+</div><div id="wmd-preview-section-21" class="wmd-preview-section preview-content">
+
+<h4 id="场景">场景</h4>
+
+<p>很多客户端程序都要请求一个共享资源 ，比如web网络接口或一个文件。</p>
+
+</div><div id="wmd-preview-section-22" class="wmd-preview-section preview-content">
+
+<h4 id="需求-一次只有一个节点访问该资源">需求： 一次只有一个节点访问该资源</h4>
+
+<p>syncronized X 人家是服务器端的，你客户端有个啥用，没人管。</p>
+
+<p>此时 how to do?  <br>
+引入第三方（协调分布式服务） <br>
+zk是没有锁的概念 <br>
+思路： 启动的时候都注册一个uuid  /lock/uuid1  uuid2 uuid3 <br>
+访问资源的时候看大家谁在线，做一个统一的规则，比如最小的id，那先让他来，回去时删掉自己的uuid，然后创建新的，然后大家收到监听，循环来进行。 如何分配均匀呢？换个策略，进行序号的 randomrobin策略。 根据规则来判断该谁去，然后删除，创建新的，循环下去。 </p>
+
+<blockquote>
+  <ol><li rel="1">启动时到zk中注册一个“短暂+序号”的znode ， 监听父节点</li>
+  <li rel="2">获取父节点下的所有子节点信息，比较序号的大小</li>
+  <li rel="3">序号最小的获取到“锁”（非传统意义上的的锁），去访问资源，访问完后，删除自己的节点，相当于释放锁，并且重新注册一个新的子节点。</li>
+  <li rel="4">其他程序节点会受到事件通知，则可以去zk上获取”锁“ <br>
+  //getConnect() <br>
+  //registerLock(/lock/app.emphermeral_sequential) <br>
+  //getlock(){获取子节点，比较自己的id是否为最小；true获取资源锁} <br>
+  //访问资源 <br>
+  //releaseLock() 删除自己的子节点，并穿件一个新的子节点</li>
+  </ol>
+  
+  <p>//process{getLock} <br>
+  阅读 DistributidClientClock.java 逻辑与上面是有些出入的。 重新理思路</p>
+  
+  <ol><li rel="1">注册一把锁，并且注册监听。 sub0     . server - &gt; /clocks/sub0</li>
+  <li rel="2">看到有多少人在 ，onlymyssel?”dosomething，删除锁”:”不是一个人，等待比人释放锁 ” <br>
+  拓展 &lt;paxos 与zookeeper的一致性原理&gt; <br>
+  &lt;构建高性能web网站&gt;  有测试数据改善 ，很棒 <br>
+  《快学scala》 <br>
+  《netty权威指南》 <br>
+  《spark技术内幕》 张安站  <br>
+  阿里的一个作者 .. &lt;spark 。。。。&gt; <br>
+  段誉内功好，但是招式是需要应用场景练的 实验的 <br>
+  群里老师 百度网盘… <br>
+  你就是东方….</li>
+  </ol>
+  
+  <hr>
+</blockquote>
+
+<p>rpc 框架 的实现原理  <br>
+通信细节 dubbo  框架  <br>
+ 业务关注 通信关注 <br>
+ 做dubbo就得理解zk，@RpcServer  名称服务  –&gt; socket 线程 线程池 异步（非阻塞）io Nio ===Netty、mina  自定义注解 反射</p>
+
+<p>这些架构师更加money …相比bigdata….</p>
+
+<hr>
+
+<p>闻老师  原理 串讲 </p>
+
+<p>首先面试  <br>
+什么是 zk?  <br>
+分布式协调服务，两大核心功能</p>
+
+<p>集群选主 自己 其他选柱 <br>
+集群的管理</p>
+
+<p>通用配置服务  配置写到zk， 定时来zk查</p>
+
+<p>zk的选主机制  半数选举机制  2n-1  3台和4台机制的区别 肯定用3台的方式</p>
+
+<p>节点类型 znode类型 <br>
+大的两种类型  Pe…..Eh…. <br>
+细分 4种 <br>
+    - 短暂的 <br>
+    -。。。 <br>
+    。。。 <br>
+    。。</p>
+
+<p>选举机制 分为几种情况 <br>
+全新的  <br>
+    - 刚刚过半的机器一般会为leader <br>
+非全新的</p>
+
+<ul><li>有机器挂掉的情况 </li>
+<li>数据更新的次数 新旧程度   version</li>
+<li>比数据ID，id越大表示越新  ID <br>
+ZK的命令 <br>
+ZK的应用 HA 高可用  <br>
+共享锁 （创建目录 创建id  每个去检查  可以自己设定规则）</li>
+</ul>
+
+<p>zk 对于 bigdata ，分布式架构等都是有用的 <br>
+总结 通俗易懂 利于学习 <br>
+问答系统 <br>
+cloud.itcast.cn/questions <br>
+大数据北京20160401_冯琪超 <br>
+初始密码: 123456  <br>
+ 2老虎1</p>
+
+</div><div id="wmd-preview-section-23" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
