@@ -1,0 +1,362 @@
+<!DOCTYPE html><html><head><title>Eclipse，Intellij idea智能提示及快捷键</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
+
+<h1 id="eclipseintellij-idea智能提示及快捷键">Eclipse，Intellij idea智能提示及快捷键</h1>
+
+<p>有任何问题，随时和我联系  <br>
+<strong>微信公众号</strong>: 鲅鱼饺子品技术 <br>
+<strong>邮箱</strong> : happymark.fqc@foxmail.com <br>
+<strong>手机微信</strong> : 15201098976 <br>
+<strong>时间</strong> : 2016-04-07 <br>
+<strong>QQ</strong> : 337940626</p>
+
+<p>看到有同学这两天都再问相关快捷键的问题，这里我简单说下，这类问题尽量不要在群里拿来主义了，google，百度下 这类文章不计其数。 <br>
+解决问题一般<strong>先自己思考解决</strong>，<strong>没有思路就去找谷叔和度娘，再不行就寻求团队协作。</strong></p>
+
+<p><strong>快捷键不要死记，平常多用，慢慢就会形成肌肉记忆。</strong></p>
+
+<p>关于eclipse，Intellij idea 这样强大的工具，在其各自的设置里 都含有默认的设置，自己去看，自己去自定义就行了(一般我不建议，团队开发中尽量保持默认，除非团队统一设置..当然这不是绝对的，每个人有自己的风格很重要，找到自己的G点很重要……….)极少数快捷键自己定义找到最舒服的点确实很方便快捷。</p>
+
+<p>下文是一篇关于eclipse快捷键的博客，当然这样的文章很多很多，这里我找了一篇抛砖引玉下…… 对于Intellij Idea的设置我这里没有列出，相信聪明的你，知道该怎么解决了。</p>
+
+<p>对了，本地变量快速填充快捷键是 <strong>ctrl+2+l</strong>，貌似一直困扰许多人…..</p>
+
+<p>谷歌下面的文章太多雷同了，我就懒得找第一作者了，未注明出处，如有侵权与我联系。</p>
+
+<blockquote>
+  <p>今天有点时间，研究了一下MyEclispse的智能感知的功能。刚开始使用它时总是感觉如此不爽→智能感知功能太弱！与Visual Studio2008简直不是一个档次的！不过后来经过查看网上的资料发现它也并非如此的弱，就在上周我自己玩弄它时就发现可以通过如下设置来修改它的智 能感知的提示时间：</p>
+</blockquote>
+
+<p>Windows→Preferences→Java→Editor→Content Assist</p>
+
+<p>我们看到其中的AutoActivation Delay默认值为200（单位是毫秒）也就是说在打“.”之后停留200毫秒才能出现智能感知的提示。那么将它修改为20会如何呢？试一下，修改为20之后提示速度明显上升，可以达到与时俱进啦……:)</p>
+
+<p>ok，上次修改了提示时间。这次修改一下它的触发智能感知的触发器。也就是让它像我们的Visual Studio2008那样的强大的感知功能，即输入S即可提示出所有以S开头的关键字这样的功能。很简单，选项Auto Activation triggers for java的值，将原有的触发器“.”修改为”.” + 26×2个字母。嗯？为什么是26×2？因为字母得分大小写呀，大写26个，小写26个，当然就26×2了嘛！</p>
+
+<p>具体操作如下：</p>
+
+<p>定位到：Windows→Preferences→Java→Editor→Content Assist</p>
+
+<p>然后修改：Auto Activation triggers for java的默认值“.”为”.abc”。接着File→Export→Preferences→导出到某一文件（假设为test.epf),然后用记事本 打开test.epf,搜索”.abc”然后将其改 为”.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW”，保存。</p>
+
+<p>然后File→Import→Preferences→test.epf，ok，再去编写java程序。</p>
+
+<p>你自己可以去试，不过还是先看看我的效果为好哦：</p>
+
+<p>输入Sys 智能感知：</p>
+
+<p>我们知道在VS中，输入try，再打两个tab键就会出现try的代码块，那么此时这一功能也可以实现：</p>
+
+<p>点击“回车”出现的代码块如下：</p>
+
+<p>怎么样？实用性是不是很强？我相信它能使您的开发效率提高数倍。</p>
+
+<p>事实上上面的这个try {}catch{}代码块我们也是可以自己设置的。这里就不细说了，有兴趣可以自行去摸索。</p>
+
+<p>存盘 Ctrl+s(肯定知道) <br>
+注释代码 Ctrl+/ <br>
+取消注释 Ctrl+(Eclipse3已经都合并到Ctrl+/了) <br>
+代码辅助 Alt+/ <br>
+快速修复 Ctrl+1 <br>
+代码格式化 Ctrl+Shift+f <br>
+整理导入 Ctrl+Shift+o <br>
+切换窗口 Ctrl+f6&lt;可改为ctrl+tab方便&gt; <br>
+ctrl+shift+M 导入未引用的包 <br>
+ctrl+w 关闭单个窗口 <br>
+F3 跳转到类、变量的声明 <br>
+F11 运行上次程序 <br>
+Ctrl + F11 调试上次程序 <br>
+Alt + 回下一个编辑点 <br>
+ctrl+shift+T 查找工程中的类</p>
+
+<p>最经典的快捷键</p>
+
+<p>Ctrl+1 快速修复(最经典的快捷键,就不用多说了)</p>
+
+<p>Ctrl+D: 删除当前行</p>
+
+<p>Ctrl+Alt+↓ 复制当前行到下一行(复制增加)</p>
+
+<p>Ctrl+Alt+↑ 复制当前行到上一行(复制增加)</p>
+
+<p>Alt+↓ 当前行和下面一行交互位置(特别实用,可以省去先剪切,再粘贴了)</p>
+
+<p>Alt+↑ 当前行和上面一行交互位置(同上)</p>
+
+<p>Alt+← 前一个编辑的页面</p>
+
+<p>Alt+→ 下一个编辑的页面(当然是针对上面那条来说了)</p>
+
+<p>Alt+Enter 显示当前选择资源(工程,or 文件 or文件)的属性</p>
+
+<p>Shift+Enter 在当前行的下一行插入空行(这时鼠标可以在当前行的任一位置,不一定是最后)</p>
+
+<p>Shift+Ctrl+Enter 在当前行插入空行(原理同上条)</p>
+
+<p>Ctrl+Q 定位到最后编辑的地方</p>
+
+<p>Ctrl+L 定位在某行 (对于程序超过100的人就有福音了)</p>
+
+<p>Ctrl+M 最大化当前的Edit或View (再按则反之)</p>
+
+<p>Ctrl+/ 注释当前行,再按则取消注释</p>
+
+<p>Ctrl+O 快速显示 OutLine</p>
+
+<p>Ctrl+T 快速显示当前类的继承结构</p>
+
+<p>Ctrl+W 关闭当前Editer</p>
+
+<p>Ctrl+K 参照选中的Word快速定位到下一个</p>
+
+<p>Ctrl+E 快速显示当前Editer的下拉列表(如果当前页面没有显示的用黑体表示)</p>
+
+<p>Ctrl+/(小键盘) 折叠当前类中的所有代码</p>
+
+<p>Ctrl+×(小键盘) 展开当前类中的所有代码</p>
+
+<p>Ctrl+Space 代码助手完成一些代码的插入(但一般和输入法有冲突,可以修改输入法的热键,也可以暂用Alt+/来代替)</p>
+
+<p>Ctrl+Shift+E 显示管理当前打开的所有的View的管理器(可以选择关闭,激活等操作)</p>
+
+<p>Ctrl+J 正向增量查找(按下Ctrl+J后,你所输入的每个字母编辑器都提供快速匹配定位到某个单词,如果没有,则在stutes line中显示没有找到了,查一个单词时,特别实用,这个功能Idea两年前就有了)</p>
+
+<p>Ctrl+Shift+J 反向增量查找(和上条相同,只不过是从后往前查)</p>
+
+<p>Ctrl+Shift+F4 关闭所有打开的Editer</p>
+
+<p>Ctrl+Shift+X 把当前选中的文本全部变为小写</p>
+
+<p>Ctrl+Shift+Y 把当前选中的文本全部变为小写</p>
+
+<p>Ctrl+Shift+F 格式化当前代码</p>
+
+<p>Ctrl+Shift+P 定位到对于的匹配符(譬如{}) (从前面定位后面时,光标要在匹配符里面,后面到前面,则反之)</p>
+
+<p>下面的快捷键是重构里面常用的,本人就自己喜欢且常用的整理一下(注:一般重构的快捷键都是Alt+Shift开头的了)</p>
+
+<p>Alt+Shift+R 重命名 (是我自己最爱用的一个了,尤其是变量和类的Rename,比手工方法能节省很多劳动力)</p>
+
+<p>Alt+Shift+M 抽取方法 (这是重构里面最常用的方法之一了,尤其是对一大堆泥团代码有用)</p>
+
+<p>Alt+Shift+C 修改函数结构(比较实用,有N个函数调用了这个方法,修改一次搞定)</p>
+
+<p>Alt+Shift+L 抽取本地变量( 可以直接把一些魔法数字和字符串抽取成一个变量,尤其是多处调用的时候)</p>
+
+<p>Alt+Shift+F 把Class中的local变量变为field变量 (比较实用的功能)</p>
+
+<p>Alt+Shift+I 合并变量(可能这样说有点不妥Inline)</p>
+
+<p>Alt+Shift+V 移动函数和变量(不怎么常用)</p>
+
+<p>Alt+Shift+Z 重构的后悔药(Undo)</p>
+
+<p>Alt+左箭头,右箭头 以在编辑窗口切换标签 <br>
+Alt+上下箭头, 以自动选择鼠标所在行,并将其上下移动 <br>
+Ctrl+f6 可以弹出菜单,上面列出可以切换的编辑窗口,这样不用鼠标也可切换 <br>
+Ctrl+f7 可以在视图之间切换 ,如编辑视图,输出视图,工程视图 <br>
+Ctrl+f8 可以在不同的观察视图中切换,就是在java视图,调试视图,等之间切换 <br>
+Ctrl+m 可以在最大化当前窗口和还原当前窗口之间切换 <br>
+Ctrl+e 弹出输入窗口,可以输入你想要编辑的代码窗口,和Ctrl+f6的功能相同,只不过一个是选择的方式,一个是输入的方式,切换窗口 <br>
+Ctrl+T 可以直接显示光标所在内容的类图,可以直接输入,并跳到输入内容部分 <br>
+按住Ctrl键，然后鼠标指向变量名，方法名，类名 在源代码中快速跳转 <br>
+Ctrl + F11 快速执行程序 <br>
+Ctrl+Shift+F 程序代码自动排版 <br>
+Ctrl+Shift+O 自动加入引用。说明： 假设我们没有Import任何类别时，当我们在程序里打入： ResourceAttirbute ra =new ResourceAttribute(); Eclipse会提示说没有引用类别，这时我们只要按下Ctrl+Shift+O ，它就会自动帮我们Import这个类别。 非常方便 <br>
+Ctrl+/ 将选取的块注释起来：在Debug时很方便。 <br>
+Alt + / 就是大家都应该最常用的代码辅助了 <br>
+Ctrl+h 搜索,打开搜索对话框 <br>
+Ctrl+Shift+Space 参数提示,如果此时位于方法体中,就会出现方法的参数提示,当前光标所在位置的参数会用粗体显示</p>
+
+<p>作用域 功能 快捷键 <br>
+全局 查找并替换 Ctrl+F <br>
+文本编辑器 查找上一个 Ctrl+Shift+K <br>
+文本编辑器 查找下一个 Ctrl+K <br>
+全局 撤销 Ctrl+Z <br>
+全局 复制 Ctrl+C <br>
+全局 恢复上一个选择 Alt+Shift+↓ <br>
+全局 剪切 Ctrl+X <br>
+全局 快速修正 Ctrl1+1 <br>
+全局 内容辅助 Alt+/ <br>
+全局 全部选中 Ctrl+A <br>
+全局 删除 Delete <br>
+全局 上下文信息 Alt+？ <br>
+Alt+Shift+? <br>
+Ctrl+Shift+Space <br>
+Java编辑器 显示工具提示描述 F2 <br>
+Java编辑器 选择封装元素 Alt+Shift+↑ <br>
+Java编辑器 选择上一个元素 Alt+Shift+← <br>
+Java编辑器 选择下一个元素 Alt+Shift+→ <br>
+文本编辑器 增量查找 Ctrl+J <br>
+文本编辑器 增量逆向查找 Ctrl+Shift+J <br>
+全局 粘贴 Ctrl+V <br>
+全局 重做 Ctrl+Y</p>
+
+<p>查看 <br>
+作用域 功能 快捷键 <br>
+全局 放大 Ctrl+= <br>
+全局 缩小 Ctrl+-</p>
+
+<p>窗口 <br>
+作用域 功能 快捷键 <br>
+全局 激活编辑器 F12 <br>
+全局 切换编辑器 Ctrl+Shift+W <br>
+全局 上一个编辑器 Ctrl+Shift+F6 <br>
+全局 上一个视图 Ctrl+Shift+F7 <br>
+全局 上一个透视图 Ctrl+Shift+F8 <br>
+全局 下一个编辑器 Ctrl+F6 <br>
+全局 下一个视图 Ctrl+F7 <br>
+全局 下一个透视图 Ctrl+F8 <br>
+文本编辑器 显示标尺上下文菜单 Ctrl+W <br>
+全局 显示视图菜单 Ctrl+F10 <br>
+全局 显示系统菜单 Alt+-</p>
+
+<p>导航 <br>
+作用域 功能 快捷键 <br>
+Java编辑器 打开结构 Ctrl+F3 <br>
+全局 打开类型 Ctrl+Shift+T <br>
+全局 打开类型层次结构 F4 <br>
+全局 打开声明 F3 <br>
+全局 打开外部javadoc Shift+F2 <br>
+全局 打开资源 Ctrl+Shift+R <br>
+全局 后退历史记录 Alt+← <br>
+全局 前进历史记录 Alt+→ <br>
+全局 上一个 Ctrl+, <br>
+全局 下一个 Ctrl+. <br>
+Java编辑器 显示大纲 Ctrl+O <br>
+全局 在层次结构中打开类型 Ctrl+Shift+H <br>
+全局 转至匹配的括号 Ctrl+Shift+P <br>
+全局 转至上一个编辑位置 Ctrl+Q <br>
+Java编辑器 转至上一个成员 Ctrl+Shift+↑ <br>
+Java编辑器 转至下一个成员 Ctrl+Shift+↓ <br>
+文本编辑器 转至行 Ctrl+L</p>
+
+<p>搜索 <br>
+作用域 功能 快捷键 <br>
+全局 出现在文件中 Ctrl+Shift+U <br>
+全局 打开搜索对话框 Ctrl+H <br>
+全局 工作区中的声明 Ctrl+G <br>
+全局 工作区中的引用 Ctrl+Shift+G</p>
+
+<p>文本编辑 <br>
+作用域 功能 快捷键 <br>
+文本编辑器 改写切换 Insert <br>
+文本编辑器 上滚行 Ctrl+↑ <br>
+文本编辑器 下滚行 Ctrl+↓</p>
+
+<p>文件 <br>
+作用域 功能 快捷键 <br>
+全局 保存 Ctrl+X <br>
+Ctrl+S <br>
+全局 打印 Ctrl+P <br>
+全局 关闭 Ctrl+F4 <br>
+全局 全部保存 Ctrl+Shift+S <br>
+全局 全部关闭 Ctrl+Shift+F4 <br>
+全局 属性 Alt+Enter <br>
+全局 新建 Ctrl+N</p>
+
+<p>项目 <br>
+作用域 功能 快捷键 <br>
+全局 全部构建 Ctrl+B</p>
+
+<p>源代码 <br>
+作用域 功能 快捷键 <br>
+Java编辑器 格式化 Ctrl+Shift+F <br>
+Java编辑器 取消注释 Ctrl+\ <br>
+Java编辑器 注释 Ctrl+/ <br>
+Java编辑器 添加导入 Ctrl+Shift+M <br>
+Java编辑器 组织导入 Ctrl+Shift+O <br>
+Java编辑器 使用try/catch块来包围 未设置，太常用了，所以在这里列出,建议自己设置。 <br>
+也可以使用Ctrl+1自动修正。</p>
+
+<p>运行 <br>
+作用域 功能 快捷键 <br>
+全局 单步返回 F7 <br>
+全局 单步跳过 F6 <br>
+全局 单步跳入 F5 <br>
+全局 单步跳入选择 Ctrl+F5 <br>
+全局 调试上次启动 F11 <br>
+全局 继续 F8 <br>
+全局 使用过滤器单步执行 Shift+F5 <br>
+全局 添加/去除断点 Ctrl+Shift+B <br>
+全局 显示 Ctrl+D <br>
+全局 运行上次启动 Ctrl+F11 <br>
+全局 运行至行 Ctrl+R <br>
+全局 执行 Ctrl+U</p>
+
+<p>重构 <br>
+作用域 功能 快捷键 <br>
+全局 撤销重构 Alt+Shift+Z <br>
+全局 抽取方法 Alt+Shift+M <br>
+全局 抽取局部变量 Alt+Shift+L <br>
+全局 内联 Alt+Shift+I <br>
+全局 移动 Alt+Shift+V <br>
+全局 重命名 Alt+Shift+R <br>
+全局 重做 Alt+Shift+Y</p>
+
+<p>热键篇：</p>
+
+<p>Template：Alt + /修改处：窗口-&gt;喜好设定-&gt;工作台-&gt;按键-&gt;编辑-&gt;内容辅助。个人习惯：Shift+SPACE(空白)。简易说明：编辑程序代码时，打sysout +Template启动键，就会自动出现：System.out.println(); 。设定Template的格式：窗口-&gt;喜好设定-&gt;Java-&gt;编辑器-&gt;模板。程序代码自动排版：Ctrl+Shift+F修改处：窗口-&gt;喜好设定-&gt;工作台-&gt;按键-&gt;程序代码-&gt;格式。个人习惯：Alt+Z。自动排版设定：窗口-&gt;喜好设定-&gt;Java-&gt;程序代码格式制作程序。样式页面-&gt;将插入tab(而非空格键)以内缩，该选项取消勾选，下面空格数目填4，这样在自动编排时会以空格4作缩排。快速执行程序：Ctrl + F11个人习惯：ALT+X修改处：窗口-&gt;喜好设定-&gt;工作台-&gt;按键-&gt;执行-&gt;启动前一次的启动作业。简易说明：第一次执行时，它会询问您执行模式，设置好后，以后只要按这个热键，它就会快速执行。 <br>
+&lt;ALT+Z(排版完)、ATL+X(执行)&gt;..我觉得很顺手^<em>_</em>^自动汇入所需要的类别：Ctrl+Shift+O简易说明：假设我们没有Import任何类别时，当我们在程序里打入：</p>
+
+<p>BufferedReader buf =new BufferedReader(new InputStreamReader(System.in));</p>
+
+<p>此时Eclipse会警示说没有汇入类别，这时我们只要按下Ctrl+Shift+O，它就会自动帮我们Import类别。查看使用类别的原始码：Ctrl+鼠标左键点击简易说明：可以看到您所使用类别的原始码。将选取的文字批注起来：Ctrl+/简易说明：Debug时很方便。修改处：窗口-&gt;喜好设定-&gt;工作台-&gt;按键-&gt;程序代码-&gt;批注视景切换：Ctrl+F8个人习惯：Alt+S。修改处：窗口-&gt;喜好设定-&gt;工作台-&gt;按键-&gt;窗口-&gt;下一个视景。简易说明：可以方便我们快速切换编辑、除错等视景。</p>
+
+<p>秘技篇：一套Eclipse可同时切换，英文、繁体、简体显示：</p>
+
+<p>1.首先要先安装完中文化包。</p>
+
+<p>2.在桌面的快捷方式后面加上参数即可，英文-&gt; -nl “zh_US”繁体-&gt; -nl “zh_TW”简体-&gt; -nl “zh_CN”。 <br>
+(其它语系以此类推)像我2.1.2中文化后，我在我桌面的Eclipse快捷方式加入参数-n1 “zh_US”。 <br>
+“C:\Program Files\eclipse\eclipse.exe” -n “zh_US”接口就会变回英文语系噜。利用Eclipse，在Word编辑文书时可不必将程序代码重新编排：将Eclipse程序编辑区的程序代码整个复制下来(Ctrl+C)，直接贴(Ctrl+V)到 <br>
+Word或WordPad上，您将会发现在Word里的程序代码格式，跟Eclipse所设定的完全一样，包括字型、缩排、关键词颜色。我曾试过JBuilder、GEL、NetBeans…使用复制贴上时，只有缩排格式一样，字型、颜色等都不会改变。外挂篇：外挂安装：将外挂包下载回来后，将其解压缩后，您会发现features、 <br>
+plugins这2个数据夹，将里面的东西都复制或移动到Eclipse的features、plugins数据夹内后，重新启动Eclipse即可。</p>
+
+<p>让Eclipse可以像JBuilderX一样使用拖拉方式建构GUI的外挂：</p>
+
+<p>1.Jigloo SWT/Swing GUI Builder ：<a href="http://cloudgarden.com/jigloo/index.html" target="_blank">http://cloudgarden.com/jigloo/index.html</a>下载此版本：Jigloo plugin for Eclipse (using Java 1.4 or 1.5)安装后即可由档案-&gt;新建-&gt;其它-&gt;GUI Form选取要建构的GUI类型。</p>
+
+<p>2.Eclipse Visual Editor Project：<a href="http://www.eclipse.org/vep/" target="_blank">http://www.eclipse.org/vep/</a>点选下方Download Page，再点选Latest Release 0.5.0进入下载。除了VE-runtime-0.5.0.zip要下载外，以下这2个也要： <br>
+EMF build 1.1.1: (build page) (download zip) <br>
+GEF Build 2.1.2: (build page) (download zip)</p>
+
+<p>3.0 M8版本，请下载： <br>
+EMF build I200403250631 <br>
+GEF Build I20040330 <br>
+VE-runtime-1.0M1安装成功后，便可由File-&gt;New-&gt;Visual Class开始UI设计。安装成功后，即可由新建-&gt;Java-&gt;AWT与Swing里选择所要建构的GUI类型开始进行设计。VE必须配合着对应版本，才能正常使用，否则即使安装成功，使用上仍会有问题。使用Eclipse来开发JSP程序：外挂名称：lomboz(下载页面)<a href="http://forge.objectweb.org/project/showfiles.php?group_id=97" target="_blank">http://forge.objectweb.org/project/showfiles.php?group_id=97</a>请选择适合自己版本的lomboz下载，lomboz.212.p1.zip表示2.1.2版， <br>
+lomboz.3m7.zip表示M7版本….以此类推。 <br>
+lomboz安装以及设置教学：Eclipse开发JSP-教学文件</p>
+
+<p>Java转exe篇：实现方式：Eclipse搭配JSmooth(免费)。 <br>
+1.先由Eclipse制作包含Manifest的JAR。制作教学 <br>
+2.使用JSmooth将做好的JAR包装成EXE。 <br>
+JSmooth下载页面：<a href="http://jsmooth.sourceforge.net/index.php" target="_blank">http://jsmooth.sourceforge.net/index.php</a> <br>
+3.制作完成的exe文件，可在有装置JRE的Windows上执行。</p>
+
+<p>Eclipse-Java编辑器最佳设定：编辑器字型设定：工作台-&gt;字型-&gt;Java编辑器文字字型。 <br>
+(建议设定Courier New -regular 10)编辑器相关设定：窗口-&gt;喜好设定-&gt;Java-&gt;编辑器外观：显示行号、强调对称显示的方括号、强调显示现行行、显示打印边距，将其勾选，Tab宽度设4，打印编距字段设80。程序代码协助：采预设即可。语法：可设定关键词、字符串等等的显示颜色。附注：采预设即可。输入：全部字段都勾选。浮动说明：采预设即可。导览：采预设即可。使自动排版排出来的效果，最符合Java设计惯例的设定：自动排版设定：窗口-&gt;喜好设定-&gt;Java-&gt;程序代码制作格式。换行：全部不勾选。分行：行长度上限设：80。样式：只将强制转型后插入空白勾选。内缩空格数目：设为4。</p>
+
+<ol><li rel="1"><p>Control-Shift-T: 打开类型（Open type）。如果你不是有意磨洋工，还是忘记通过源码树（source tree）打开的方式吧。</p></li>
+<li rel="2"><p>Control-Shift-R: 打开资源（不只是用来寻找Java文件）。小提示：利用Navigator视图的黄色双向箭头按钮让你的编辑窗口和导航器相关联。这会让你打开的文件对应显示在导航器的层级结构中，这样便于组织信息。如果这影响了速度，就关掉它。</p></li>
+<li rel="3"><p>F3: 打开申明（Open declaration）。或者，利用Declaration Tab（在Java视图模式下，选择Windows –&gt; Show View – &gt; Declaration）。当你选中代码中的一个方法，然后按这个按键，它会把整个方法在申明方框里显示出来。</p></li>
+<li rel="4"><p>Alt-left arrow: 在导航历史记录（Navigation History）中后退。就像Web浏览器的后退按钮一样，在利用F3跳转之后，特别有用。（用来返回原先编译的地方）</p></li>
+<li rel="5"><p>Alt-right arrow: 导航历史记录中向前。</p></li>
+<li rel="6"><p>Control-Q: 回到最后依次编辑的地方。这个快捷键也是当你在代码中跳转后用的。特别是当你钻的过深，忘记你最初在做什么的时候。</p></li>
+<li rel="7"><p>Control-Shift-G: 在workspace中搜索引用（reference）。这是重构的前提。对于方法，这个热键的作用和F3恰好相反。它使你在方法的栈中，向上找出一个方法的所有调用者。一个与此相关的功能是开启“标记”功能（occurrence marking） 。选择Windows-&gt;Preferences-&gt;Java-&gt; Editor-&gt; Mark Occurrences，勾选选项。这时，当你单击一个元素的时候，代码中所有该元素存在的地方都会被高亮显示。我个人只使用“标记本地变量”（Mark Local Variables）。注意：太多的高亮显示会拖慢Eclipse。</p></li>
+<li rel="8"><p>Control-Shift-F: 根据代码风格设定重新格式化代码。我们的团队有统一的代码格式，我们把它放在我们的wiki上。要这么做，我们打开Eclipse，选择Window?Preferences?Java?Code Style，然后设置Code Formatter，Code Style和Organize Imports。利用导出（Export）功能来生成配置文件。我们把这些配置文件放在wiki上，然后团队里的每个人都导入到自己的Eclipse中。</p></li>
+<li rel="9"><p>Control-O: 快速概要(quick outline)。通过这个快捷键，你可以迅速的跳到一个方法或者属性，只需要输入名字的头几个字母。</p></li>
+<li rel="10"><p>Control-/: 对一行注释或取消注释。对于多行也同样适用。</p></li>
+<li rel="11"><p>Control-Alt-down arrow: 复制高亮显示的一行或多行。</p></li>
+<li rel="12"><p>Alt-down arrow: 将一行或多行向下移动。Alt-up arrow会向上移动。</p></li>
+</ol>
+
+<p>其他的热键在菜单里有。你可以通过按下Control-Shift-L（从3.1版本开始），看到所有快捷键的列表。按下Control-Shift-L两次，会显示热键对话框（Keys Preferences dialog），你可以在这里自己设置热键。我欢迎你在Talkback部分发表你的Eclipse提示。</p>
+
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
