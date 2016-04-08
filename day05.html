@@ -1,0 +1,419 @@
+<!DOCTYPE html><html><head><title>day05</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-39668" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-39669" class="wmd-preview-section preview-content">
+
+<h1 id="day05">day05</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day05">day05</a><ul>
+<li><a href="#总结问题">总结问题：</a><ul>
+<li><a href="#socket-发消息阻塞">socket 发消息阻塞</a></li>
+<li><a href="#wait-notify的用法及原理解释">wait  notify的用法及原理解释</a></li>
+<li><a href="#io的装饰增强">io的装饰增强</a></li>
+</ul>
+</li>
+<li><a href="#轻量级rpc框架开发">轻量级rpc框架开发</a></li>
+<li><a href="#老师经历介绍">老师经历介绍</a><ul>
+<li><a href="#内训经历">内训经历</a></li>
+<li><a href="#传奇-离奇-经历">…传奇 离奇 经历…..</a></li>
+<li><a href="#学生生涯">学生生涯</a></li>
+<li><a href="#工作">工作</a></li>
+<li><a href="#考金融研究生的经历">考金融研究生的经历</a></li>
+<li><a href="#炼狱">炼狱</a></li>
+</ul>
+</li>
+<li><a href="#轻量级rpc框架开发-1">轻量级rpc框架开发</a><ul>
+<li><a href="#什么是rpc">什么是rpc？</a><ul>
+<li><a href="#自定义rpc框架的设计思路">自定义rpc框架的设计思路</a></li>
+<li><a href="#技术栈">技术栈</a><ul>
+<li><a href="#nio">nio</a></li>
+<li><a href="#代码讲解-jdk自带nio使用的梦魇">代码讲解 Jdk自带NIO使用的梦魇</a></li>
+</ul>
+</li>
+<li><a href="#netty">netty</a><ul>
+<li><a href="#netty发送对象">netty发送对象</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-39670" class="wmd-preview-section preview-content">
+
+<h2 id="总结问题">总结问题：</h2>
+
+</div><div id="wmd-preview-section-39671" class="wmd-preview-section preview-content">
+
+<h3 id="socket-发消息阻塞">socket 发消息阻塞</h3>
+
+<p><strong>基本是阻塞的概念没有理解</strong> <br>
+c-s 流建立起来的时候，只要不关闭，是一直阻塞存在的 <br>
+socket inputStream  虽然read完….可你是在while循环中的 <br>
+所以流还是一直在的，客户端那边还在一直发….需要等待client端给关闭掉。 <br>
+但client端关闭了 <br>
+，但是关流之前 你还是在read 服务端的流 ， 这样 两者互相在等待， <br>
+那该如何解决？ <br>
+给个结束标志   send println(“bye”) <br>
+if(aram.equals(“bye”)) break; . <br>
+感觉处理相当别扭。 其实还是有问题的。 <br>
+每个连接都会建立线程， 阻塞，线程一直都在，而且不断增多…. <br>
+服务器效率将会降低 ，线程池将耗尽…内存增大。。。。。服务器将会假死.. <br>
+同步阻塞IO</p>
+
+</div><div id="wmd-preview-section-39672" class="wmd-preview-section preview-content">
+
+<h3 id="wait-notify的用法及原理解释">wait  notify的用法及原理解释</h3>
+
+<p>t1  <br>
+run(){ <br>
+obj.wait <br>
+}</p>
+
+<p>t2(){ <br>
+obj.notify() <br>
+}</p>
+
+<p>obj  = new Object() <br>
+t1.start() <br>
+t2.start() <br>
+使用时错误的</p>
+
+<p>需要拿到对象的锁时使用 <br>
+synchronized(obj){ <br>
+obj.notify() <br>
+} <br>
+producer 生产写的时候会满的情况 写不了  进入wait  是要有把锁来进行协作的 <br>
+synchronized(obj){ <br>
+wait() <br>
+putTask(task) <br>
+}</p>
+
+<p>consumer  <br>
+synchronized(obj){ <br>
+consum(task.queue) <br>
+obj.notify() <br>
+}</p>
+
+<p>java基础很重要啊，大数据基础请掌握..</p>
+
+<p><strong>阻塞 今天是我们将要抛弃的东东….</strong></p>
+
+</div><div id="wmd-preview-section-39673" class="wmd-preview-section preview-content">
+
+<h3 id="io的装饰增强">io的装饰增强</h3>
+
+<p>bufferedReader <br>
+Java基础没理解的，自己回去加强。</p>
+
+</div><div id="wmd-preview-section-39674" class="wmd-preview-section preview-content">
+
+<h2 id="轻量级rpc框架开发">轻量级rpc框架开发</h2>
+
+<p>难度大？ <br>
+软件安装有个啥用….. <br>
+NIO <br>
+Unix 网络编程 看了 才明白其本质 <br>
+操作系统 协议栈  同步异步… Unix 异步非阻塞.. <br>
+java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） <br>
+高端知识，大数据的支撑基础技术….可以不关注该层次的… <br>
+7天的人…..一样能满足大数据需求?…… <br>
+体系很庞大</p>
+
+</div><div id="wmd-preview-section-39675" class="wmd-preview-section preview-content">
+
+<h2 id="老师经历介绍">老师经历介绍</h2>
+
+<p>以前都在做hadoop <br>
+当时的spark怎么讲? 火 要讲解  自学 ….</p>
+
+</div><div id="wmd-preview-section-39676" class="wmd-preview-section preview-content">
+
+<h3 id="内训经历">内训经历</h3>
+
+<p>门路…. 水平如何比人高 ？ <br>
+强大的压力  高度紧张状态  飞速的学习  <br>
+压力下的学习 轻松状态下的学 <br>
+人家反馈的各种问题，不会的怎么能总是忽悠吧…. 自己不断提升</p>
+
+<p>深圳移动……请了一人两天呗滚粗……去接锅 压力山大….. <br>
+客户电话面试 …. 各种问题  可靠问题 并发问题 ..大概思路 解决方案…我靠蒙过去了….1w/day 5天……各种实验 各种场景  还是没有模拟出客户的问题 <br>
+没有遇到过，但是你改如何解决 <br>
+当你对底层了如纸张 ，内核的研究….  spark技术内幕 深入理解spark 耿家安写的 <br>
+… <br>
+飞机上…把耿家安的那本书 翻了一遍….是巨大压力下的记忆》。。。 <br>
+酒店里 通宵… <br>
+最终 5个问题 都解决  … <br>
+企业实战问题如此解决的 <br>
+。。 <br>
+<strong>压力  场景</strong> 与快速成长是正相关的</p>
+
+<p>学习hadoop的经历</p>
+
+</div><div id="wmd-preview-section-39677" class="wmd-preview-section preview-content">
+
+<h3 id="传奇-离奇-经历">…传奇 离奇 经历…..</h3>
+
+<p>做过私募基金经理 <br>
+…</p>
+
+</div><div id="wmd-preview-section-39678" class="wmd-preview-section preview-content">
+
+<h3 id="学生生涯">学生生涯</h3>
+
+<p>一开始很顺》。。 <br>
+高三。。。班花….</p>
+
+<p>填报志愿…..命运弄人 <br>
+99高考 湖南  复旦 金融学院…落选….高清华8  最后低2分 <br>
+到了南邮….. <br>
+综合全国7th。。 <br>
+第一次挫折</p>
+
+<p>大学脱缰了…..游戏 泡妞 旅行 打工 网管 ….. <br>
+网管奇遇》。。。。msn 》。。。</p>
+
+<p>下大雨 逆行…..减小风阻… 受伤……</p>
+
+</div><div id="wmd-preview-section-39679" class="wmd-preview-section preview-content">
+
+<h3 id="工作">工作</h3>
+
+<p>长沙电信…还不错 <br>
+程控….汇编 … <br>
+3 4年后 <br>
+新浪博客 长沙谷歌？ 私募基金操盘  <br>
+人生不该平庸 想进所认为的上流社会</p>
+
+</div><div id="wmd-preview-section-39680" class="wmd-preview-section preview-content">
+
+<h3 id="考金融研究生的经历">考金融研究生的经历</h3>
+
+<p>大事情…五道口清华金融学院  中国人民银行研究所. <br>
+自学一年时间，基础 数学政治 英语  。。 专业课的挑战 物范围….20多门全学通 <br>
+注册会计.小领域 ….各种金融学  统计学 证券投资…….等等  复习了一年 <br>
+考了 居然  过了  数学满分 80 80  …专业课托腿  速学的。。。 <br>
+405线…其他同学 tsing beida…  <br>
+……新马泰…港澳台….. <br>
+3月复试……</p>
+
+<p>其他人 学长交流  面试重点 巩固 。。。。。 <br>
+一整套流程 考试 <br>
+3天  <br>
+ 听力（还行）口语（歇菜）英语 。 阶级分析 解决方案 建议….you think die。。。 go die …..与tsing一童鞋气质、文化对比 ……  他的题  个税 ….财政…整个金融世界…… <br>
+ 专业笔试….专业词已忘记…..彻底歇菜…6页A3..   总分已经落后》。。淘汰20%还有希望 <br>
+ 综合面试   各种经济类官员 货币司主任 …各银行行长… 教授….  一个国内通货膨胀  国外升值… 理科 逻辑 分析（线条 ）… 文科发散关联(分析整体) …. <br>
+ 致命一击： 刚入学本科的 人家tsing…取4年经..精英是有原因的….讲嗨了….忘我….预测…体制内学校….. 不要吵 <br>
+ 结果 差了两分…. <br>
+ 回去 被套牢….  <br>
+入学失败，还亏钱.，无工作，..房子也卖了 <br>
+兄长，长沙中层官员。。。不愿差……</p>
+
+<p>夕阳下，何去何从？人生无望，潸然泪下………</p>
+
+</div><div id="wmd-preview-section-39681" class="wmd-preview-section preview-content">
+
+<h3 id="炼狱">炼狱</h3>
+
+<p>写代码 没前途… <br>
+<strong>黑马</strong>  物联网 云计算  其实是JAVAEE ，听过hadoop名字 <br>
+之后<strong>在北京找了工作</strong>…….但是听过Hadoop….当初资料少….. 面试…各种经历…hadoop会吗….javaEE导入excel poi …  接触hdfs….20天后辞职….觉得是做过hadoop了》。。。。 <br>
+<strong>进入亚信</strong>….部门经理(似吴秀波…).印象深刻…….其实那时大家都不是很懂，但是组里的核心是有做过的….. 切换语言频道….老乡奇遇！！！！ 进去了！！</p>
+
+<p>进入后，<strong>炼狱开始</strong>，投入到项目中。2010年开始做的项目，长老们组团去阿里（职业道德低》。。。）…. 新人接触很痛苦，又不能表现的不会，组长又是老乡….但是脾气不好,不好打交道.，但成长需要忍着..一个月后…从入门到企业级hadoop，通宵是常态。</p>
+
+<p><strong>越苦d磨炼越成长…..</strong></p>
+
+<p><strong>适当多给自己压力</strong>  <br>
+<strong>只要干不shi，就往shi里干….</strong>  <br>
+<strong>总之强压下的成长是快速的。</strong> <br>
+13 4?。。</p>
+
+<hr>
+
+</div><div id="wmd-preview-section-39682" class="wmd-preview-section preview-content">
+
+<h2 id="轻量级rpc框架开发-1">轻量级rpc框架开发</h2>
+
+<p><strong>将一些技术串连起来</strong> <br>
+rpc原理 <br>
+nio <br>
+netty <br>
+自己封装rpc <br>
+spring注解</p>
+
+</div><div id="wmd-preview-section-39683" class="wmd-preview-section preview-content">
+
+<h3 id="什么是rpc">什么是rpc？</h3>
+
+<p>分布式 服务调用 <br>
+原理 定义</p>
+
+</div><div id="wmd-preview-section-39684" class="wmd-preview-section preview-content">
+
+<h4 id="自定义rpc框架的设计思路">自定义rpc框架的设计思路</h4>
+
+<p>autowired <br>
+OrderService os .. <br>
+os.createOrder() // 但是该机器上没有该服务，是在另一台服务器上</p>
+
+<p>另一台服务器的上的服务 <br>
+RpcService  //加一个注解编程服务，启动一个socke服务，项目启动（加载）扫描该注解，构造该服务或其他对象. <strong>扫描注解</strong> <br>
+orderServiceImpl</p>
+
+<p>RpcService(“registerService”) <br>
+RegisterServiceImpl</p>
+
+<p>通过spring注解扫描 ，可以获得工程中所有实现类的Bean. 放入hashmap中记录.然后将该map传递给socket服务器，该socketServer的某个端口会接收请求(请求接口名，方法，参数)，【需先解码请求对象】ss可以通过反射 invoke调用实现类，获取map(k,v)  </p>
+
+<blockquote>
+  <p>result = Method.invoke(map.get(servieImplObj,params)) <br>
+  <strong>通过反射调用实现类的方法</strong> <br>
+  封装 编码 成 response对象</p>
+</blockquote>
+
+<p>Spring的机制启动服务器  <br>
+查看课程画图</p>
+
+<p>客户端实现  <br>
+orderServiceImpl</p>
+
+<p>RpcService(“registerService”)  <br>
+RegisterServiceImpl <br>
+客户端我们做什么？</p>
+
+<p>注入一个动态代理对象，为啥？ 客户端是没有实现的，看起来像是本地的，调用起来其实是invoke的方式，所以注入的是动态代理对象 </p>
+
+<blockquote>
+  <p>proxy Proxy.createProxy(classlaoder,interface,) <br>
+  proxy.createOrder()  invoke(proxy.method,args) <br>
+  封装请求对象  (接口名方法参数）【需编码】 <br>
+  decode response (解码)</p>
+</blockquote>
+
+<p>app    appService  两端的 人 没感觉是在不同机器中…屏蔽了网络内容</p>
+
+<p>但还是有问题  请求谁呢？ <br>
+zk应用场景 来喽</p>
+
+<p>服务端启动后 ，向zk进行服务注册，注册后客户端想去调用的时候(zk中 接口  服务器地址) 查询名称服务的实现地址  【服务注册，负载均衡场景中都可以实现】</p>
+
+<p>注意 用户使用场景(水浅)，与我们的 底层实现的(水深) <br>
+..</p>
+
+</div><div id="wmd-preview-section-39685" class="wmd-preview-section preview-content">
+
+<h4 id="技术栈">技术栈</h4>
+
+<p>zk 反射 socket（太low了，我们使用netty 非常流行火爆的nio框架，还得了解nio netty ，会spring 注解）</p>
+
+</div><div id="wmd-preview-section-39686" class="wmd-preview-section preview-content">
+
+<h5 id="nio">nio</h5>
+
+<p>与传统io（同步阻塞式io）的区别 <br>
+讲义图片讲解 <br>
+读到操作系统内部缓存 ，交给jvm缓存（io缓存铣刀socket缓存…..来回复制很多遍，so 很慢） <br>
+非阻塞io 不进入应用层的缓存，应用发送，直接到操作系统的缓存 （异步io）jdk1.5 <br>
+Aio更新， 连系统及的缓存都不再经过，只做些映射 读进来 直接出去… jdk 1.7 （真正的异步非阻塞io）</p>
+
+<p>同步阻塞式io（传统io）的再次讲解  <br>
+伪异步方式 （灭一个线程是同步阻塞的） <br>
+真正的异步io是咋做的？  <br>
+与操作系统进行交互 <br>
+linux  kernel(本身是异步通信方式) (非轮询的，是监听方式向内核中注册一个监听器，selector ,监听事件通知后回调，读数据立马创建连接与客户端通信（不是这么干的，这是同步阻塞的），而是注册连接建立的方式（内核完成建立tcp的三次握手，建立成功后通知返回），收到连接注册成功后，注册read监听 channel ，</p>
+
+<p>(客户端永远不知道啥时候发数据))  <br>
+假设客户端发数据了 <br>
+服务端发现tcp缓存 ，将其写入到bytebuffer缓存中，然后通知，通过channel去read。 服务器端不用等客户端的   通过事件的通知和回调 。依赖于内核中有该机制…之前的落后c\c++ ，现在的Java利用该特性已经飞起来了</p>
+
+</div><div id="wmd-preview-section-39687" class="wmd-preview-section preview-content">
+
+<h5 id="代码讲解-jdk自带nio使用的梦魇">代码讲解 Jdk自带NIO使用的梦魇</h5>
+
+<p>bigdata.nio包中代码</p>
+
+<p>TimeServer 服务端 入口 <br>
+MultipleerTimeServer 具体工作 <br>
+serverChannel  = configureBlocking(false)//注册非阻塞 <br>
+backlog参数含义？ 回去查 <br>
+register()。。。 <br>
+selector …监听注册管理(个人部分的理解…. 存放各种chananel的key，具体在研究) <br>
+。。 <br>
+buffer.flip() //非完整包的处理..底层细节深…</p>
+
+<p>读写基本都是异步非阻塞的代码</p>
+
+<p>客户端  <br>
+TimeClient.java <br>
+TimeClientHandler.java <br>
+selector //客户端发送请求之类的… <br>
+….</p>
+
+<p>注意问题： selector 也是轮的， 读消息是不阻塞的，还不是完全的异步非阻塞…. <br>
+自己拓展研究 AIO  理解unix 网络编程  Java代码与其无缝衔接的… <br>
+推荐两本书 <br>
+netty权威指南 <br>
+netty in action <br>
+nio的高性能都是相对服务端来说的</p>
+
+</div><div id="wmd-preview-section-39688" class="wmd-preview-section preview-content">
+
+<h4 id="netty">netty</h4>
+
+<p>netty sendstring包 代码讲解 <br>
+client <br>
+    - EchoClient  （netty内部封装了很多线程池，我们无需自己管理了） <br>
+        - bootstrap <br>
+        - NioEventLoopGroup <br>
+        - bootstrap.group(nioEventLoopGroup) <br>
+                            - chanel <br>
+                            - remoteAddress <br>
+                            - <strong>handler</strong>() //业务处理类 挂载注册管理多个channel (handler 流【多个handler，netty封装处理，我们实现写这些handler】)   这里看讲课图片，看netty留给开发者工作所在区。。  具体handler 实现netty中的接口，方法具体实现自己写吧 <br>
+                            - Unpooled.buffer()//send class <br>
+                            - ctx channel handler流上下文 <br>
+                            - 没回调已经跑完了？  sync()保证随时回到，不会跑完的…. <br>
+                            - channelfuture //链接服务器 <br>
+    - EchoClientHandler <br>
+server <br>
+    - 与client端类似 <br>
+    - 开发代码核心处理 还是实现handler</p>
+
+<p>案例2  sendorder <br>
+多个handler 形成管道… <br>
+firechannelRead(msg)  //像下个inboundhandler传递 <br>
+主要看业务端的执行顺序  in1 in2 out2 out1 <br>
+in  <br>
+out <br>
+执行时逆时针的，注意out是不能写到整个流水线最后的。否则两个out不生效的，即最后是要有in….</p>
+
+</div><div id="wmd-preview-section-39689" class="wmd-preview-section preview-content">
+
+<h5 id="netty发送对象">netty发送对象</h5>
+
+<p>只是增加了序列化反序列化代码 <br>
+netty sendobject 包</p>
+
+<blockquote>
+  <p>Person obj = objectInputStream(new ArrayinputStrea(byte[])) <br>
+  代码讲解…… <br>
+  发送一个消息，我们会有多个消息放到了list对象中….</p>
+</blockquote>
+
+<p>异常后，其实server端还是可以正常工作的 <br>
+精通netty，将高于hadoop.spark。..因为底层都有netty的身影………</p>
+
+</div><div id="wmd-preview-section-39690" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
