@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>day05</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-39668" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-145" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-39669" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-146" class="wmd-preview-section preview-content">
 
 <h1 id="day05">day05</h1>
 
@@ -45,6 +45,23 @@
 </li>
 </ul>
 </li>
+<li><a href="#nio与io的对比与选择在于两个阻塞">NIO与IO的对比与选择（在于两个阻塞）</a></li>
+<li><a href="#springiocaop的注解学习">Spring(IOC/AOP)的注解学习</a><ul>
+<li><a href="#自定义注解">自定义注解</a><ul>
+<li><a href="#声明注解-定义注解">声明注解 定义注解</a></li>
+<li><a href="#实现方式">实现方式</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#自定义rpc">自定义rpc</a><ul>
+<li><a href="#代码服务端">代码服务端</a></li>
+<li><a href="#代码-客户端-应用程序">代码 客户端 应用程序</a></li>
+</ul>
+</li>
+<li><a href="#jvm">JVM</a></li>
+<li><a href="#jvm内存模型">jvm内存模型</a></li>
+<li><a href="#前5天内容-回顾">前5天内容 回顾</a></li>
 </ul>
 </li>
 </ul>
@@ -52,11 +69,11 @@
 </div>
 </div>
 
-</div><div id="wmd-preview-section-39670" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-147" class="wmd-preview-section preview-content">
 
 <h2 id="总结问题">总结问题：</h2>
 
-</div><div id="wmd-preview-section-39671" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-148" class="wmd-preview-section preview-content">
 
 <h3 id="socket-发消息阻塞">socket 发消息阻塞</h3>
 
@@ -74,7 +91,7 @@ if(aram.equals(“bye”)) break; . <br>
 服务器效率将会降低 ，线程池将耗尽…内存增大。。。。。服务器将会假死.. <br>
 同步阻塞IO</p>
 
-</div><div id="wmd-preview-section-39672" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-149" class="wmd-preview-section preview-content">
 
 <h3 id="wait-notify的用法及原理解释">wait  notify的用法及原理解释</h3>
 
@@ -112,14 +129,14 @@ obj.notify() <br>
 
 <p><strong>阻塞 今天是我们将要抛弃的东东….</strong></p>
 
-</div><div id="wmd-preview-section-39673" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-150" class="wmd-preview-section preview-content">
 
 <h3 id="io的装饰增强">io的装饰增强</h3>
 
 <p>bufferedReader <br>
 Java基础没理解的，自己回去加强。</p>
 
-</div><div id="wmd-preview-section-39674" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-151" class="wmd-preview-section preview-content">
 
 <h2 id="轻量级rpc框架开发">轻量级rpc框架开发</h2>
 
@@ -133,14 +150,14 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 7天的人…..一样能满足大数据需求?…… <br>
 体系很庞大</p>
 
-</div><div id="wmd-preview-section-39675" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-152" class="wmd-preview-section preview-content">
 
 <h2 id="老师经历介绍">老师经历介绍</h2>
 
 <p>以前都在做hadoop <br>
 当时的spark怎么讲? 火 要讲解  自学 ….</p>
 
-</div><div id="wmd-preview-section-39676" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-153" class="wmd-preview-section preview-content">
 
 <h3 id="内训经历">内训经历</h3>
 
@@ -163,14 +180,14 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 
 <p>学习hadoop的经历</p>
 
-</div><div id="wmd-preview-section-39677" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-154" class="wmd-preview-section preview-content">
 
 <h3 id="传奇-离奇-经历">…传奇 离奇 经历…..</h3>
 
 <p>做过私募基金经理 <br>
 …</p>
 
-</div><div id="wmd-preview-section-39678" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-155" class="wmd-preview-section preview-content">
 
 <h3 id="学生生涯">学生生涯</h3>
 
@@ -188,7 +205,7 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 
 <p>下大雨 逆行…..减小风阻… 受伤……</p>
 
-</div><div id="wmd-preview-section-39679" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-156" class="wmd-preview-section preview-content">
 
 <h3 id="工作">工作</h3>
 
@@ -198,7 +215,7 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 新浪博客 长沙谷歌？ 私募基金操盘  <br>
 人生不该平庸 想进所认为的上流社会</p>
 
-</div><div id="wmd-preview-section-39680" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-157" class="wmd-preview-section preview-content">
 
 <h3 id="考金融研究生的经历">考金融研究生的经历</h3>
 
@@ -224,7 +241,7 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 
 <p>夕阳下，何去何从？人生无望，潸然泪下………</p>
 
-</div><div id="wmd-preview-section-39681" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-158" class="wmd-preview-section preview-content">
 
 <h3 id="炼狱">炼狱</h3>
 
@@ -244,7 +261,7 @@ java 屏蔽了底层（统一了 windows linux unix 底层 同步阻塞 … ） 
 
 <hr>
 
-</div><div id="wmd-preview-section-39682" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-159" class="wmd-preview-section preview-content">
 
 <h2 id="轻量级rpc框架开发-1">轻量级rpc框架开发</h2>
 
@@ -255,14 +272,14 @@ netty <br>
 自己封装rpc <br>
 spring注解</p>
 
-</div><div id="wmd-preview-section-39683" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-160" class="wmd-preview-section preview-content">
 
 <h3 id="什么是rpc">什么是rpc？</h3>
 
 <p>分布式 服务调用 <br>
 原理 定义</p>
 
-</div><div id="wmd-preview-section-39684" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-161" class="wmd-preview-section preview-content">
 
 <h4 id="自定义rpc框架的设计思路">自定义rpc框架的设计思路</h4>
 
@@ -314,20 +331,20 @@ zk应用场景 来喽</p>
 <p>注意 用户使用场景(水浅)，与我们的 底层实现的(水深) <br>
 ..</p>
 
-</div><div id="wmd-preview-section-39685" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-162" class="wmd-preview-section preview-content">
 
 <h4 id="技术栈">技术栈</h4>
 
 <p>zk 反射 socket（太low了，我们使用netty 非常流行火爆的nio框架，还得了解nio netty ，会spring 注解）</p>
 
-</div><div id="wmd-preview-section-39686" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-163" class="wmd-preview-section preview-content">
 
 <h5 id="nio">nio</h5>
 
 <p>与传统io（同步阻塞式io）的区别 <br>
 讲义图片讲解 <br>
 读到操作系统内部缓存 ，交给jvm缓存（io缓存铣刀socket缓存…..来回复制很多遍，so 很慢） <br>
-非阻塞io 不进入应用层的缓存，应用发送，直接到操作系统的缓存 （异步io）jdk1.5 <br>
+非阻塞io 不进入应用层的缓存，应用发送，直接到操作系统的缓存 （异步io）jdk1.4  jdk1.5+selector <br>
 Aio更新， 连系统及的缓存都不再经过，只做些映射 读进来 直接出去… jdk 1.7 （真正的异步非阻塞io）</p>
 
 <p>同步阻塞式io（传统io）的再次讲解  <br>
@@ -340,7 +357,7 @@ linux  kernel(本身是异步通信方式) (非轮询的，是监听方式向内
 假设客户端发数据了 <br>
 服务端发现tcp缓存 ，将其写入到bytebuffer缓存中，然后通知，通过channel去read。 服务器端不用等客户端的   通过事件的通知和回调 。依赖于内核中有该机制…之前的落后c\c++ ，现在的Java利用该特性已经飞起来了</p>
 
-</div><div id="wmd-preview-section-39687" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-164" class="wmd-preview-section preview-content">
 
 <h5 id="代码讲解-jdk自带nio使用的梦魇">代码讲解 Jdk自带NIO使用的梦魇</h5>
 
@@ -370,7 +387,7 @@ netty权威指南 <br>
 netty in action <br>
 nio的高性能都是相对服务端来说的</p>
 
-</div><div id="wmd-preview-section-39688" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-165" class="wmd-preview-section preview-content">
 
 <h4 id="netty">netty</h4>
 
@@ -400,7 +417,7 @@ in  <br>
 out <br>
 执行时逆时针的，注意out是不能写到整个流水线最后的。否则两个out不生效的，即最后是要有in….</p>
 
-</div><div id="wmd-preview-section-39689" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-166" class="wmd-preview-section preview-content">
 
 <h5 id="netty发送对象">netty发送对象</h5>
 
@@ -416,4 +433,309 @@ netty sendobject 包</p>
 <p>异常后，其实server端还是可以正常工作的 <br>
 精通netty，将高于hadoop.spark。..因为底层都有netty的身影………</p>
 
-</div><div id="wmd-preview-section-39690" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+<p>回顾</p>
+
+</div><div id="wmd-preview-section-167" class="wmd-preview-section preview-content">
+
+<h2 id="nio与io的对比与选择在于两个阻塞">NIO与IO的对比与选择（在于两个阻塞）</h2>
+
+<p>速度并见得比传统io快，其过程其实复杂-&gt;慢 <br>
+传统的才快很多…. 差别很大的…. <br>
+发文件–&gt; 串行 流不断  <br>
+20s vs 80s</p>
+
+<p>NIO的又是不在于数据传送的速度 <br>
+优势体现在服务端，增加并发量及响应速度</p>
+
+<p>io <br>
+while(true){ <br>
+accept(); //<strong>阻塞</strong> ，可能会有很多的请求，阻塞就会导致很慢 <br>
+}</p>
+
+<p>new thread  <br>
+input = socket.getInput() <br>
+output = socket.getInput()</p>
+
+<p>//等待流 <strong>阻塞</strong> <br>
+input.read() <br>
+output.write() </p>
+
+<p>丢给线程池??10000 ，大家都阻塞中，新的请求还是无法响应….也是有问题的 <br>
+这两个阻塞对于服务器端的性能导致很低</p>
+
+<p>NIO是如何解决的 <br>
+没有accept  <br>
+selector 虽然阻塞的，但不是与连接一起阻塞的 等待事件 …selector的轮训 key 事件，与客户端没有绑定在一起， 有相应的事件通知后调用相应的handler处理</p>
+
+<p>另外 <br>
+读写数据 也是通过监听的 都不用等着处理    none blocking <br>
+但感觉 selector的轮训 （感觉上是阻塞，其实不怎么算）</p>
+
+<p>异步 AIO   大家一起研究 代码能写，但底层未吃透  ,需要啃 (Unix网络编程) <br>
+<strong>nio解决了传统io的两个阻塞问题，提高了服务器请求并发量</strong> <br>
+<strong>spark 官方文档</strong> ifeve并发编程网</p>
+
+</div><div id="wmd-preview-section-168" class="wmd-preview-section preview-content">
+
+<h2 id="springiocaop的注解学习">Spring(IOC/AOP)的注解学习</h2>
+
+<p>IOC bean 托管 反射 <br>
+AOP  动态代理</p>
+
+<p>&lt;bean   id class  <br>
+&lt;constructor-arg  name value <br>
+反射 构造 实例</p>
+
+<p>代码案例 <br>
+springannotation 包 <br>
+springrunorder  <br>
+applicationContextAware   initalizingBean <br>
+setApplicationContext(app…) <br>
+afterPropertieset… <br>
+Classpathapp..context…..</p>
+
+<p>spring.xml <br>
+context-compent-scan  @component</p>
+
+<p>tocmat - &gt; spring-&gt;bean</p>
+
+</div><div id="wmd-preview-section-169" class="wmd-preview-section preview-content">
+
+<h3 id="自定义注解">自定义注解</h3>
+
+<p>underderfinednnotation 包 <br>
+加载spring 获取到 标注自定义注解对象的标识  </p>
+
+<blockquote>
+  <p>Map&lt;String,Objedt&gt; servcieBeanMap  = ctx.getBeanWithAnnotation(RpcService.class)  </p>
+</blockquote>
+
+</div><div id="wmd-preview-section-170" class="wmd-preview-section preview-content">
+
+<h4 id="声明注解-定义注解">声明注解 定义注解</h4>
+
+<p>Target({ElementType.TYPE}) //注解用在接口或类上  constructor filed local va method package  params type….. <br>
+Tetention(RETENTIONPOLICY.RUNTIME) //VM将在运行期也保留着，所以可以通过反射机制读取 <br>
+@Component <br>
+RpcService @Interface  <br>
+String value() //注解参数</p>
+
+</div><div id="wmd-preview-section-171" class="wmd-preview-section preview-content">
+
+<h4 id="实现方式">实现方式</h4>
+
+<p>myserver.java  <br>
+MyServer implements ApplicationConttextAware <br>
+setApplicaiotnContext    // 这里在spring启动实例化bean的时候 做些注解可以做的事情</p>
+
+<p>serviceBean.getClass().getAnnotation(RpcService.class).getValue(“”)</p>
+
+<p>spring 与 junit4d 结合… <br>
+RunWith <br>
+ContextConfiguration <br>
+@Component</p>
+
+<p>Test</p>
+
+<hr>
+
+</div><div id="wmd-preview-section-172" class="wmd-preview-section preview-content">
+
+<h2 id="自定义rpc">自定义rpc</h2>
+
+<p>架构图 预览 + zk <br>
+框架 <br>
+业务层 <br>
+15：14分 包透视图 切换</p>
+
+</div><div id="wmd-preview-section-173" class="wmd-preview-section preview-content">
+
+<h3 id="代码服务端">代码服务端</h3>
+
+<p>rpc-*….   maven .. <br>
+框架结构讲解 看图。.. <br>
+sample 业务使用 <br>
+other 框架层</p>
+
+<p>业务发开人员  我打个标签 对外进行发布服务》。。。？ 底层的配置 spring.xml  <br>
+bean rpcServer  set….  <br>
+代码画图可视化…….  <br>
+启动spring  <br>
+去构造框架中的rpcServer  impl …contextAware set <br>
+setApplicationContxt()    启动nettyServer <br>
+client  nettyServer.java -&gt;  <br>
+尽可能减少用户的操作 <br>
+… <br>
+用户的服务自动化的加载</p>
+
+<p>服务端 用户端 <br>
+核心 rpcServer 如何工作？ <br>
+rpc-Server <br>
+rpcServer im ApplicaotnContextware .. init…aware</p>
+
+<p><strong>启动</strong> <br>
+绑定消息处理流水线.. <br>
+解码用户请求 <br>
+业务调用handler <br>
+out 将结果编码的handler</p>
+
+<p><strong>向zk中注册</strong>  <br>
+registerService register() <br>
+protobuf 序列化 google 框架  屏蔽语言  类似facebook的 thirft <br>
+readableBytes() &lt; 4 netty的规范 &lt;4  认为是空 <br>
+… <br>
+… <br>
+ProtostuffIoUtil //</p>
+
+<p>配置zk <br>
+用户工程的spring配置文件中已经配置好了 serviceRegistry <br>
+老师的包分层可以优化下 （用户端 服务端）</p>
+
+<p>CountDownLatch  =1  concurrent包中  直到有-1的地方才会退出</p>
+
+<p>watcher () //监听连接完成 <br>
+latch.countDwn。。阻塞</p>
+
+<p>拓展  zk 注册不同的业务</p>
+
+</div><div id="wmd-preview-section-174" class="wmd-preview-section preview-content">
+
+<h3 id="代码-客户端-应用程序">代码 客户端 应用程序</h3>
+
+<p>用户工程 <br>
+spring.xml 配置  规范 告诉业务人员 <br>
+serviceDiscorvery <br>
+rpcProxy （discovery） (<strong>业务人员该怎么调怎么调，底层框架用代理后台屏蔽自己的手脚…将调用信息封装成信息对象通过netty发送出去</strong>.) </p>
+
+<p>//随机  轮询  负载值…</p>
+
+<p><strong>需要实际剖析并写下代码，才能理解地更深刻</strong> <br>
+小涛其实写了很久…. <br>
+骨架 - 肌肉 - </p>
+
+<p>打包 项目依赖查看  dependency    pom  <br>
+包划分有些不够合理</p>
+
+<p>windows上单机版 zk 运行 zkserver.cmd…. <br>
+运行程序  尽情把玩…</p>
+
+</div><div id="wmd-preview-section-175" class="wmd-preview-section preview-content">
+
+<h2 id="jvm">JVM</h2>
+
+<p>jvm</p>
+
+</div><div id="wmd-preview-section-176" class="wmd-preview-section preview-content">
+
+<h2 id="jvm内存模型">jvm内存模型</h2>
+
+<p>JVM 内存模型对我们的开发相当大 <br>
+思考： <br>
+jvm运行软件 需要内存空间 <br>
+内存空间 ： <br>
+    - 方法区   类信息 常量 静态变量 jit编译代码（tomcat jsp编译class文件的时候） <br>
+    - 堆内存 <br>
+    - 栈 <br>
+    - 计数器 <br>
+    - 本地方法栈</p>
+
+<p>干啥用的，类定义的存放 方法区，也叫永久区， 程序中的运行的各种对象，需要开辟写大的空间 堆内存空间。 <br>
+栈 程序运行本质是在各个线程中执行，即是执行我们的各种方法，方法中的变量 局部变量就放入栈内存中   其创建的对象会放到堆中 <br>
+好多线程，栈内存 空间，每个线程都有个<strong>栈空间</strong> 即<strong>线程私有栈空间</strong></p>
+
+<p>方法套方法 栈帧…嵌套很深的话 会内存溢出 尤其是递归的时候 压栈….栈内存溢出。。。</p>
+
+<p>垃圾回收器 garbage collection  <br>
+jvm 管理内存 天堂与地狱，c的内存管理设计不好是梦魇</p>
+
+<p>重点  堆（逻辑） <br>
+年轻代  老年代   根据对象产生的时间来划分 <br>
+eden space  有价值对象 移动 survivor tatio  from space 还活着 —-》 tenured Space 放入到老年代  <br>
+jvm垃圾回收算法  <br>
+    - 对象的引用（早期） 互相引用的两者可能都为垃圾 弃用 <br>
+    - 根节点搜索  可到达的对象   否则认为是垃圾 <br>
+    - 标记清除  (存入大对象的情况 可能会有问题)  <br>
+    - 标记整理 （移动也可能会产生问题） <br>
+    - 复制算法 吧有用的空间事先留下来，用时永远只用一半。 左边用着，右边空着，发生回收的时候 左右移动，缺点（内存的使用一半）但发现绝大部分是垃圾，灭必要一半预留，留下一小块保存有用的即可 <br>
+    - survivor eden 1:4 默认情况  大对象可能直接放入老年带</p>
+
+<p>怎么收垃圾的 <br>
+有道云笔记  <br>
+垃圾回收器 </p>
+
+<ul><li>Serial 收集器  Stop the world…  还在用</li>
+<li>serial old 收集器</li>
+<li>parallel scavenge  吞吐量 = 运行用户代码时间/（运行用户代码时间+垃圾收集时间） 用户运行最好并行执行，这样吞吐量比较大，但是与收集其一起，可能会收集不完  多餐少食的方式…</li>
+<li><strong>cms收集器</strong> concurrent sweep 优秀    用在服务端较好 并发收集，低停顿 一般默认就是</li>
+<li><strong>G1</strong>(Garbage-first)收集器  最前沿的成果之一…服务端优秀…</li>
+<li>注意 收集器 分使用场景 服务器 业务 特性 <br>
+…客户端不怎么关注，用啥基本区别不大……</li>
+</ul>
+
+<p>垃圾回收期参数总结 <br>
+收集器设置 <br>
+收集器参数</p>
+
+<p><strong>JVM参数列表</strong>详解见讲义 <br>
+-Xmx3550m: 最大堆内存 <br>
+-Xms3550m: 初始堆内存 避免每次重新分配内存，设置为一样的比较好。 <br>
+-Xmn2g ： 年轻代大小 …详解见讲义 <br>
+-Xss128k:每个线程的堆栈大小  很小 jdk1.5后 为1m  详解见讲义 <br>
+-XX: NewRAtio=4 年轻代与老年代的比值（除去老年代）…. <br>
+-XX:SurvivorRatio=4 …. <br>
+-XX:MAXPERMSIZE   Perme….错误 myeclipse tomcat… <br>
+-XX:MAXTENURINGTHRESHOLD=0  .. <br>
+…. <br>
+<strong>收集器设置</strong> <br>
+<strong>-XX:+PrintGC</strong> jvm调优 较常用 <br>
+….</p>
+
+<p>案例： <br>
+jdk bin  <br>
+jps  <br>
+jconsole 本地 远程的 Java进程监控 </p>
+
+<blockquote>
+  <p>jstatd 结合<strong>jvisualvm</strong>（类似jconsole,但更加强大）</p>
+</blockquote>
+
+<p>演示工具使用</p>
+
+<p>jvm 测试代码演示 <br>
+设置启动 参数  设置堆内存小点，通过监视工具很快看到内存满  <br>
+outofMemoryError Java heap …. <br>
+注意System.gc()</p>
+
+<p>监视线程  死循环演示</p>
+
+<p>死锁 演示观察  检测到死锁 … dump …  visualvm  <br>
+jconsole 可以卡农那些具体的死锁线程</p>
+
+<p>outofmemeory 演示 <br>
+配置 HeapDumpONOutOfMemoryError  dir…… run configuration  <br>
+dump文件  <br>
+使用 memoryAnalyzier 工具打开 elipse插件 还有独立运行的  leak…分析 open domain tree  工具给你信息，你来分析蛛丝马迹</p>
+
+<p>栈内存溢出分析 <br>
+容易导致系统假死…线程太多  cpu被耗光…所以才假死状</p>
+
+<p>vmstackSOF 线程帧太深 ….</p>
+
+<p>directMemoryOOM 直接内存溢出  <br>
+<strong>直接内存的概念</strong> jvm之外的内存（本地方法的调用也是需要内存使用）GC是jvm管理的,可能会不安全，但再想想，自己管理其实会相当高的 ！！ <br>
+flink框架很先进 快spark 效率更高  ，但spark也吸收了其优秀特性..</p>
+
+<hr>
+
+</div><div id="wmd-preview-section-177" class="wmd-preview-section preview-content">
+
+<h2 id="前5天内容-回顾">前5天内容 回顾</h2>
+
+<p>该怎么对待 <br>
+1 掌握 （nginx keepalived可选）2 统统掌握 3 必须掌握  4 建议同步 并发 反射 动态代理 也是基本都掌握、5 余力者加强掌握 <br>
+linux - zk - Java基础增强 <br>
+明天预习 hadoop <br>
+假如一个文件很大，是些单词 ，一台机器搞不定 ，切成好几份，写个程序将xx.txt 所有单词出现的次数统计出来 。 得到结果 每个单词的总量。 分布式统计 并发运行计算  <br>
+将jar包运算程序  交给伺服服务</p>
+
+</div><div id="wmd-preview-section-178" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
