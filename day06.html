@@ -56,6 +56,11 @@
 <li><a href="#hdfs的常用命令">hdfs的常用命令</a></li>
 </ul>
 </li>
+<li><a href="#hdfs-java-api">HDFS Java api</a><ul>
+<li><a href="#windows上配置hadoop环境变量">windows上配置hadoop环境变量</a></li>
+<li><a href="#windows-上编译hadoop-bin目录-lib替换">windows 上编译hadoop bin目录 lib替换</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -610,7 +615,7 @@ _success <br>
 <em>part</em>…. <br>
 hadoop fs -cat /worldout/output/part-r-00000  敲得多 你来讲课 也记得。。。</p>
 
-</div><div id="wmd-preview-section-82158" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-82736" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs的常用命令">hdfs的常用命令</h3>
 
@@ -646,4 +651,81 @@ web 页面上看看 replication 上确实是3份 <br>
 将所有文件都情况，执行查看下 其实是没有的， <br>
 10是元数据，加了机器会多复制出来，现在机器是没有那能里的 <br>
 replication 不是真实的，是份元数据 只是记录namenode的元数据中，得看datanode的实际数量</li>
-</ul></div><div id="wmd-preview-section-81615" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</ul>
+
+<hr>
+
+<p>基础要打牢，否则后面将会云里雾里.</p>
+
+</div><div id="wmd-preview-section-97645" class="wmd-preview-section preview-content">
+
+<h2 id="hdfs-java-api">HDFS Java api</h2>
+
+<p>在win中解压 hadoop..tar.gz  shell haoop -&gt; jar  手动导包 <br>
+maven hadoop-client 即可</p>
+
+<p>新建Java工程 <br>
+shizhan03_hadoop  lib  包 或建立 本地的包链接 add library user library…. <br>
+hdfsjar library  <br>
+  —  common jar <br>
+lib-依赖 全选  <br>
+ hdfs 核心</p>
+
+<p>com.fqc.bigdata.hdfs; <br>
+ HdfsClientDemo.java</p>
+
+<blockquote>
+  <p>Filesystem fs = null <br>
+  \@Before <br>
+  public void init(){ <br>
+      configuration conf  =   new Configuration();// 默认是本地的文件系统配置 <br>
+      conf.set(“fs.defaultFS”,”hdfs://mini1:9000”); //默认不配的话是 localFileSystem <br>
+      //获取文件系统操作的客户端实例对象 <br>
+   fs =   FileSystem.get(conf);  //构造的是 DistirutedFileSystem  //ctrl+t 看下fileSystem的实现类【注意viewFileSystem17:18分讲解] 联邦 HA…. <br>
+  }</p>
+</blockquote>
+
+<p>\@Test <br>
+public void uploadFile(){ <br>
+    fs.copyFromLocalFile(new Path(“c:/access.log”), new Path(“/access.log”)); <br>
+    fs.close() ; <br>
+} <br>
+//<strong>发生空指针异常</strong>，本地系统 调用shell ，但是本地是没有hadoop的本地库  native…文件夹 <br>
+？如何解决？</p></div><div id="wmd-preview-section-94353" class="wmd-preview-section preview-content">
+
+<h3 id="windows上配置hadoop环境变量">windows上配置hadoop环境变量</h3>
+
+<p><strong>首先在windows中配置一个HADOOP_HOME</strong>  <br>
+path中也要添加</p></div><div id="wmd-preview-section-106120" class="wmd-preview-section preview-content">
+
+<h3 id="windows-上编译hadoop-bin目录-lib替换">windows 上编译hadoop bin目录 lib替换</h3>
+
+<p>与本地平台有关，需要替换掉 win7的win7 win10的win10…. <br>
+替换俩目录！！</p>
+
+<p>再试 运行成功  <strong>没有拷贝上</strong>！！！！</p>
+
+<p>设置完文件系统后</p>
+
+<p>再试  Permission denied 。。。。 此时权限不足 。 <br>
+要么该权限（不建议） 改用户身份(伪装自己的名字 ，hdfs是弱机制的，改windwos的用户名称，很low的……..该环境变量) <br>
+jvm 看到环境参数   jconsole jvisualvm 监控  <br>
+run configuration 设置 </p>
+
+<blockquote>
+  <p>-DHADOOP_USER_NAME=hadoop <br>
+  最终成功~</p>
+</blockquote>
+
+<p>总结： 客户端操作hdfs时是有个用户身份的，默认情况 hdfs客户端api从jvm中获取一个参数 DHADOOP_USER_NAME 作为文件操作的用户身份，需要设置 为hadoop</p>
+
+<p><strong>还可以 fileSystem.get(new URI(“hdfs://mini1:9000”),conf,”hadoop”)</strong></p>
+
+<p>testDownload(){ <br>
+fs.copyToLocalFile(new Path(“/access.log.copy”), new path(“d:/||d:\”)); <br>
+fs.close(); <br>
+} <br>
+//bin目录一定要注意本地环境与hadoop是相关的</p>
+
+<p>本地库 win10 只需要hadoop_home 即可 上传时可以成功的 <br>
+下载的时候 copyToLocalFile(…false[不使用本地的，使用java的…..]) //看重载参数</p></div><div id="wmd-preview-section-105344" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
