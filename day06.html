@@ -1,0 +1,192 @@
+<!DOCTYPE html><html><head><title>day06</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-11538" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-11539" class="wmd-preview-section preview-content">
+
+<h1 id="day06">day06</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day06">day06</a><ul>
+<li><a href="#回顾">回顾</a></li>
+<li><a href="#hadoop">Hadoop</a><ul>
+<li><a href="#hadoop的三大核心组件">hadoop的三大核心组件</a></li>
+<li><a href="#hadoop的背景">Hadoop的背景</a></li>
+<li><a href="#应用场景">应用场景</a></li>
+<li><a href="#就业情况分析">就业情况分析</a></li>
+</ul>
+</li>
+<li><a href="#hadoop应用流程-概述">hadoop应用流程 概述</a><ul>
+<li><a href="#网站或app点击流日志数据挖掘系统">网站或APP点击流日志数据挖掘系统</a></li>
+<li><a href="#数据采集">数据采集</a></li>
+<li><a href="#流程解析离线分析">流程解析（离线分析）</a></li>
+<li><a href="#推荐系统架构模型">推荐系统架构模型</a></li>
+<li><a href="#实时推荐">实时推荐</a></li>
+<li><a href="#项目技术架构图">项目技术架构图</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-11540" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+<p>jvm方面的提高 多看些书籍，最新的jvm已经有了些变化。 <br>
+深入理解Java虚拟机 <br>
+jvm性能。。实战</p>
+
+<p>NIO与io的差别再次巩固 <br>
+缓存的复制少些 <br>
+案例 传统io写文件到另一台机器   传统io更快 <br>
+nio阻塞少些，并发量更大，适合服务器端</p>
+
+<p>AIO完全是异步的，selector不要了… </p>
+
+<hr>
+
+</div><div id="wmd-preview-section-11541" class="wmd-preview-section preview-content">
+
+<h2 id="hadoop">Hadoop</h2>
+
+<p>hdp spark（akka）  <br>
+现在都转为 netty <br>
+dubbo也是netty的底层 </p>
+
+<p>scala 快学scala -&gt; scala编程指南</p>
+
+<p>认识性的介绍 组件  搭建hadoop集群</p>
+
+<ol><li rel="1">开源的软件平台，类似中间件</li>
+<li rel="2">服务器集群 ，根据用户自定义的业务逻辑，对海量数据进行处理运算。</li>
+<li rel="3">昨天作业思路讲解  分布式统计单词 <br>
+<ol>
+<li rel="4">[socket,ioutils.copy(in,out)]</li>
+<li rel="5">java -jar task.jar /dir</li>
+<li rel="6">jar -cp cn…Task  task.jar /dir  -Xmx=2000m -Xms=2000m</li>
+<li rel="7">exec(“cmd”)</li>
+<li rel="8">未汇总，失败机制等待。。。很呆萌啊……如此简单的业务，写得如此多….</li></ol></li>
+</ol>
+
+</div><div id="wmd-preview-section-11542" class="wmd-preview-section preview-content">
+
+<h3 id="hadoop的三大核心组件">hadoop的三大核心组件</h3>
+
+<ol start="10"><li rel="10"><strong>hdfs</strong>  大文件如何切块? hdfs的机制 （分布式文件系统） </li>
+<li rel="11"><strong>YARN</strong> （运算资源调度） 集群可以跑不同用户不同业务的任务，内存，io，cpu等硬件资源的分配管理 （让更多的程序并发的跑是我们的需求） [worker(node manager)-&gt;yarn  master(<strong>resource manager)</strong>]   </li>
+<li rel="12"><strong>mapreduce</strong> (分布式运算框架，编程模板框架) （大体预览） <br>
+<ol>
+<li rel="13">各台机器<strong>局部结果</strong>（个做个的，局部并发执行） <strong>map task</strong> </li>
+<li rel="14"><strong>汇总结果</strong> <strong>reduce task</strong></li>
+<li rel="15"><strong>dirver</strong> task的发送等 </li></ol></li>
+<li rel="16">广义上来说 hadoop是个大的生态圈  Hadoop Ecosystem Map 。。(老图) <br>
+<ol>
+<li rel="17"><strong>hbase</strong> 基于hadoop之上的数据库</li>
+<li rel="18"><strong>hive</strong> 支持sql的数据分析语言 （Java写逻辑臃肿，用sql的方式 就很easy，hive作为中间件转换，写sql较多……,hive里面有很多的sql转mr的程序….dba就开始假装懂hadoop了….一样假装玩的666.。。。）</li>
+<li rel="19"><strong>zookeeper</strong>  其他组件都是分布式的，都面临着协调问题…..并没有真正的管理，只是拿铲子…协调…铲…</li>
+<li rel="20">10  oozie cascading  八爪鱼 乌贼（较重） 工作流 我们讲skamen 阿兹卡玛..。。(简单)</li>
+<li rel="21">mahout  训象师  机器学习算法  k-means… 属性  分类  维度 二维度平面距离 （三维）空间距离  四维。。。。。 运算量很大..单机版速度会很慢，分布式并发运算速度就很快，写成该种模型 mahout 重新写一遍,,统统写成了mr版本…(重点是数据，如何用，使用场景，业务场景) 天生门槛 功底 大部分场景是定制的…推荐系统..协同过滤算法…需要改造定制..</li>
+<li rel="22">flume  分布式数据采集  </li>
+<li rel="23">sqoop  数据抽取迁移工具</li>
+<li rel="24">等等…….</li></ol></li>
+</ol>
+
+</div><div id="wmd-preview-section-11543" class="wmd-preview-section preview-content">
+
+<h3 id="hadoop的背景">Hadoop的背景</h3>
+
+<ol start="26"><li rel="26">最早起源于nutch (google baidu) ， 严重的 可拓展性问题（比如数十亿网页的存储与索引问题）</li>
+<li rel="27">GFS 、MapReduce 、数据库BIGTable</li>
+<li rel="28">nutch 也遇到了上面的 问题，借鉴了谷歌三大论文，实现了hdf mr 。另hive ，三者都有了对应解决方案</li>
+<li rel="29">pass层 并不等同于云啥的….概念 是 玄</li>
+</ol>
+
+</div><div id="wmd-preview-section-11544" class="wmd-preview-section preview-content">
+
+<h3 id="应用场景">应用场景</h3>
+
+<ol start="31"><li rel="31">阿里 云梯</li>
+<li rel="32">数据分析 用户画像  用户标签  分析数据</li>
+<li rel="33">点击流日志数据挖掘</li>
+</ol>
+
+</div><div id="wmd-preview-section-11545" class="wmd-preview-section preview-content">
+
+<h3 id="就业情况分析">就业情况分析</h3>
+
+<ol start="35"><li rel="35">十三五规划</li>
+<li rel="36">物联网待爆发</li>
+<li rel="36">招聘网 大数据… 做你没做过的磨炼能力….</li>
+<li rel="37">hadoop文件分析常用  图像分析 </li>
+<li rel="38">分布式架构经验 原理 不会过时</li>
+</ol>
+
+<hr>
+
+</div><div id="wmd-preview-section-11546" class="wmd-preview-section preview-content">
+
+<h2 id="hadoop应用流程-概述">hadoop应用流程 概述</h2>
+
+</div><div id="wmd-preview-section-11547" class="wmd-preview-section preview-content">
+
+<h3 id="网站或app点击流日志数据挖掘系统">网站或APP点击流日志数据挖掘系统</h3>
+
+<p><strong>cnzz 数据专家</strong> <br>
+mafengwo.cn  其页面中嵌入了cnzz的脚本  url转码查看 tool.chinaz.com/tool  <br>
+页面的热点图</p>
+
+<p>jd  log.gif js生成1像素图片 ..后台请求</p>
+
+<p>分析用户的浏览行为   运营 推荐等等 </p>
+
+<p>分析转化率 踩踩你喜欢  促销页面 等等</p>
+
+</div><div id="wmd-preview-section-11548" class="wmd-preview-section preview-content">
+
+<h3 id="数据采集">数据采集</h3>
+
+<p>埋点 js 传入到后台请求 日志收集系统</p>
+
+</div><div id="wmd-preview-section-11549" class="wmd-preview-section preview-content">
+
+<h3 id="流程解析离线分析">流程解析（离线分析）</h3>
+
+<p>与典型的BI系统极其类似 <br>
+<strong>数据采集–数据预处理（hadoop mr）–导入hive仓库（文件映射成表，写sql…页面转化，僵尸用户，业务指标决定…）–etl – 报表统计—到处到mysql等数据库—数据可视化（开源项目Echarts highcharts或自己写web工具）</strong> <br>
+用户画像 推荐 行为分析</p>
+
+</div><div id="wmd-preview-section-11550" class="wmd-preview-section preview-content">
+
+<h3 id="推荐系统架构模型">推荐系统架构模型</h3>
+
+<p><strong>大量历史数据</strong>的分析 <br>
+咖啡 – 咖啡杯 –咖啡豆–</p>
+
+<p>页面（js）—后台（tomcat…jboss..）集群—log 文件(log.info )—flume配置目标hdfs— 汇聚hdfs(原始日志 集群) —预处理 (hadoop mr) –hive(hdfs本质还是在hdfs中，映射成表 )—etl（在hive中写sql）—雀巢 咖啡杯 咖啡伴侣 | spark 深入 深入Java / 用户画像 (屌丝….   小鲜肉…  女神 …) —-导出到推荐业务系统数据库— 看了又看、其他人也买过 猜你喜欢、热门关注 达人选购 …—经过后台修正或筛选（一些不合理的推荐、强行推荐（雾霾天强推口罩等））</p>
+
+</div><div id="wmd-preview-section-11551" class="wmd-preview-section preview-content">
+
+<h3 id="实时推荐">实时推荐</h3>
+
+<p>热卖 离线的历史数据来不及更新</p>
+
+<p>今天的数据拿过来，不到hdfs，看到kafka（支持实时的快速读写）集群中——-一条线 直接到storm（实时的快速分布式计算 ）/ spark Streaming  实时处理 —-另一条线放入hdfs中—放入msyql数据库 <br>
+sql是统计方式的  hive-sql 基于sql统计模型结果 <br>
+mahout机器学习方式  mr—-mahout 、mlib 机器学习模型</p>
+
+</div><div id="wmd-preview-section-11552" class="wmd-preview-section preview-content">
+
+<h3 id="项目技术架构图">项目技术架构图</h3>
+
+<p>大局观 很重要</p>
+
+</div><div id="wmd-preview-section-11553" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
