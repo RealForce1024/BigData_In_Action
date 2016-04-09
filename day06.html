@@ -39,6 +39,13 @@
 <li><a href="#环境准备">环境准备</a></li>
 </ul>
 </li>
+<li><a href="#分发hadoop到节点服务器">分发hadoop到节点服务器</a></li>
+<li><a href="#hdfs使用前先格式化">hdfs使用前先格式化</a><ul>
+<li><a href="#格式化">格式化</a></li>
+<li><a href="#成功标志">成功标志</a></li>
+<li><a href="#子节点并未配启动时增加一台就认识一台">子节点并未配，启动时增加一台就认识一台</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -258,7 +265,7 @@ passwd hadoop  hadoop</p>
 
 <h4 id="重新配置securecrt-登录信息">重新配置secureCrt 登录信息</h4>
 
-</div><div id="wmd-preview-section-20046" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31293" class="wmd-preview-section preview-content">
 
 <h4 id="环境准备">环境准备</h4>
 
@@ -282,4 +289,194 @@ wq!</p>
 su root <br>
 service iptables stop <br>
 chkconfig iptables off //永久配置 <br>
-免密登录</p></div><div id="wmd-preview-section-19725" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+免密登录</p>
+
+<hr>
+
+<p>回顾 <br>
+上午 hadoop的认识 使用场景 推荐系统的工作机制 数据处理流程理解 </p>
+
+<p>jdk 防火墙关闭 最好使用普通用户来安装 <br>
+配置免密登录</p>
+
+<p>2.6.4版本  上课使用 <br>
+2.7.2 <br>
+archive.apache.org // <br>
+与本地系统的api</p>
+
+<p>tar.gz <br>
+src.tar.gz //需要编译 安装c++  解压linux maven   参见《hadoop编译.docx》 <br>
+中央仓库 <br>
+search.maven.org <br>
+maven.oschina.net <br>
+rz ..传送的比sftp稍慢</p>
+
+<p>mkdir apps <br>
+ll <br>
+tar -zxvf cent…tar.gz -C apps/ <br>
+cd hadoop-2.6.4</p>
+
+<ul><li>bin </li>
+<li>sbin 启动时一些命令</li>
+<li>etc 配置文件</li>
+<li>native 本地库</li>
+<li>share 依赖的jar与 文档 -doc {common hdfs mapreduce…}  -hadoop *.jar lib/</li>
+<li>include 依赖</li>
+</ul>
+
+<p>cd /etc   </p>
+
+<ul><li>hadoop-env.sh  运行时的环境变量</li>
+<li>echo $JAVA_HOME </li>
+<li>vi hadoop-env.sh    &gt; export JAVA_HOME=/usr/local/jdk…..</li>
+</ul>
+
+<p>hadoop的运行时配置 <br>
+其实配置在哪里都可以，分层便于管理查看</p>
+
+<ul><li>core-site.xml  公共参数配置</li>
+<li>hdfs-site.xml</li>
+<li>mapred-site.xml.template</li>
+<li>yarn-site.xml</li>
+</ul>
+
+<p>vi core-site.xml</p>
+
+<blockquote>
+  <p>&lt;configuration  .....   官网 configuration  <br>
+  &lt;property <br>
+  &lt;name  <strong>fs.defultFS</strong> 文件系统的默认文件系统 存储于运算系统是解耦的 gfs tfs nfs file:/// <br>
+  &lt;value  hdfs://mini:9000 //uri  客户端访问hdfs nameNode地址 <strong>hdfs://${nameNode}:port</strong>  //master node <br>
+  
+</p></blockquote>
+
+<p>注意以下是伪格式 <br>
+2 工作进程的数据目录 <br>
+&lt;property <br>
+name:hadoop.tmp.dir <br>
+value :/home/haddop/hapdata</p>
+
+<p>vi hdfs-site.xml <br>
+可以不配，都有默认值 。 假装配置一下 <br>
+name dfs.blocksize// 配置块的大小 |dfs.replication  <br>
+value 2 //存成两份 down一台还是可以取出数据 默认为3</p>
+
+<p>vi mapred-site.xml.template //如果不写 默认 value 为local 单机版 模拟的小程序 <br>
+name mapreduce.framework.name //mr运行的平台 <br>
+value yarn <br>
+mv   .templae  …xml</p>
+
+<p>vi yarn.site.xml <br>
+name yarn.resourcemanager.hostname <br>
+value mini1</p>
+
+<p>name yarn.nodemanager.aux-services <br>
+value mapreduce_shuffle   //reducer获取数据的方式</p>
+
+</div><div id="wmd-preview-section-31913" class="wmd-preview-section preview-content">
+
+<h3 id="分发hadoop到节点服务器">分发hadoop到节点服务器</h3>
+
+<p>将app文件夹分发 <br>
+scp -r apps mini2:/home/hadoop <br>
+scp -r apps mini3:/home/hadoop <br>
+scp -r apps mini4:/home/hadoop</p>
+
+</div><div id="wmd-preview-section-34231" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs使用前先格式化">hdfs使用前先格式化</h3>
+
+<p>非底层文件系统，架构在linux文件系统之上。 生成些数据目录</p>
+
+<p>配置环境变量 <br>
+sudo vi /etc/profile <br>
+export HADOOP_HOME =  <br>
+export PATH=<span xmlns="http://www.w3.org/1999/xhtml" class="" rel="b1890c3074560a992746043690abdb4c"><span class="MathJax_SVG" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true" style="font-size: 100%; display: inline-block;"><span><img type="image/png" width="62" height="14" longdesc="__SVG__undefined" src="data:image/png;base64,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" style="margin-top:0;margin-bottom:0;"></span></span></span>HADOOP_HOME/bin/ .. sbin</p>
+
+<p>sudo scp /etc/profile mini2:/etc/ <br>
+sudo scp /etc/profile mini3:/etc/ <br>
+sudo scp /etc/profile mini4:/etc/ <br>
+sudo scp /etc/profile mini5:/etc/</p>
+
+<p>source /etc/profile</p>
+
+</div><div id="wmd-preview-section-34258" class="wmd-preview-section preview-content">
+
+<h4 id="格式化">格式化</h4>
+
+<p>hadoop namenode -format   //格式化 生成出事目录 类似–账本</p>
+
+</div><div id="wmd-preview-section-38146" class="wmd-preview-section preview-content">
+
+<h4 id="成功标志">成功标志</h4>
+
+<p>storage direcorty   hdp/data/dfs/name has been successfully formatted ..</p>
+
+<p>cd  ../dfs/name/current   看到一些生成文件</p>
+
+<p>启动 <br>
+/sbin <br>
+hadoop-daemon.sh  start namenode  //hadoop 启动 <br>
+jps 查看 <br>
+那datanode呢？ <br>
+通过web访问看下 <br>
+<a href="http://ip:/50070/" target="_blank">http://ip:/50070/</a> <br>
+dfs capcity…  <br>
+此时发现datanode是没有的 <br>
+启动datanode mini2  mini3   mini4 <br>
+hadoop-daemon.sh start datanode <br>
+jps <br>
+此时有联系么？  <br>
+live node 此时是有的 并且 capacity 也开始有值了 </p>
+
+<p>datanode 与namenode是如何握手的 <br>
+当时的配置文件是一样配置的 通过配置文件的namenode知道的</p>
+
+<p>启动发下没哟，也没报错 <br>
+看日志 loggin… <br>
+看 .log文件 而非 .out</p></div><div id="wmd-preview-section-45482" class="wmd-preview-section preview-content">
+
+<h4 id="子节点并未配启动时增加一台就认识一台">子节点并未配，启动时增加一台就认识一台</h4>
+
+<p><strong>太特么的麻烦了，搞个脚本吧</strong> <br>
+hadoop-daemon.sh stop  datanode</p>
+
+<p>vi startall.sh // 其实是有的 <br>
+start-dfs.sh <br>
+start-yarn.sh <br>
+… <br>
+/etc/hadoop <br>
+slaves // 给自动化启动脚本使用的  ， 没配置一样可以启用 <br>
+vi slaves  <br>
+localhost  //本地启动namenode <br>
+mini2 <br>
+mini3 <br>
+mini4</p>
+
+<p><strong>start-dfs.sh  如何启动其他机器</strong> <br>
+ssh mini2 haddop-daemon.sh start datanode 输密码</p>
+
+<p>start-dfs.sh  密码…</p>
+
+<p>自动给启动了 secondary namenode 0.0.0.0 <br>
+自动化脚本 我们还需要配置一个免密登录  <br>
+1-2-3-4-1 <br>
+看在哪里启动脚本 所以一般在namenode 山该配置下 <br>
+cat /etc/hosts <br>
+ssh-copy-id mini1 <br>
+ssh-copy-id mini2 <br>
+ssh-copy-id mini3 <br>
+ssh-copy-id mini4</p>
+
+<p>ssh mini4 测试</p>
+
+<p>自动化脚本将所有的停止 <br>
+stop-dfs.sh  //不建议使用-all 啥的，不容易定位错误 <br>
+stop-dfs.sh  此时就不用再输入密码了 关闭其他datanode</p>
+
+<p>start-all.sh  // but deprecated ….  suggest hdfs.sh  yarn.sh </p>
+
+<p>配置secondayr.http.address 指定seconddary所在的机器  hdfs.site.xml</p>
+
+<p>namenode   ssh mini1 <br>
+resourcemanager  、、本地起， 不需要通过ssh的方式 15：27分</p></div><div id="wmd-preview-section-44951" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
