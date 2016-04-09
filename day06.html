@@ -30,6 +30,17 @@
 <li><a href="#项目技术架构图">项目技术架构图</a></li>
 </ul>
 </li>
+<li><a href="#前期准备">前期准备</a></li>
+<li><a href="#安装集群">安装集群</a><ul>
+<li><a href="#官网下载hadoop">官网下载hadoop</a></li>
+<li><a href="#安装">安装</a><ul>
+<li><a href="#统一建立用户">统一建立用户</a></li>
+<li><a href="#重新配置securecrt-登录信息">重新配置secureCrt 登录信息</a></li>
+<li><a href="#环境准备">环境准备</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -183,10 +194,92 @@ mafengwo.cn  其页面中嵌入了cnzz的脚本  url转码查看 tool.chinaz.com
 sql是统计方式的  hive-sql 基于sql统计模型结果 <br>
 mahout机器学习方式  mr—-mahout 、mlib 机器学习模型</p>
 
-</div><div id="wmd-preview-section-11552" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-11568" class="wmd-preview-section preview-content">
 
 <h3 id="项目技术架构图">项目技术架构图</h3>
 
 <p>大局观 很重要</p>
 
-</div><div id="wmd-preview-section-11553" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-13768" class="wmd-preview-section preview-content">
+
+<h2 id="前期准备">前期准备</h2>
+
+<p>haddop  <br>
+    hdfs集群 <br>
+    yarn集群 <br>
+起步建议3、4台机器 弹性伸缩的 1-&gt; 雅虎…排序比赛….</p>
+
+<p>hdfs nameNode master port:9000（针对客户端访问） <br>
+        dataNode  slave  <br>
+yarn  放在那里好点？ 负责为mr程序分配运算硬件资源，数据在程序中是最好的，及运算移动到数据端 ，即yarn放在dataNode中最为合适（建议不要分开，减少通信损耗，节省机器11:35-11:36 真实情况分开？）。 node manager <br>
+node resource </p>
+
+</div><div id="wmd-preview-section-13999" class="wmd-preview-section preview-content">
+
+<h2 id="安装集群">安装集群</h2>
+
+<p>4台机器准备 <br>
+512m有些少</p>
+
+</div><div id="wmd-preview-section-16905" class="wmd-preview-section preview-content">
+
+<h3 id="官网下载hadoop">官网下载hadoop</h3>
+
+<p><a href="http://hadoop.apache.org" target="_blank">官网</a> <br>
+hadoop common （rpc 所在其中） <br>
+ambari 页面安装管理工具 图形化界面管理 ..  实现cdh的商业效果 <br>
+cloudrea cdh 商业公司 发布商业版hadoop </p>
+
+<p><strong>版本</strong> <br>
+1.2.X <br>
+<strong>2.2.0</strong> 目前使用较多 <br>
+current  2.7.2  <br>
+<strong>documents</strong> <br>
+ <strong>tutorial</strong>  <br>
+REST-api 效率低，我们使用不多…看业务情景 <br>
+<strong>tools</strong> <br>
+<em>* reference api*</em>  <strong>我们作为hadoop用户</strong>，关注用户该关注的api（<strong>我们关注用户接口</strong>） <br>
+<strong>Configuration</strong> 这里很重要  core  map hdfs  yarn properties  <br>
+hadoop配置参数说明大全.doc…速查即可</p>
+
+</div><div id="wmd-preview-section-17360" class="wmd-preview-section preview-content">
+
+<h3 id="安装">安装</h3>
+
+</div><div id="wmd-preview-section-17382" class="wmd-preview-section preview-content">
+
+<h4 id="统一建立用户">统一建立用户</h4>
+
+<p>send to all <br>
+useradd hadoop <br>
+passwd hadoop  hadoop</p>
+
+</div><div id="wmd-preview-section-17635" class="wmd-preview-section preview-content">
+
+<h4 id="重新配置securecrt-登录信息">重新配置secureCrt 登录信息</h4>
+
+</div><div id="wmd-preview-section-20046" class="wmd-preview-section preview-content">
+
+<h4 id="环境准备">环境准备</h4>
+
+<p>Java 环境 <br>
+echo $Java_Home <br>
+sudo scp -r /usr/local/jdk…  mini4:/usr/local/  <br>
+su  root  或者 配置 sudoers.</p>
+
+<p>保证java能运行 bin/java <br>
+vi /etc/profile <br>
+source profile 注意在hadoop用户下</p>
+
+<p>vi /etc/sudoers <br>
+yyp <br>
+hadoop  All = (All)  all .. <br>
+wq!</p>
+
+<p>sudo hostname …</p>
+
+<p>防火墙关掉 <br>
+su root <br>
+service iptables stop <br>
+chkconfig iptables off //永久配置 <br>
+免密登录</p></div><div id="wmd-preview-section-19725" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
