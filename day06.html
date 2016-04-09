@@ -46,6 +46,14 @@
 <li><a href="#子节点并未配启动时增加一台就认识一台">子节点并未配，启动时增加一台就认识一台</a></li>
 </ul>
 </li>
+<li><a href="#常见错误">常见错误</a></li>
+</ul>
+</li>
+<li><a href="#hadoop的使用">hadoop的使用</a><ul>
+<li><a href="#hdfs">hdfs</a></li>
+<li><a href="#mr-yarn上">mr (yarn上)</a></li>
+<li><a href="#worldcount案例体验">worldcount案例体验</a></li>
+<li><a href="#hdfs的常用命令">hdfs的常用命令</a></li>
 </ul>
 </li>
 </ul>
@@ -434,7 +442,7 @@ live node 此时是有的 并且 capacity 也开始有值了 </p>
 
 <p>启动发下没哟，也没报错 <br>
 看日志 loggin… <br>
-看 .log文件 而非 .out</p></div><div id="wmd-preview-section-45482" class="wmd-preview-section preview-content">
+看 .log文件 而非 .out</p></div><div id="wmd-preview-section-48142" class="wmd-preview-section preview-content">
 
 <h4 id="子节点并未配启动时增加一台就认识一台">子节点并未配，启动时增加一台就认识一台</h4>
 
@@ -479,4 +487,163 @@ stop-dfs.sh  此时就不用再输入密码了 关闭其他datanode</p>
 <p>配置secondayr.http.address 指定seconddary所在的机器  hdfs.site.xml</p>
 
 <p>namenode   ssh mini1 <br>
-resourcemanager  、、本地起， 不需要通过ssh的方式 15：27分</p></div><div id="wmd-preview-section-44951" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+resourcemanager  // 本地起， 不需要通过ssh的方式 15：27分</p>
+
+<hr>
+
+<p>层层剥离… <br>
+start.sh 啥的与haddop是无关的，要理解启动机制  <br>
+动态扩容上线（启动一台新机器） 、下线（数据是分散的） <br>
+加入只要一台机器，配置三个副本呢？ 与不会有三个副本</p>
+
+</div><div id="wmd-preview-section-48752" class="wmd-preview-section preview-content">
+
+<h3 id="常见错误">常见错误</h3>
+
+<ul><li>权限不统一问题 <br>
+root 用户启动 下 登录到hadoop 启动不来 ,,权限是变为root用户的了…. <br>
+切记 是在哪个用户下 。 <br>
+尽量不用su root <br>
+sudo 方式..</li>
+<li>配置文件的错误</li>
+<li>ssh没有配置好</li>
+<li>unknown host （统统用主机名 拷贝分发文件即可）</li>
+</ul>
+
+</div><div id="wmd-preview-section-49049" class="wmd-preview-section preview-content">
+
+<h2 id="hadoop的使用">hadoop的使用</h2>
+
+</div><div id="wmd-preview-section-65014" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs">hdfs</h3>
+
+<p>web 页面可以看到概览 <br>
+传文件  utilities  浏览文件系统 <br>
+/ hdfs 自己的抽象的文件系统根目录  tmp..hdpdata- dfs-data(datanode的工作目录) 很深的，要到底…. finalized….. 直接丢文件 人家不认识的 太暴力了</p>
+
+<p>我们使用客户端工具 web是没有的，命令行客户端会有的。 <br>
+source /etc/profile <br>
+在hdp 安装包中 bin/hdfs  或haddop</p>
+
+<blockquote>
+  <p>hadoop fs  -ls /  很慢.. <br>
+  hdoop fs -ls hdfs://minin:9000/ </p>
+</blockquote>
+
+<p><strong>道&gt;术</strong> <br>
+echo “helloworld” &gt; cls_wm.avi <br>
+ll <br>
+<strong>上传</strong> <br>
+hadoop fs -put cls_wm.avi /  //上传文件到fs /目录 <br>
+到web上即可查看到 <br>
+<strong>hadoop fs -ls /</strong> <br>
+hdfs 谁上传的就是谁的用户 并不严格 可以修改用户 <br>
+<strong>查看</strong> mini4 <br>
+hadoop fs -cat /….avi <br>
+被存到哪里了？ 数据在哪里  先就近存放  hdpdata cd …….. blk_…..   blk_1112323_23.meta </p>
+
+<p>另外机器呢？ <br>
+mini3上也有</p>
+
+<p>mini2呢？ 没有 ，赔了俩副本</p>
+
+<p>what ..blk 文件 <br>
+默认128m才开始切割 <br>
+cat blk 小文件没有切</p>
+
+<p>测试 hadoop*.tar.gz</p>
+
+<p>haddop fs -put cent…tar.gz / <br>
+cat *26 &gt;&gt; tmp.file <br>
+cat *27 &gt;&gt; tmp.file  <br>
+手动拼接文件  <br>
+tar -zxvf tmp.file . <br>
+<strong>hdfs 切割文件</strong>通过上面的实例 可以很清晰的理解</p>
+
+<p>hadoop fs -get /ce…tar.gz  //给完整文件 ，而非切割文件 <br>
+<strong>在客户端中拼接的</strong></p>
+
+<p>模拟实现 dfs  datanode（本质sockeServer）  <br>
+客户端 有个文件  fileInputStream <br>
+socket = socket(datanode ,port) <br>
+socket.getoutputStream <br>
+while((b = in.read!)=-1){ <br>
+count&lt;134217728 <br>
+out.write(b) <br>
+}</p>
+
+<p>128m后 <br>
+再new socket 挑选另外一台机器 <br>
+sokcet  in - -&gt; out  –&gt; datanode2 <br>
+sokcet.in  <br>
+fileout .. <br>
+加强 sokcet io hdfs的理解 <br>
+该案例其实是少了namenode的。（客户端需要先找到namenode 再找datanode），健壮性 容错性…自己打磨…</p></div><div id="wmd-preview-section-69329" class="wmd-preview-section preview-content">
+
+<h3 id="mr-yarn上">mr (yarn上)</h3>
+
+<p>我们可以先看 hadoop自带的demo <br>
+worldcount <br>
+准备些数据 <br>
+vi a.txt <br>
+hello world  <br>
+hello baby <br>
+heloo wangboyi <br>
+hello wutenggaoshu <br>
+cp a.txt b.txt  <br>
+俩文件做单词统计  <br>
+放到hdfs中 <br>
+hadoop fs -mkdir -p /worldcoutn/input   [-p 批量建立目录] <br>
+web系统查看能看到 <br>
+hadoop fs -put a.txt b.txt /worldoucnt/input </p>
+
+</div><div id="wmd-preview-section-71211" class="wmd-preview-section preview-content">
+
+<h3 id="worldcount案例体验">worldcount案例体验</h3>
+
+<p>cd  apps/haddooop/share/mapreduce/hadoop-mr-example.jar <br>
+<strong>hadoop jar hadoop-mr-example worldcount(主类) /worldcount/input/ /worldcount/output(不要存在)</strong></p>
+
+<p>结果 web中快速查看  /worldcoutn/output <br>
+_success <br>
+<em>part</em>…. <br>
+hadoop fs -cat /worldout/output/part-r-00000  敲得多 你来讲课 也记得。。。</p>
+
+</div><div id="wmd-preview-section-82158" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs的常用命令">hdfs的常用命令</h3>
+
+<p>与linux命令基本一样 <br>
+hadoop fs 列出所有的命令 <br>
+put get mkdir chmod </p>
+
+<ul><li>ls</li>
+<li>mkdir</li>
+<li>moveFromLocal a.txt /world/input本地文件移动到hdfs中  put是拷贝 </li>
+<li>moveToLocal 从hdfs剪切粘贴到本地</li>
+<li>appendToFile  本地的文件追加到hdfs中已经存在的文件中</li>
+<li>cat  显示文件内容  文件很大的时候使用 more | tail</li>
+<li>tail </li>
+<li>text 类似 cat 以字符的形式显示  </li>
+<li>乱码 exit 再来…</li>
+<li>chgrp  改组</li>
+<li>chmod 噶权限</li>
+<li>chown 可改用户也可该组  hdfs是无用户的概念的….hdfs是弱的权限设置</li>
+<li>cp hdfs路径文件路径间的拷贝</li>
+<li>getmerge  下载合并文件 16:31分很…. </li>
+<li>rm -r(递归)</li>
+<li>rmdir 删除空目录</li>
+<li>df 统计文件系统的空间大小 -h / </li>
+<li>du 统计一个文件夹的大小 -s (汇总) -h(带单位) <br>
+<ul>
+<li>hadoop fs -df -h -s -h /*  统计到了linux 上 貌似bug</li>
+<li>hadoop fs -df -h -s -h hdfs://mini1:9000/* </li></ul></li>
+<li>count 统计一个目录下的文件节点数</li>
+<li>setrep 设置hdfs文件的副本数量   文件夹数描述 元数据 没啥大小  -setrep 3 /a.txt <br>
+web 页面上看看 replication 上确实是3份 <br>
+那如果10个呢？ 只有3个的datanode节点 ，那到底实际上是否有10个呢？ <br>
+将所有文件都情况，执行查看下 其实是没有的， <br>
+10是元数据，加了机器会多复制出来，现在机器是没有那能里的 <br>
+replication 不是真实的，是份元数据 只是记录namenode的元数据中，得看datanode的实际数量</li>
+</ul></div><div id="wmd-preview-section-81615" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
