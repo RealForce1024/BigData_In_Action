@@ -1,0 +1,487 @@
+<!DOCTYPE html><html><head><title>day07</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-68" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-69" class="wmd-preview-section preview-content">
+
+<h1 id="day07">day07</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day07">day07</a><ul>
+<li><a href="#问题回顾">问题回顾</a><ul>
+<li><a href="#connetting-to-resourcemanager-at-8032">connetting to resourceManager at …. :8032</a></li>
+<li><a href="#system-times-maching-my-be-out-of-sync-check-system-time-and-time-zone">system times maching my be out of sync check system time and time zone</a></li>
+<li><a href="#hdfs-namenode-format">hdfs namenode -format</a></li>
+<li><a href="#datanode-不被namenode识别的问题">datanode 不被namenode识别的问题</a></li>
+<li><a href="#datanode下线后多久出现效果">datanode下线后多久出现效果</a></li>
+<li><a href="#关于副本数量的问题">关于副本数量的问题</a></li>
+</ul>
+</li>
+<li><a href="#hdfs的细节与api">hdfs的细节与API</a><ul>
+<li><a href="#hdfs的工作机制">hdfs的工作机制</a></li>
+<li><a href="#hdfs写数据的流程">hdfs写数据的流程</a><ul>
+<li><a href="#hdfs的流程图">hdfs的流程图</a></li>
+</ul>
+</li>
+<li><a href="#hdfs读取数据流程">hdfs读取数据流程</a></li>
+<li><a href="#看源码">看源码</a></li>
+</ul>
+</li>
+<li><a href="#namenode-管理元数据的机制">namenode 管理元数据的机制</a><ul>
+<li><a href="#问题思考">问题思考</a><ul>
+<li><a href="#元数据的备份-演示">元数据的备份 演示</a></li>
+</ul>
+</li>
+<li><a href="#version">version</a></li>
+<li><a href="#datanode的工作机制">datanode的工作机制</a></li>
+</ul>
+</li>
+<li><a href="#问题回顾-1">问题回顾</a></li>
+<li><a href="#java-hdfs客户端api-续">Java hdfs客户端api 续</a></li>
+<li><a href="#title"> </a><ul>
+<li><a href="#演示-hadoop中封装的rpc框架">演示 hadoop中封装的rpc框架</a></li>
+<li><a href="#rpc登录代码演示">rpc登录代码演示</a></li>
+<li><a href="#源码阅读">源码阅读</a></li>
+<li><a href="#spark代码比较精简看着爽">spark代码比较精简，看着爽…</a></li>
+</ul>
+</li>
+<li><a href="#数据采集-开发shell脚本">数据采集 开发shell脚本</a><ul>
+<li><a href="#场景">场景</a></li>
+<li><a href="#代码案例">代码案例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-70" class="wmd-preview-section preview-content">
+
+<h2 id="问题回顾">问题回顾</h2>
+
+</div><div id="wmd-preview-section-71" class="wmd-preview-section preview-content">
+
+<h3 id="connetting-to-resourcemanager-at-8032">connetting to resourceManager at …. :8032</h3>
+
+<p>跑 wordcount  <br>
+提示信息 <br>
+ connetting to resourceManager at …. :8032 <br>
+ retry…..Xn… <br>
+ 原因：<strong>yarn未启动</strong></p>
+
+</div><div id="wmd-preview-section-72" class="wmd-preview-section preview-content">
+
+<h3 id="system-times-maching-my-be-out-of-sync-check-system-time-and-time-zone">system times maching my be out of sync check system time and time zone</h3>
+
+<p>检查时差，任务可能不对 <br>
+date  -s “2016-04-10 11:22:00” <br>
+所有机器都设置 <br>
+方案1: ntp  <br>
+方案2： send to all chat    sudo date -s “2016-04-11 09:07:00”  //所有机器都同步了  <br>
+hardware</p>
+
+</div><div id="wmd-preview-section-73" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs-namenode-format">hdfs namenode -format</h3>
+
+<p>只是初始化namenode的工作目录 <br>
+yum install tree <br>
+但是datanode的 工作目录 一启动的时候就会初始化的  hdpdata</p>
+
+<p>start-dfs.sh //启动  未启动过的节点查看 hdpdata 是会有目录被初始化创建</p>
+
+</div><div id="wmd-preview-section-74" class="wmd-preview-section preview-content">
+
+<h3 id="datanode-不被namenode识别的问题">datanode 不被namenode识别的问题</h3>
+
+<p>加入另一集群  <br>
+BP— <br>
+VERSION <br>
+tree hdpdat/  hdp数据标识   或 clusterId… <br>
+datanode 已启动的时候寻找namenode <br>
+吧haddo.tmp.dir 改了， 元数据就没了，新指定的需要重新指定， datanode.必须将工作目录都删掉（试验过）…或改变versionid….</p>
+
+<blockquote>
+  <p>namenode在format的时候回形式连个标识 blockPoolId <br>
+  clusterId <br>
+  新的datanode加入是，会获取两个标识作为自己工作目录中的标识 <br>
+  一旦namenode重新forat后，namednode的身份标识就会改变，。。。</p>
+</blockquote>
+
+</div><div id="wmd-preview-section-75" class="wmd-preview-section preview-content">
+
+<h3 id="datanode下线后多久出现效果">datanode下线后多久出现效果</h3>
+
+<p>datanode不是一下线就会被namenode认定为下线的，有个超时时间。</p>
+
+</div><div id="wmd-preview-section-76" class="wmd-preview-section preview-content">
+
+<h3 id="关于副本数量的问题">关于副本数量的问题</h3>
+
+<blockquote>
+  <p>副本数有客户端的参数dfs.replication 决定（优先级:config.set&gt; 自定义配置问题件&gt;jar包中的hdfs-default.xml） <br>
+  配置参数的优先级问题  <br>
+  客户端和集群配置都可以设置 ，但是客户端的优先级更高 <br>
+   <strong>代码演示</strong> <br>
+  package bigdata.hdfs  <br>
+  hdfs-site.xml <br>
+  conf.set(“dfs.replication”,”5”); //客户端   首先加载jar包中的<strong>hdfs-default.xml</strong> 其中默认是3 <br>
+  此时 在classpath中又添加了3 所以覆盖。 <br>
+  服务器端的呢有啥用呢？ 自己在服务器端中可以使用。  所以 replication 是由客户端来决定的。</p>
+</blockquote>
+
+</div><div id="wmd-preview-section-77" class="wmd-preview-section preview-content">
+
+<h2 id="hdfs的细节与api">hdfs的细节与API</h2>
+
+</div><div id="wmd-preview-section-78" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs的工作机制">hdfs的工作机制</h3>
+
+<p>1.集群的两大角色 : NameNode datanode  (Secondary Namenode) <br>
+2.namenode 元数据的管理 （散列个台机器，文件的块等信息） <br>
+3.dataNode 负责管理用户的文件数据块 （放在自己的工作目录，由客户端切割） <br>
+4.文件切换按照固定大小切割 (128m) <br>
+5.每个文件块会有多个副本，并存放在不同 datanode中 <br>
+6.dataNode 会定期向Namenode汇报自身所保存到文件block信息，<strong>而namenode则会负责保持文件的副本数量</strong> [namenode维护管理] <br>
+7.hdfs的内部工作机制对客户端保持透明，客户端对hdfs的内部机制不用挂职。</p>
+
+</div><div id="wmd-preview-section-79" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs写数据的流程">hdfs写数据的流程</h3>
+
+<p>如何写，怎么放</p>
+
+</div><div id="wmd-preview-section-1620" class="wmd-preview-section preview-content">
+
+<h4 id="hdfs的流程图">hdfs的流程图</h4>
+
+<p>nameNode  dataNode  <br>
+客户端（anywhere） <br>
+1.客户端想 Namenode请求上传文件  /aaa/cls.avi </p>
+
+<ol start="2"><li rel="2">(namenode查找元数据，响应请求， <br>
+符合上传条件，则返回可上传响应</li>
+<li rel="3">/rpc 请求上穿第一个block（0-128m） 请求返回datanode</li>
+<li rel="4">返回datanode列表 (dn1,dn3,dn4)  为什么是给该三台机器呢？ <br>
+a. 啥机制? 考虑数据空间、距离（网络跳转级数【路由节点交换节点】）因素 <br>
+b. 第一台 近的 第二台  看距离远的（保证安全）第三台 与第一台一样 随机挑选一台 <br>
+
+
+<blockquote>
+  <p>上传数据时，datanode的选择策略： <br></p>
+  
+  <ol><li rel="1">第一个副本先考虑额跟client最近的（同机架） <br></li>
+  <li rel="2">第二个副本在考虑跨机架的挑选一个datanode，增加副本的可靠性 <br></li>
+  <li rel="3">第三个副本在第一个副本同机架另外挑选一台datanode存放 <br>
+  机架感知文件，在哪个  &lt;机架感知配置&gt; 一般公司几十台机器，大的就…</li>
+  </ol> <br>
+  <strong>客户端决定副本数量</strong>  <br>
+  <ol><li rel="4"><p>返回三个datanode  </p></li>
+  <li rel="5"><p>请求建立block传送通道channel <br>
+  如何建立三台机器的sokcet通信？  </p></li>
+  </ol>
+</blockquote>
+
+<blockquote>
+  <p>先建立一台机器dn1的socket通信 rpc请求。 接下来还要传送dn3，dn4。 dn1–》dn3–》 dn4   1-3  3-4   pipline （管道流）</p>
+</blockquote>
+
+<ul>
+<li>写dn1（一个个的数据包 （packet）64k）的同时 通过pipline 写到channel中… 复制与上传 几乎同时完成。 每个packet都会有应答机制，只要上传一个即认为成功~~namenode会完成…  一旦都没完成，会向namenode请求重新分配》。。。</li></ul></li>
+</ol>
+
+<p>128-256m …重复步骤..</p>
+
+<p>只要有成功的，上传失败的 namenode 会维护管理</p>
+
+<p>packet    一chunk为单位（chunk 512byte  ）校验一次 ，packet打包发送….</p>
+
+<p>看 hdfs写数据流程图</p>
+
+<hr>
+
+<p>一同学的经历…一期 中途放弃  。jee 。。回来 。。人人快递…目前百分点…18k…. <br>
+ftp  不能固定分配客户端机器 并发 到底如何动态取  分布式锁  分配ip  百分点</p>
+
+</div><div id="wmd-preview-section-3359" class="wmd-preview-section preview-content">
+
+<h3 id="hdfs读取数据流程">hdfs读取数据流程</h3>
+
+<ol><li rel="1">请求下下文件 /aa/cls.avi    客户端 下载数据  rpc 请求  namenode (元数据 记录了存在的问文件目录 及 副本的信息 {block1 block2 …} {blk1:dn1,blk2:dn2,blk2:dn4  …….} )</li>
+<li rel="2">将目标文件的元数据信息返回给客户端 </li>
+<li rel="3">开始下载 找最近的  与dn1建立管道 …请求 数据 blk1  </li>
+<li rel="4">nio读写</li>
+<li rel="5">请求获取第二个block    追加block1的尾部 </li>
+<li rel="6">在客户端append 追加流 </li>
+</ol>
+
+</div><div id="wmd-preview-section-3392" class="wmd-preview-section preview-content">
+
+<h3 id="看源码">看源码</h3>
+
+<p>追踪过程  断点追踪</p>
+
+</div><div id="wmd-preview-section-8808" class="wmd-preview-section preview-content">
+
+<h2 id="namenode-管理元数据的机制">namenode 管理元数据的机制</h2>
+
+<p>客户端上传数据  元数据存放 在哪里 <br>
+下载数据 <br>
+<strong>查询元数据   更新元数据请求</strong> <br>
+内存  元数据对象  （缺点：内存越来越大 ，可能会挂。。所有数据就会挂掉…该如何解决？ <strong>定时</strong>写到文件中 <strong>fsimage</strong> 内存元数据的镜像文件（序列化机制））一条元数据 平均150byte  1000  150k  100w 150m 1亿  15g….机器io可能会卡住 。。 <br>
+定时序列化机制？  <br>
+时间差异数据  <br>
+那hdp如何做的呢？  <br>
+<strong>secondaryNameNode</strong>上场 <br>
+做image镜像文件的管理、 <br>
+1.更新元数据请求 <br>
+2.及时 实时的  <br>
+记录到 log中 10：44分 文件线性 追加记录很快  可通过文件记录回放…恢复数据 <br>
+3.操作的历史记录 <br>
+4.edits+ fsimage  恢复 <br>
+5.但启动会很慢， 需要定期的将 edits+fsimage （很重的操作—》 交给 SecondaryNameNode）</p>
+
+<p>SecondaryNameNode 合并  ： checkpoint ，有触发条件：定时 edit中的记录数量（体积） <br>
+tree hdpdata <br>
+edits.inprogress   请求 chekpoint 触发立马滚动一次 尽可能的多合并些。10：57~</p>
+
+<p>第二次每次都是下载edits  <br>
+尽可能追上 内存中的edits文件</p>
+
+<p>每个block ~ 150 byte 128m <br>
+10m ~一个block dataNode 未满  namenode 可能满了… <br>
+大文件划算些 <br>
+<strong>小文件 利用空间效率较低。</strong></p>
+
+</div><div id="wmd-preview-section-14165" class="wmd-preview-section preview-content">
+
+<h3 id="问题思考">问题思考</h3>
+
+<ol><li rel="1">namenode 挂掉的话 是否会影响系统服务  hdfs是否能够正常提供  <br>
+<ol>
+<li rel="2">secondaary不具备namenode的元数据管理功能</li></ol></li>
+<li rel="2">如果namenode的硬盘损坏，元数据是否还能够恢复？ 如果能恢复，如何恢复。 可以恢复绝大部分 从secondarynamenode 的checkoponit结果，将其工作目录拷贝到namenode工作目录中即可。!</li>
+<li rel="3">通过以上思考，我们在配置namenode工作目录参数时，有什么注意点？ <br>
+将namenode的工作目录放入到多块磁盘工作空间上（相同内容的写） <br>
+datatnode 也可以   磁盘io的并行  11：32 33（扩容 ，用户想不通地方写，并发量）</li>
+</ol></div><div id="wmd-preview-section-14185" class="wmd-preview-section preview-content">
+
+<h4 id="元数据的备份-演示">元数据的备份 演示</h4>
+
+<p>hadoop fs -ls / <br>
+hadoop fs -mkdir /teset  <br>
+rm -rf hdpdata/ <br>
+hddoop fs -ls / 可以正常工作 <br>
+此时将其kill掉 <br>
+kill- 9 pid <br>
+hadoop-daemon.sh start namenode  启动失败 工作目录没有了</p>
+
+<p>less apps/ha.. … //////log  11:19</p>
+
+<p>secondayNamenode 要在其他机器行 </p>
+
+<p>hdfs dfs -put  .   . <br>
+ll -R hdpdata  <br>
+cd dfs   rm -r name <br>
+cp -r namesecondray/ name <br>
+hadop-demas.sh srart namenode .. 恢复</p>
+
+<p>如何避免该灾难 <br>
+将namenode的工作目录放到多块磁盘中  <br>
+cd /etc/hadoop <br>
+set… <br>
+工作目录的默认参数   tmp….name  data  <br>
+这里修改 <br>
+&lt;property <br>
+name dfs.name.dir <br>
+value cipan1,cipan2</p>
+
+<p>stop-dfs.sh <br>
+//重新format  <br>
+hadoop namenode -format <br>
+同时往多块工作磁盘写 并发写 io不冲突</p>
+
+</div><div id="wmd-preview-section-15762" class="wmd-preview-section preview-content">
+
+<h3 id="version">version</h3>
+
+<p>namespaceID  <br>
+clusterId <br>
+cTime  更新升级 <br>
+namenode -format clusterId 指定 <br>
+layoutversion升级相关</p>
+
+<p>seen_txid   每次重启都会增加，文件中记录的值eidts滚动的序号，重启namenode后，namdenode就知道将哪些eidts进行加载 11:40 <br>
+如何理解合并？ 11 41~  <br>
+fsimage edits  <br>
+redis 之后会用的 </p>
+
+</div><div id="wmd-preview-section-17357" class="wmd-preview-section preview-content">
+
+<h3 id="datanode的工作机制">datanode的工作机制</h3>
+
+<p>保管用户的文件块 <br>
+定期汇报自己的block 通过心跳信息上报 <br>
+dfs.blockreport.intervalMesec <br>
+3600000 //1h <br>
+datanode 掉线判断时限参数 <br>
+不要频繁汇报 一小时就够了….</p>
+
+<hr>
+
+<p>下午 <br>
+hdfs的更底层的api 流 块 shell采集脚本</p>
+
+</div><div id="wmd-preview-section-19050" class="wmd-preview-section preview-content">
+
+<h2 id="问题回顾-1">问题回顾</h2>
+
+<p>namenode 128g 内存 常态 <br>
+再加namenode  hdfs的改动  联邦机制 fadration 认识两个namenode  <br>
+但到底访问哪个？ 上层再抽象 vofs （之后会细讲）</p>
+
+<p>淘宝 <strong>服务器主机</strong> 刀片机  128g 1~5k 很便宜的</p>
+
+</div><div id="wmd-preview-section-48941" class="wmd-preview-section preview-content">
+
+<h2 id="java-hdfs客户端api-续">Java hdfs客户端api 续</h2>
+
+<pre class="prettyprint hljs-dark"><code class="hljs nimrod">//打印参数<br>fs = <span class="hljs-type">FileSystem</span>.get(conf)<br><span class="hljs-type">Iterator</span>&lt;<span class="hljs-type">Entry</span>&lt;<span class="hljs-type">String</span>,sTring&gt;&gt;  ent  =  conf.<span class="hljs-keyword">iterator</span>();<br><span class="hljs-keyword">while</span><br></code></pre>
+
+<p>dfs.blocksize:1342…..  //最小为1m不能再低..</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj">hdfs curd 代码 <br><br><br><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testmkdir</span><span class="hljs-params">()</span></span>{<br><span class="hljs-keyword">boolean</span> isOk =  fs.mkdirs(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/testmkdir/aaa/bbb"</span>));<br>System.out.println(isOk)<br>}<br></code></pre>
+
+<p>hdfs dfsadmin -report  // 打印集群状态 比web上可能要准确 <br>
+hadoop-daemon.sh start datanode <br>
+elss/…/logs/datalog…  <br>
+<a href="http://mini1:50070/" target="_blank">http://mini1:50070/</a>   可以查看到</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testDelete</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>{<br>    <span class="hljs-keyword">boolean</span> flag = fs.delete(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"testmkdir/aaa"</span>),<span class="hljs-keyword">true</span>)<span class="hljs-comment">//递归删除</span><br>    <span class="hljs-comment">//print flag</span><br>}<br></code></pre>
+
+<p>//查看web页面刚才的节点已经不存在</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testLs</span><span class="hljs-params">()</span></span>{<span class="hljs-comment">//hadoop fs -ls</span><br>RemoteInterator&lt;&gt; listFiles =   fs.listFiles(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/"</span>,<span class="hljs-keyword">true</span>)); <span class="hljs-comment">//why not List? 运行端内存有限，list一开始是装在好的，list map都是内存对象。迭代器取数据的一种方式，而非内存对象，只是调用next方法拿取数据，该对象是不存取的。而非将数据都返回，而是返回迭代器。迭代器在大数据中使用的非常多的，list map 客户端是吃不消的。集合与迭代器的区别。Java基础与大数据的应用。</span><br><span class="hljs-keyword">while</span>(listFiles.hasNext()){<br>LocatedFileStatus fileStatus =  listFile.next();<br><span class="hljs-comment">//println blocksize owner len replication permission path.getname</span><br>    }<br>}<br></code></pre>
+
+<p>hadoop fs -put somefile.txt / <br>
+hadoop fs -put somefilex2.txt /testmkdir/aaa/test2 <br>
+hadoop fs -ls</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testLs</span><span class="hljs-params">()</span></span>{<br><br>    FileStatus[] lsitStatus =   fs.listStatus(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/"</span>));<br>    <span class="hljs-keyword">for</span>(FileStatus file:listStatus){<br>        <span class="hljs-comment">//println file.getPath.getName</span><br>        <span class="hljs-comment">// (file.isFile()?"file":"directory")</span><br>        <span class="hljs-comment">//file.isDir... //进行递归</span><br>        <span class="hljs-comment">// getBlockLocations()</span><br>        <span class="hljs-comment">//获取块的其实偏移量 （整个文件中的位置 0，128 256...）</span><br>        <span class="hljs-comment">//块长度b.getLength()</span><br>        <span class="hljs-comment">//块名称 ： b.getNames()</span><br>        <span class="hljs-comment">//块所在的dataNode节点  b.getHosts() ？ 脑洞大开 直接调用dataNode ？我靠，怎么调用 rpc.....hdfs透明的，我们就不要这样直接暴力且费大力。还是通过namenode来。</span><br>    }<br><br>}<br></code></pre></div><div id="wmd-preview-section-33236" class="wmd-preview-section preview-content">
+
+<h2 id="title"> </h2>
+
+<p>对文件处理解码…. 文件很大，需要并发运算 <br>
+分任务，但是如何分呢？ <br>
+mr程序相对于hdfs来说，他是一个客户端程序。mr怎么处理它的任务？ <br>
+fs.copyTolocal // 拿的可能比较大，一台可能都没法存下，<strong>必须实现 获取指定的一段数据。</strong> hdfs已经提供了</p>
+
+<p>15：10  mr的分片思想 （明天还会讲）</p>
+
+<p>今天看hdfs的指定数据范围的api</p>
+
+<p>HdfsStreamAccess.java</p>
+
+</div><div id="wmd-preview-section-47406" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cs"><span class="hljs-comment">//用流的方式来操作hdfs 可以实现读取指定偏移量的操作</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">HdfsStreamAccess</span>{<br>@Before...<br><br><span class="hljs-comment">/**<br>*通过流的方式上传文件<br>*/</span><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testUpload</span>(<span class="hljs-params"></span>)</span>{<br>    FSDataOutputStream os = fs.create(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/ab/test"</span>),<span class="hljs-keyword">true</span>)<span class="hljs-comment">//覆盖与否</span><br>    fs = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"c:/..."</span>));<br>    IoUtils.copy(fs,os); <span class="hljs-comment">//apache commons io / hadoop ioutils</span><br>}<br><br><span class="hljs-comment">/**<br>*通过流的方式下载文件<br>*/</span><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testDownload</span>(<span class="hljs-params"></span>)</span>{<br><br>     <span class="hljs-comment">//fs.copyToLocal(......,true) winutils.exe 不要在环境上纠结，linux，mac上也没什么问题 就在linux上开发</span><br><br>    FsDAtaInputStream inputStream  = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">""</span>));<br>    os = <span class="hljs-keyword">new</span> FileoutPutStream(<span class="hljs-string">"c:/..."</span>); <br>    IoUtils.copy(inputStream,os); <span class="hljs-comment">//apache commons io / hadoop ioutils</span><br>}<br><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> voi <span class="hljs-title">testRandomAccess</span>(<span class="hljs-params"></span>)</span>{<br>    inputStream = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/test/aaa.txt"</span>));<br>    <span class="hljs-comment">//***inputStream.seek(12)***;//埋点 种子 下载</span><br>    <span class="hljs-comment">//new FileoutputStream(new Path("c:/...aa2.txt"));</span><br>    <span class="hljs-comment">//while(){}</span><br>    IOUtils.copy(<span class="hljs-keyword">is</span>,os); <span class="hljs-comment">//从12到最后...  mr中有机制避免文本断点</span><br>}<br>@Test <span class="hljs-comment">//hadoop hdfs -cat file</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCat</span>(<span class="hljs-params"></span>)</span>{<br>    <span class="hljs-keyword">in</span> = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"..."</span>));<br>    IoUtils.copyBytes(<span class="hljs-keyword">in</span>,System.<span class="hljs-keyword">out</span>)<br>    IoUtils.copyBytes(<span class="hljs-keyword">in</span>,System.<span class="hljs-keyword">out</span>,<span class="hljs-number">1024</span>)<br>}<br><br><br>}<br></code></pre>
+
+<p>开启图形界面 <br>
+startx  linux开发…没什么环境问题了</p>
+
+<p>hadoop 中一大推消息通信 rpc   一堆动态代理</p>
+
+</div><div id="wmd-preview-section-48300" class="wmd-preview-section preview-content">
+
+<h3 id="演示-hadoop中封装的rpc框架">演示 hadoop中封装的rpc框架</h3>
+
+<p>客户端请求namenode </p></div><div id="wmd-preview-section-49113" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyNameNode</span>{<br>    <span class="hljs-comment">//模拟namenode的业务方法之一，查询元数据</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getMetaData</span>(<span class="hljs-params">String path</span>)</span>{<br>        <span class="hljs-keyword">return</span> path+<span class="hljs-string">"副本数量 -- {block1 ，block2}"</span><br>    }<br><br><br><br>}<br></code></pre>
+
+<p>// 发布服务类 <br>
+    public class PublicServiceUtils{</p>
+
+<pre class="prettyprint hljs-dark"><code class="hljs 1c">Builder <span class="hljs-comment">//建立rpc连接信息</span><br>}<br></code></pre>
+
+<p>//接口通信类</p>
+
+<p>客户端代码</p>
+
+<p>子系统 通信 hadoop common 包及依赖 导入 即可，放入自己的工程中使用。</p></div><div id="wmd-preview-section-53706" class="wmd-preview-section preview-content">
+
+<h3 id="rpc登录代码演示">rpc登录代码演示</h3>
+
+<p>action层通过rpc的方式进行调用 演示 <br>
+不适合web系统（Spring结合标签的使用），适合内部系统rpc调用 <br>
+client…Protocl</p>
+
+</div><div id="wmd-preview-section-54055" class="wmd-preview-section preview-content">
+
+<h3 id="源码阅读">源码阅读</h3>
+
+<p>推荐看书  <br>
+《hadoop技术内幕 》 <br>
+看源码的 断点跟进 F5 进入 快速查看变量等ctrl+shift+i  何时使用回调？ <br>
+CAche .get… <br>
+createFileSystem。。。。singlelton <br>
+ReflectionUtils…. <br>
+fs.initialize… new  DFSclient <br>
+NetUtils.getSocketFactory(config,ClientProtocol.class) <br>
+this.clietName   (dfscleitnocnfig . takskId)</p>
+
+<p>NameNodeProxies <br>
+ProxyAndInfo  <br>
+createFiloverProxyProvider   // HA集群 通过url 判断 <br>
+createNoneHAProxy <br>
+clientNamenodeProtocolPB….</p>
+
+<p>reTryProxy…create….</p>
+
+</div><div id="wmd-preview-section-54502" class="wmd-preview-section preview-content">
+
+<h3 id="spark代码比较精简看着爽">spark代码比较精简，看着爽…</h3>
+
+<p>spark sql–&gt;  hive</p>
+
+</div><div id="wmd-preview-section-58170" class="wmd-preview-section preview-content">
+
+<h2 id="数据采集-开发shell脚本">数据采集 开发shell脚本</h2></div><div id="wmd-preview-section-59995" class="wmd-preview-section preview-content">
+
+<h3 id="场景">场景</h3>
+
+<p>数据采集。 hadoop数据源 <br>
+电商 js 埋点  …  产生日志文件 本地磁盘   我们需要将这些日志文件获取汇聚</p>
+
+<p>hadoop集群离线分析  比如：数据分析一小时一次 </p>
+
+<p>1：后台Java程序筛选过滤 已经滚动完毕的日志文件  copyfromLocal –&gt;dfs /weblog/2016-04-11/17/access.log.1-tomct-01-random <br>
+定时调度  timer  quarz   schedule <br>
+   linux crontab     …  root java- ..</p>
+
+<p>Java复杂但是控制粒度细 之后用flume <br>
+今天我们使用shell写 <br>
+列出合法的文件列表 放到待上传目录</p>
+
+</div><div id="wmd-preview-section-61382" class="wmd-preview-section preview-content">
+
+<h3 id="代码案例">代码案例</h3>
+
+<ol><li rel="1">环境变量 为保证可靠性 先设置 环境变量</li>
+<li rel="2">逻辑中的变量 <br>
+…. <br>
+读代码</li>
+</ol>
+
+<p>genreateLog rollingfileappend》。。 <br>
+tail -f  access.log… 查看文件是否变化 一直打印日志中</p>
+
+<p>基本api 写一遍  脚本看懂，自己玩下</p></div><div id="wmd-preview-section-60987" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
