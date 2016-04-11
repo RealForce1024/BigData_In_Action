@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>day07</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-68" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-61891" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-69" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61892" class="wmd-preview-section preview-content">
 
 <h1 id="day07">day07</h1>
 
@@ -62,11 +62,13 @@
 </div>
 </div>
 
-</div><div id="wmd-preview-section-70" class="wmd-preview-section preview-content">
+<p><a href="http://123.56.240.191/bigdata.html" target="_blank">目录</a></p>
+
+</div><div id="wmd-preview-section-61893" class="wmd-preview-section preview-content">
 
 <h2 id="问题回顾">问题回顾</h2>
 
-</div><div id="wmd-preview-section-71" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61894" class="wmd-preview-section preview-content">
 
 <h3 id="connetting-to-resourcemanager-at-8032">connetting to resourceManager at …. :8032</h3>
 
@@ -76,7 +78,7 @@
  retry…..Xn… <br>
  原因：<strong>yarn未启动</strong></p>
 
-</div><div id="wmd-preview-section-72" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61895" class="wmd-preview-section preview-content">
 
 <h3 id="system-times-maching-my-be-out-of-sync-check-system-time-and-time-zone">system times maching my be out of sync check system time and time zone</h3>
 
@@ -87,7 +89,7 @@ date  -s “2016-04-10 11:22:00” <br>
 方案2： send to all chat    sudo date -s “2016-04-11 09:07:00”  //所有机器都同步了  <br>
 hardware</p>
 
-</div><div id="wmd-preview-section-73" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61896" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs-namenode-format">hdfs namenode -format</h3>
 
@@ -97,7 +99,7 @@ yum install tree <br>
 
 <p>start-dfs.sh //启动  未启动过的节点查看 hdpdata 是会有目录被初始化创建</p>
 
-</div><div id="wmd-preview-section-74" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61897" class="wmd-preview-section preview-content">
 
 <h3 id="datanode-不被namenode识别的问题">datanode 不被namenode识别的问题</h3>
 
@@ -115,13 +117,13 @@ datanode 已启动的时候寻找namenode <br>
   一旦namenode重新forat后，namednode的身份标识就会改变，。。。</p>
 </blockquote>
 
-</div><div id="wmd-preview-section-75" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61898" class="wmd-preview-section preview-content">
 
 <h3 id="datanode下线后多久出现效果">datanode下线后多久出现效果</h3>
 
 <p>datanode不是一下线就会被namenode认定为下线的，有个超时时间。</p>
 
-</div><div id="wmd-preview-section-76" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61899" class="wmd-preview-section preview-content">
 
 <h3 id="关于副本数量的问题">关于副本数量的问题</h3>
 
@@ -137,11 +139,11 @@ datanode 已启动的时候寻找namenode <br>
   服务器端的呢有啥用呢？ 自己在服务器端中可以使用。  所以 replication 是由客户端来决定的。</p>
 </blockquote>
 
-</div><div id="wmd-preview-section-77" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61900" class="wmd-preview-section preview-content">
 
 <h2 id="hdfs的细节与api">hdfs的细节与API</h2>
 
-</div><div id="wmd-preview-section-78" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61901" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs的工作机制">hdfs的工作机制</h3>
 
@@ -153,13 +155,13 @@ datanode 已启动的时候寻找namenode <br>
 6.dataNode 会定期向Namenode汇报自身所保存到文件block信息，<strong>而namenode则会负责保持文件的副本数量</strong> [namenode维护管理] <br>
 7.hdfs的内部工作机制对客户端保持透明，客户端对hdfs的内部机制不用挂职。</p>
 
-</div><div id="wmd-preview-section-79" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61902" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs写数据的流程">hdfs写数据的流程</h3>
 
 <p>如何写，怎么放</p>
 
-</div><div id="wmd-preview-section-1620" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61903" class="wmd-preview-section preview-content">
 
 <h4 id="hdfs的流程图">hdfs的流程图</h4>
 
@@ -211,7 +213,7 @@ b. 第一台 近的 第二台  看距离远的（保证安全）第三台 与第
 <p>一同学的经历…一期 中途放弃  。jee 。。回来 。。人人快递…目前百分点…18k…. <br>
 ftp  不能固定分配客户端机器 并发 到底如何动态取  分布式锁  分配ip  百分点</p>
 
-</div><div id="wmd-preview-section-3359" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61904" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs读取数据流程">hdfs读取数据流程</h3>
 
@@ -223,13 +225,13 @@ ftp  不能固定分配客户端机器 并发 到底如何动态取  分布式�
 <li rel="6">在客户端append 追加流 </li>
 </ol>
 
-</div><div id="wmd-preview-section-3392" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61905" class="wmd-preview-section preview-content">
 
 <h3 id="看源码">看源码</h3>
 
 <p>追踪过程  断点追踪</p>
 
-</div><div id="wmd-preview-section-8808" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61906" class="wmd-preview-section preview-content">
 
 <h2 id="namenode-管理元数据的机制">namenode 管理元数据的机制</h2>
 
@@ -261,7 +263,7 @@ edits.inprogress   请求 chekpoint 触发立马滚动一次 尽可能的多合�
 大文件划算些 <br>
 <strong>小文件 利用空间效率较低。</strong></p>
 
-</div><div id="wmd-preview-section-14165" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61907" class="wmd-preview-section preview-content">
 
 <h3 id="问题思考">问题思考</h3>
 
@@ -272,7 +274,9 @@ edits.inprogress   请求 chekpoint 触发立马滚动一次 尽可能的多合�
 <li rel="3">通过以上思考，我们在配置namenode工作目录参数时，有什么注意点？ <br>
 将namenode的工作目录放入到多块磁盘工作空间上（相同内容的写） <br>
 datatnode 也可以   磁盘io的并行  11：32 33（扩容 ，用户想不通地方写，并发量）</li>
-</ol></div><div id="wmd-preview-section-14185" class="wmd-preview-section preview-content">
+</ol>
+
+</div><div id="wmd-preview-section-61908" class="wmd-preview-section preview-content">
 
 <h4 id="元数据的备份-演示">元数据的备份 演示</h4>
 
@@ -309,7 +313,7 @@ value cipan1,cipan2</p>
 hadoop namenode -format <br>
 同时往多块工作磁盘写 并发写 io不冲突</p>
 
-</div><div id="wmd-preview-section-15762" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61909" class="wmd-preview-section preview-content">
 
 <h3 id="version">version</h3>
 
@@ -324,7 +328,7 @@ layoutversion升级相关</p>
 fsimage edits  <br>
 redis 之后会用的 </p>
 
-</div><div id="wmd-preview-section-17357" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61910" class="wmd-preview-section preview-content">
 
 <h3 id="datanode的工作机制">datanode的工作机制</h3>
 
@@ -340,7 +344,7 @@ datanode 掉线判断时限参数 <br>
 <p>下午 <br>
 hdfs的更底层的api 流 块 shell采集脚本</p>
 
-</div><div id="wmd-preview-section-19050" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61911" class="wmd-preview-section preview-content">
 
 <h2 id="问题回顾-1">问题回顾</h2>
 
@@ -350,7 +354,7 @@ hdfs的更底层的api 流 块 shell采集脚本</p>
 
 <p>淘宝 <strong>服务器主机</strong> 刀片机  128g 1~5k 很便宜的</p>
 
-</div><div id="wmd-preview-section-48941" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61912" class="wmd-preview-section preview-content">
 
 <h2 id="java-hdfs客户端api-续">Java hdfs客户端api 续</h2>
 
@@ -375,7 +379,9 @@ elss/…/logs/datalog…  <br>
 hadoop fs -put somefilex2.txt /testmkdir/aaa/test2 <br>
 hadoop fs -ls</p>
 
-<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testLs</span><span class="hljs-params">()</span></span>{<br><br>    FileStatus[] lsitStatus =   fs.listStatus(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/"</span>));<br>    <span class="hljs-keyword">for</span>(FileStatus file:listStatus){<br>        <span class="hljs-comment">//println file.getPath.getName</span><br>        <span class="hljs-comment">// (file.isFile()?"file":"directory")</span><br>        <span class="hljs-comment">//file.isDir... //进行递归</span><br>        <span class="hljs-comment">// getBlockLocations()</span><br>        <span class="hljs-comment">//获取块的其实偏移量 （整个文件中的位置 0，128 256...）</span><br>        <span class="hljs-comment">//块长度b.getLength()</span><br>        <span class="hljs-comment">//块名称 ： b.getNames()</span><br>        <span class="hljs-comment">//块所在的dataNode节点  b.getHosts() ？ 脑洞大开 直接调用dataNode ？我靠，怎么调用 rpc.....hdfs透明的，我们就不要这样直接暴力且费大力。还是通过namenode来。</span><br>    }<br><br>}<br></code></pre></div><div id="wmd-preview-section-33236" class="wmd-preview-section preview-content">
+<pre class="prettyprint hljs-dark"><code class="hljs aspectj"><span class="hljs-annotation">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testLs</span><span class="hljs-params">()</span></span>{<br><br>    FileStatus[] lsitStatus =   fs.listStatus(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/"</span>));<br>    <span class="hljs-keyword">for</span>(FileStatus file:listStatus){<br>        <span class="hljs-comment">//println file.getPath.getName</span><br>        <span class="hljs-comment">// (file.isFile()?"file":"directory")</span><br>        <span class="hljs-comment">//file.isDir... //进行递归</span><br>        <span class="hljs-comment">// getBlockLocations()</span><br>        <span class="hljs-comment">//获取块的其实偏移量 （整个文件中的位置 0，128 256...）</span><br>        <span class="hljs-comment">//块长度b.getLength()</span><br>        <span class="hljs-comment">//块名称 ： b.getNames()</span><br>        <span class="hljs-comment">//块所在的dataNode节点  b.getHosts() ？ 脑洞大开 直接调用dataNode ？我靠，怎么调用 rpc.....hdfs透明的，我们就不要这样直接暴力且费大力。还是通过namenode来。</span><br>    }<br><br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-61913" class="wmd-preview-section preview-content">
 
 <h2 id="title"> </h2>
 
@@ -390,7 +396,7 @@ fs.copyTolocal // 拿的可能比较大，一台可能都没法存下，<strong>
 
 <p>HdfsStreamAccess.java</p>
 
-</div><div id="wmd-preview-section-47406" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61914" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cs"><span class="hljs-comment">//用流的方式来操作hdfs 可以实现读取指定偏移量的操作</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">HdfsStreamAccess</span>{<br>@Before...<br><br><span class="hljs-comment">/**<br>*通过流的方式上传文件<br>*/</span><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testUpload</span>(<span class="hljs-params"></span>)</span>{<br>    FSDataOutputStream os = fs.create(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/ab/test"</span>),<span class="hljs-keyword">true</span>)<span class="hljs-comment">//覆盖与否</span><br>    fs = <span class="hljs-keyword">new</span> FileInputStream(<span class="hljs-keyword">new</span> File(<span class="hljs-string">"c:/..."</span>));<br>    IoUtils.copy(fs,os); <span class="hljs-comment">//apache commons io / hadoop ioutils</span><br>}<br><br><span class="hljs-comment">/**<br>*通过流的方式下载文件<br>*/</span><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testDownload</span>(<span class="hljs-params"></span>)</span>{<br><br>     <span class="hljs-comment">//fs.copyToLocal(......,true) winutils.exe 不要在环境上纠结，linux，mac上也没什么问题 就在linux上开发</span><br><br>    FsDAtaInputStream inputStream  = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">""</span>));<br>    os = <span class="hljs-keyword">new</span> FileoutPutStream(<span class="hljs-string">"c:/..."</span>); <br>    IoUtils.copy(inputStream,os); <span class="hljs-comment">//apache commons io / hadoop ioutils</span><br>}<br><br>@<span class="hljs-function">Test<br><span class="hljs-keyword">public</span> voi <span class="hljs-title">testRandomAccess</span>(<span class="hljs-params"></span>)</span>{<br>    inputStream = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/test/aaa.txt"</span>));<br>    <span class="hljs-comment">//***inputStream.seek(12)***;//埋点 种子 下载</span><br>    <span class="hljs-comment">//new FileoutputStream(new Path("c:/...aa2.txt"));</span><br>    <span class="hljs-comment">//while(){}</span><br>    IOUtils.copy(<span class="hljs-keyword">is</span>,os); <span class="hljs-comment">//从12到最后...  mr中有机制避免文本断点</span><br>}<br>@Test <span class="hljs-comment">//hadoop hdfs -cat file</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCat</span>(<span class="hljs-params"></span>)</span>{<br>    <span class="hljs-keyword">in</span> = fs.open(<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"..."</span>));<br>    IoUtils.copyBytes(<span class="hljs-keyword">in</span>,System.<span class="hljs-keyword">out</span>)<br>    IoUtils.copyBytes(<span class="hljs-keyword">in</span>,System.<span class="hljs-keyword">out</span>,<span class="hljs-number">1024</span>)<br>}<br><br><br>}<br></code></pre>
 
@@ -399,11 +405,13 @@ startx  linux开发…没什么环境问题了</p>
 
 <p>hadoop 中一大推消息通信 rpc   一堆动态代理</p>
 
-</div><div id="wmd-preview-section-48300" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61915" class="wmd-preview-section preview-content">
 
 <h3 id="演示-hadoop中封装的rpc框架">演示 hadoop中封装的rpc框架</h3>
 
-<p>客户端请求namenode </p></div><div id="wmd-preview-section-49113" class="wmd-preview-section preview-content">
+<p>客户端请求namenode </p>
+
+</div><div id="wmd-preview-section-61916" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">MyNameNode</span>{<br>    <span class="hljs-comment">//模拟namenode的业务方法之一，查询元数据</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getMetaData</span>(<span class="hljs-params">String path</span>)</span>{<br>        <span class="hljs-keyword">return</span> path+<span class="hljs-string">"副本数量 -- {block1 ，block2}"</span><br>    }<br><br><br><br>}<br></code></pre>
 
@@ -416,7 +424,9 @@ startx  linux开发…没什么环境问题了</p>
 
 <p>客户端代码</p>
 
-<p>子系统 通信 hadoop common 包及依赖 导入 即可，放入自己的工程中使用。</p></div><div id="wmd-preview-section-53706" class="wmd-preview-section preview-content">
+<p>子系统 通信 hadoop common 包及依赖 导入 即可，放入自己的工程中使用。</p>
+
+</div><div id="wmd-preview-section-61917" class="wmd-preview-section preview-content">
 
 <h3 id="rpc登录代码演示">rpc登录代码演示</h3>
 
@@ -424,7 +434,7 @@ startx  linux开发…没什么环境问题了</p>
 不适合web系统（Spring结合标签的使用），适合内部系统rpc调用 <br>
 client…Protocl</p>
 
-</div><div id="wmd-preview-section-54055" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61918" class="wmd-preview-section preview-content">
 
 <h3 id="源码阅读">源码阅读</h3>
 
@@ -446,15 +456,17 @@ clientNamenodeProtocolPB….</p>
 
 <p>reTryProxy…create….</p>
 
-</div><div id="wmd-preview-section-54502" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61919" class="wmd-preview-section preview-content">
 
 <h3 id="spark代码比较精简看着爽">spark代码比较精简，看着爽…</h3>
 
 <p>spark sql–&gt;  hive</p>
 
-</div><div id="wmd-preview-section-58170" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61920" class="wmd-preview-section preview-content">
 
-<h2 id="数据采集-开发shell脚本">数据采集 开发shell脚本</h2></div><div id="wmd-preview-section-59995" class="wmd-preview-section preview-content">
+<h2 id="数据采集-开发shell脚本">数据采集 开发shell脚本</h2>
+
+</div><div id="wmd-preview-section-61921" class="wmd-preview-section preview-content">
 
 <h3 id="场景">场景</h3>
 
@@ -471,7 +483,7 @@ clientNamenodeProtocolPB….</p>
 今天我们使用shell写 <br>
 列出合法的文件列表 放到待上传目录</p>
 
-</div><div id="wmd-preview-section-61382" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-61922" class="wmd-preview-section preview-content">
 
 <h3 id="代码案例">代码案例</h3>
 
@@ -484,4 +496,6 @@ clientNamenodeProtocolPB….</p>
 <p>genreateLog rollingfileappend》。。 <br>
 tail -f  access.log… 查看文件是否变化 一直打印日志中</p>
 
-<p>基本api 写一遍  脚本看懂，自己玩下</p></div><div id="wmd-preview-section-60987" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+<p>基本api 写一遍  脚本看懂，自己玩下</p>
+
+</div><div id="wmd-preview-section-61923" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
