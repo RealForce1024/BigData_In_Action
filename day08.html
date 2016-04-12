@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>day08</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-42" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-26536" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-988" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26537" class="wmd-preview-section preview-content">
 
 <h1 id="day08">day08</h1>
 
@@ -19,6 +19,12 @@
 <li><a href="#worldcount">worldcount</a></li>
 <li><a href="#编程规范">编程规范</a></li>
 <li><a href="#wordcount的运行机制">wordcount的运行机制</a></li>
+<li><a href="#下午回顾">下午回顾</a><ul>
+<li><a href="#代码案例">代码案例</a></li>
+<li><a href="#谁在切片如何切片">谁在切片？如何切片</a></li>
+<li><a href="#切片细节">切片细节</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -26,11 +32,13 @@
 </div>
 </div>
 
-<hr></div><div id="wmd-preview-section-1084" class="wmd-preview-section preview-content">
+<hr>
+
+</div><div id="wmd-preview-section-26538" class="wmd-preview-section preview-content">
 
 <h2 id="回顾">回顾</h2>
 
-</div><div id="wmd-preview-section-1085" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26539" class="wmd-preview-section preview-content">
 
 <h3 id="hdfs-secondary-namenode">hdfs secondary namenode</h3>
 
@@ -39,7 +47,9 @@ namenode与secondary namenode 的协作关系  <br>
 hdfs目前不支持文件的内容修改 上窜失败不会记录，retry…成功记录一条 <br>
 secondary namenode 做edits fsimage的合并  持久化 未来得及合并的edits进行合并 <br>
 客户端api 流方式访问 hdfs的上层运算框架 （并发实例 spark storm …mr等），并发实例读取指定的部分，需要使用流的范围控制。  利用hdfs的流方式 不用了解hdfs的底层 datanode的细节  <br>
-mr程序相对与hdfs就是一个客户端，不用了解hdfs的细节。</p></div><div id="wmd-preview-section-1050" class="wmd-preview-section preview-content">
+mr程序相对与hdfs就是一个客户端，不用了解hdfs的细节。</p>
+
+</div><div id="wmd-preview-section-26540" class="wmd-preview-section preview-content">
 
 <h3 id="电商日志采集场景案例回顾">电商日志采集场景案例回顾</h3>
 
@@ -47,9 +57,13 @@ mr程序相对与hdfs就是一个客户端，不用了解hdfs的细节。</p></d
 日志 <br>
 大部分来自用户的浏览行为  <br>
 大数据分析的往往是用户的行为 ，大都记录在业务日志服务器上，时间跨度，例如三个月的数据 放到 hdfs中。。。如果可靠性不高，可以使用shell。 可靠性要求很高的时候 移动运营商 chinamobile系统过来的数据，美妙数据生成量很大….. <br>
-纯粹的Java后台系统..原子性控制 逻辑  看代码… 91xbpx.com 项目 离线部分 spark….都特么的是sql ，mr相对其复杂些    业务分析的模型</p></div><div id="wmd-preview-section-1093" class="wmd-preview-section preview-content">
+纯粹的Java后台系统..原子性控制 逻辑  看代码… 91xbpx.com 项目 离线部分 spark….都特么的是sql ，mr相对其复杂些    业务分析的模型</p>
 
-<h3 id="shell-采集-重点掌握">shell 采集 重点掌握</h3></div><div id="wmd-preview-section-3584" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26541" class="wmd-preview-section preview-content">
+
+<h3 id="shell-采集-重点掌握">shell 采集 重点掌握</h3>
+
+</div><div id="wmd-preview-section-26542" class="wmd-preview-section preview-content">
 
 <h2 id="mapreduce">mapreduce</h2>
 
@@ -89,7 +103,7 @@ hm （word,number+1） <br>
 
 <p>每个mapreduce都要个主管 在哪里运行不要紧 【<strong>mr application master</strong>】分发任务（配置文件告诉它处理，如何分发它做，不负责具体业务，只负责协调任务）</p>
 
-</div><div id="wmd-preview-section-5213" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26543" class="wmd-preview-section preview-content">
 
 <h2 id="worldcount">worldcount</h2>
 
@@ -102,19 +116,19 @@ map reduce  mr app master <br>
 框架接口 <br>
 wordCountMapper </p>
 
-</div><div id="wmd-preview-section-8184" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26544" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-java hljs"><span class="hljs-comment">//KEYIN: 默认情况下，是mr框架所读到的一行文本的偏移量,Long类型,hdp中有自己的更精简的序列化接口，所以不直接使用Long.而使用LongWritable（本质是Long）</span><br><span class="hljs-comment">//VALUEIN: 默认情况下，是mr框架所读到的一行文本的内容 String</span><br><span class="hljs-comment">//KEYOUT: 用户自定义逻辑处理完成之后输出数据中的key，在此处为单词，String</span><br><span class="hljs-comment">//VALUEOUT:用户自定义逻辑处理完成之后输出数据中的value,在此处为次数，Integer</span><br><br><span class="hljs-comment">//Mapper&lt;KEYIN,VALUEIN,KEYOUT,VALUEOUT&gt;</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WordCountMapper</span> <span class="hljs-keyword">extends</span> <br><span class="hljs-title">Mapper</span>&lt;<span class="hljs-title">LongWritable</span>,<span class="hljs-title">Text</span>,<span class="hljs-title">Text</span>,<span class="hljs-title">IntWritable</span>&gt;</span>{<br>    <span class="hljs-comment">/**<br>    *map阶段<br>    *maptask会对每一行数据调用一次我们的map方法<br>    */</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">map</span><span class="hljs-params">(key,value,context)</span></span>{<br>        <span class="hljs-comment">//这里不做汇总，单行也做不到，之后reduce中去（有自己的接收数据的范围）</span><br>        <span class="hljs-comment">//将maptask传给我们的文本内容转换string</span><br>        String line = value.toString();<br>        <span class="hljs-comment">//空格切割单词</span><br>        String[] words = line.split(<span class="hljs-string">" "</span>);<br>        <span class="hljs-comment">//将单词输出为&lt;word,1&gt;</span><br>        <span class="hljs-keyword">for</span>(String word:words){<br>            <span class="hljs-comment">//将单词作为key，将慈次数1作为value，以便于后续的数据分发，可以更加单词分发，以便于相同的单词会到相同的reduce task中</span><br>            context.write(<span class="hljs-keyword">new</span> Text(word),<span class="hljs-keyword">new</span> IntWritable(<span class="hljs-number">1</span>));<br>        }<br>        <span class="hljs-comment">//逐渐收集的过程，写到文件中，不是一行行的汇总</span><br>        <span class="hljs-comment">//被不同的map task调用 ，然后会收集起来作为多个区，发送到reduce task</span><br>    }<br>}<br></code></pre>
 
 <p>wordCountReduce.java</p>
 
-</div><div id="wmd-preview-section-10605" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26545" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-java hljs"><span class="hljs-comment">/**<br>*KEYIN,VALUEIN泛型类型与mapper对应<br>*KEYOUT,VALUEOUT  reduce的自定义的结果输出类型<br>*/</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WordCountReducer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Reducer</span>&lt;<span class="hljs-title">Text</span>,<span class="hljs-title">IntWritable</span>&gt;</span>{<br><br>    <span class="hljs-comment">/**<br>    *入参key是一组相同单词kv对的key {"hello":1}{"hello":1}{"hello":1}{"hello":1}.....<br>    {"apple":1}"apple":1}"apple":1}"apple":1}"apple":1}....<br>    *一组调用一次（**key传的是一组中的第一个key**）<br>    */</span><br>    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">reduce</span><span class="hljs-params">(Text key , Interable&lt;IntWriteable&gt; values,Context context)</span></span>{<br>        <span class="hljs-comment">//累加value</span><br>        <span class="hljs-keyword">int</span> count = <span class="hljs-number">0</span> ;<br>        <span class="hljs-keyword">for</span>(IntWritable value:values){ <span class="hljs-comment">//也可以while..拿到迭代器</span><br>            count += value.get();<br>        }<br>        context.write(key,<span class="hljs-keyword">new</span> Intwritable(count)); <span class="hljs-comment">//默认写到hdfs文件中,我们规定目录。需要规定任务相关的参数</span><br>    }<br>}<br></code></pre>
 
 <p>WordCountDriver.java</p>
 
-</div><div id="wmd-preview-section-16678" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26546" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-java hljs"><span class="hljs-comment">/**<br>*相当于yarn集群的客户端<br>*需要在此封装我们的mr程序的相关运行参数，指定jar包<br>*最后提交给yarn<br>*/</span><br>publci <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WordCountDriver</span></span>{<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> staic <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(..)</span> <span class="hljs-keyword">throws</span> Exception</span>{<br>        mappred <span class="hljs-comment">//老api</span><br><br>        Configuration conf = <span class="hljs-keyword">new</span> Configuration();<br><br>        conf.set();<span class="hljs-comment">//yarn</span><br>        conf.set();<span class="hljs-comment">//..</span><br><br>        Job job = JOb.getInstance(conf);<br>        <span class="hljs-comment">//job.setJar("/home/hadoop/wc.jar");//不太好</span><br>        <span class="hljs-comment">//指定本程序的jar包所在的本地路径</span><br>        job.setJarByClass(WordCountDriver.class);<span class="hljs-comment">//动态获取jar所在的路径</span><br><br>        <span class="hljs-comment">//指定本业务job要使用的mapper业务类</span><br>        job.setMapperClass(worldcountMapper.class)<br>        job.setReducerClass(worldcountREducer.class)<br><br>        <span class="hljs-comment">//map的输出数据类型 （hadoop可以使用第三方可插拔的序列化..）10：57</span><br>        job.setMapOutputKeyClass(Text.class);<br>        job.setMapOutputValueClass(IntWritable.class);<br>        <span class="hljs-comment">//指定最终输出数据的kv类型</span><br>        job.setOutputKeyClass(Text.class) <span class="hljs-comment">//可能有的程序只有mapper，比如改文本大小写..</span><br>        job.setOutputValueClass(IntWritable.class);<br><br>        <span class="hljs-comment">//指定job的输入原始文件所在目录</span><br>        FileInputFormat.setInputPaths(job,<span class="hljs-keyword">new</span> Path(<span class="hljs-string">"/wordcount/input"</span>)); <span class="hljs-comment">// new Path(args[0]) </span><br>        <span class="hljs-comment">//指定job的输出结果所在目录</span><br>        FileOutputForamt.setOutputPath(job,<span class="hljs-keyword">new</span> Path(args[<span class="hljs-number">1</span>]));<br>        <span class="hljs-comment">//将job中配置的相关参数，以及job所用的Java类所在jar包，提交给yarn去运行</span><br>        <span class="hljs-comment">//job.submit(); //提交给yarn，帮我们启动</span><br>        <span class="hljs-keyword">boolean</span> res = job.waitForCompletion(<span class="hljs-keyword">true</span>);<span class="hljs-comment">//等集群结果返回再退出，并不带表跑成功，true是否打印</span><br>        System.ext(res?<span class="hljs-number">0</span>:<span class="hljs-number">1</span>); $? 结果码<br>    }<br>}<br>导出jar包，并未关联相关的 jar包，但是在linux平台上已配置了环境变量了<br></code></pre>
 
@@ -133,13 +147,13 @@ hadoop jar wordcount.jar com.fqc….WordcountDriver  /wordcount/input   /wordcou
 mini1:8088 <br>
 reduce 默认是是一个task</p>
 
-</div><div id="wmd-preview-section-16791" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26547" class="wmd-preview-section preview-content">
 
 <h2 id="编程规范">编程规范</h2>
 
 <p>看doc</p>
 
-</div><div id="wmd-preview-section-20229" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26548" class="wmd-preview-section preview-content">
 
 <h2 id="wordcount的运行机制">wordcount的运行机制</h2>
 
@@ -150,4 +164,172 @@ reduce 默认是是一个task</p>
 <li rel="5">reduce等待mapper全部处理完后，mr appmaster启动reduce task。</li>
 <li rel="6">reducer会找到自己该处理的任务分区  一组调用一次我们的reducer ，输出一个写一个…调用组件（outputFormat–&gt;hdfs中追加…..part-r-00000）</li>
 <li rel="7">shuffule map–&gt;reduce 的中间过程</li>
-</ol></div><div id="wmd-preview-section-16884" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</ol>
+
+<hr>
+
+</div><div id="wmd-preview-section-26549" class="wmd-preview-section preview-content">
+
+<h2 id="下午回顾">下午回顾</h2>
+
+<p>map reduce task 工作原理 我们的工作块 及 其大量的后台工作</p>
+
+<p>writeable 序列化接口</p>
+
+</div><div id="wmd-preview-section-26550" class="wmd-preview-section preview-content">
+
+<h3 id="代码案例">代码案例</h3>
+
+<p>时间戳 手机号 网关 ip 域名 数据包 接收包的个数 访问上传的流量字节数 下行流量 响应码</p>
+
+<p>统计每一个用户（手机号）所耗费的总上行流量、下行流量和总流量 <br>
+mr各种wc </p>
+
+<ol><li rel="1">读一行 ，切分字段 </li>
+<li rel="2">抽取 手机号 上下行流量 <br>
+context.write(k,v) //key 收集号，少拼喘，否则封装对象</li>
+</ol>
+
+<p>reduce  <br>
+接收到一个手机号 bean的迭代器 </p>
+
+<p>com.fqc.bigdata.mr.flowsum</p>
+
+</div><div id="wmd-preview-section-26551" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-java hljs"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FlowCount</span></span>{<br>    <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FlowCountMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mapper</span>&lt;<span class="hljs-title">LongWritable</span>,<span class="hljs-title">Text</span>,<span class="hljs-title">Text</span>,<span class="hljs-title">FlowBean</span>&gt;</span>{<br><br>map<span class="hljs-comment">//视图 显示空格制表符..等</span><br>    }<br><br>}<br><br>publci <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FlowBean</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Writable</span>//<span class="hljs-title">Comp</span>..</span>{<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> upFlow;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> dflow;<br>    <span class="hljs-comment">//反序列化时需要</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Flow</span><span class="hljs-params">()</span></span>{}<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Flow</span><span class="hljs-params">(upFlow,dflow)</span></span>{....}<br>    <span class="hljs-comment">//geters &amp; setters</span><br><br>    <span class="hljs-comment">/**<br>    * 序列化方法<br>    */</span><br>    <span class="hljs-function">write<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">write</span><span class="hljs-params">(DataOutput out)</span></span>{<br>        <span class="hljs-comment">//hadoop的序列化很精简</span><br>        out.writeLong(upFlow);<br>        out.writeLong(dFlow);   <br>    }<br><br>    <span class="hljs-comment">/**<br>    * 反序列化<br>    * 注意：序列化与反序列化的顺序完全一致<br>    */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">readFileds</span><span class="hljs-params">(Datainput in)</span></span>{<br>        <span class="hljs-keyword">long</span> upFlow = in.readLong(); <span class="hljs-comment">//先进先出</span><br>        <span class="hljs-keyword">long</span> dFlow = in.readLong();<br>    }<br><br>}<br><br></code></pre>
+
+<p>yarnchild  <br>
+1 split  mrp appmaster <br>
+通过案例，我们解决了如何自定义实现bean 实现序列化</p>
+
+</div><div id="wmd-preview-section-26552" class="wmd-preview-section preview-content">
+
+<h3 id="谁在切片如何切片">谁在切片？如何切片</h3>
+
+<p>数据量 小 启动销毁会很大 <br>
+大 其他空闲也不合适</p>
+
+<p>切分split （maptsk切分数据） <br>
+根据数据量和机器硬件而来 </p>
+
+<p>怎么样切分好呢？ <br>
+不考虑副本，（副本为了可靠性） <br>
+我们操作程序假设不考虑 <br>
+任务切片 是逻辑划分  与 bloksize没什么关系 <br>
+0-128 100  网络通信开销大</p>
+
+<p>小文件的话，block可能是10m很小的文件  <br>
+切片非绝对的，看场景分 </p>
+
+<p>hadoop默认是按照块的大小切分。</p>
+
+<p>客户端来切分的 <br>
+规划  生成一个而文件 a.txt 0-128m  a.txt 128-256 a.txt 256…. 提交给yarn 启动 app master  偏移量 文件 交给 maptask （与split对应）</p>
+
+</div><div id="wmd-preview-section-26553" class="wmd-preview-section preview-content">
+
+<h3 id="切片细节">切片细节</h3>
+
+<p><strong>读源码</strong> <br>
+看文档中 fileInputFormat getSplits() <br>
+<strong>minsize</strong> <br>
+断点追踪 <br>
+job.waitForCompleteion(false)   //job的工作机制 jvm的参数设置 <br>
+connect //建立yarn连接 <br>
+cluster initialize  celientProtocol 与yarn通信建立…. <br>
+//构造提交的客户端对象 <br>
+job <br>
+checkSpecs(job) <br>
+jobStagingArea <br>
+submitClient.getNewJobID() <br>
+//提交资源的路径 <br>
+//提交</p>
+
+<p>copyAndConfigureFiles(job,submitJobDir)</p>
+
+<p>job.xml 配置文件</p>
+
+<p>//create the splits for the job <br>
+writeSplits(job,jobsumitir) <br>
+List splits =  input.getSplits(job);</p>
+
+<p>16:11-~文件切片的关键 <br>
+splitSize =computeSplitSize(blockSize,minSize,maxSize);</p>
+
+<blockquote>
+  <p>return Math.max(minSize,Math,min(maxSieze,blockSize))  //miniSize配置 blockSize  切片可以配置的比blockSize大（性能好》。）</p>
+</blockquote>
+
+<p>尾部剩一点的话 将归到上个块 （没必要将小块再拆分，较少性能损失）</p>
+
+<p>crc 冗余算法 <br>
+job.xml <br>
+job.split <br>
+ue nodepad++查看上述文件</p>
+
+<p>切片的数量决定maptask的数量 <br>
+fileInputformat 产生切片由getSplits()方法完成 <br>
+minialsize  maxsize 的大小设置 与blockSize</p>
+
+<hr>
+
+<p>梳理源码流程  <br>
+获取job对象 <br>
+job set… <br>
+job.waitforComplete() <br>
+job.submit </p>
+
+<p>查看图解</p>
+
+<p>日志分析 <br>
+实时推荐 <br>
+spark源码 + 项目 <br>
+机器学习算法（数学功底深厚加强）</p>
+
+<p>关于点找工作的经验</p>
+
+<hr>
+
+<p>将统计记过按照手机号码归属地不同省份输出到不同文件夹中</p>
+
+<p>map 输出结果 设置分区  调用了组件 partizioner （hashpartiioner）  <br>
+相同key肯定能跑到系统的reduce中 hashcode%运算 <br>
+无法控制哪个到哪个reducecode中。</p>
+
+<p>此时需要重写 partion 重写partitioner ，让系统归属地的号码返回相同的分区号 int</p>
+
+<p>reduce task 的并行度 根据什么？  手动设置  job.setNumReduceTasks(4) 默认1 <br>
+哟多少个省份就有多少reduce task</p>
+
+<p>增加 ProvincePartitioner implements Partitioner&lt;Text,FlowBean&gt;{</p>
+
+<p>}</p>
+
+<p>extends  … Prtitioner  //新api <br>
+{ 17:25分  获取编号字典 注意 getPartitioner的调用机制 （每输出一次就会..） <br>
+static { flow …}</p>
+
+<p>} <br>
+指定自定义的数据分区器 <br>
+设置相应分区数量的reduce task书</p>
+
+<p>推测执行  没跑的kill掉 </p>
+
+<p>内容梳理</p>
+
+<ul><li>mr 的框架设计思想</li>
+<li>mr 框架中的程序实体角色 map reduce  mr appmaster</li>
+<li>mr程序运行的整体流程</li>
+<li>mr程序中的maptask的任务切换规划的机器（掌握整体流程逻辑）看day03文档中的map task并行度</li>
+<li>mr程序提交的整体流程 看图</li>
+<li>编码： wordcount 资源不够容易出错…少跑点虚拟机</li>
+<li>流量汇总统计（hdp的序列化实现）</li>
+<li>统计省份区分..</li>
+</ul>
+
+<p>作业 题2  <br>
+将统计结果 按照总流量的倒序排序 <br>
+告诉怎么比大小 （默认根据key来进行排序，so bean放到key中，写bean的比大小 ）</p>
+
+</div><div id="wmd-preview-section-26554" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
