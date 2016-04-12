@@ -23,8 +23,11 @@
 <li><a href="#代码案例">代码案例</a></li>
 <li><a href="#谁在切片如何切片">谁在切片？如何切片</a></li>
 <li><a href="#切片细节">切片细节</a></li>
+<li><a href="#梳理源码流程">梳理源码流程</a></li>
 </ul>
 </li>
+<li><a href="#代码案例-1">代码案例</a></li>
+<li><a href="#内容梳理">内容梳理</a></li>
 </ul>
 </li>
 </ul>
@@ -227,7 +230,7 @@ context.write(k,v) //key 收集号，少拼喘，否则封装对象</li>
 <p>客户端来切分的 <br>
 规划  生成一个而文件 a.txt 0-128m  a.txt 128-256 a.txt 256…. 提交给yarn 启动 app master  偏移量 文件 交给 maptask （与split对应）</p>
 
-</div><div id="wmd-preview-section-26553" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-26591" class="wmd-preview-section preview-content">
 
 <h3 id="切片细节">切片细节</h3>
 
@@ -274,8 +277,11 @@ minialsize  maxsize 的大小设置 与blockSize</p>
 
 <hr>
 
-<p>梳理源码流程  <br>
-获取job对象 <br>
+</div><div id="wmd-preview-section-26692" class="wmd-preview-section preview-content">
+
+<h3 id="梳理源码流程">梳理源码流程</h3>
+
+<p>获取job对象 <br>
 job set… <br>
 job.waitforComplete() <br>
 job.submit </p>
@@ -290,6 +296,10 @@ spark源码 + 项目 <br>
 <p>关于点找工作的经验</p>
 
 <hr>
+
+</div><div id="wmd-preview-section-26735" class="wmd-preview-section preview-content">
+
+<h2 id="代码案例-1">代码案例</h2>
 
 <p>将统计记过按照手机号码归属地不同省份输出到不同文件夹中</p>
 
@@ -316,7 +326,9 @@ static { flow …}</p>
 
 <p>推测执行  没跑的kill掉 </p>
 
-<p>内容梳理</p>
+</div><div id="wmd-preview-section-26736" class="wmd-preview-section preview-content">
+
+<h2 id="内容梳理">内容梳理</h2>
 
 <ul><li>mr 的框架设计思想</li>
 <li>mr 框架中的程序实体角色 map reduce  mr appmaster</li>
@@ -330,6 +342,4 @@ static { flow …}</p>
 
 <p>作业 题2  <br>
 将统计结果 按照总流量的倒序排序 <br>
-告诉怎么比大小 （默认根据key来进行排序，so bean放到key中，写bean的比大小 ）</p>
-
-</div><div id="wmd-preview-section-26554" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+告诉怎么比大小 （默认根据key来进行排序，so bean放到key中，写bean的比大小 ）</p></div><div id="wmd-preview-section-26554" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
