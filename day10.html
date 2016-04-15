@@ -1,0 +1,227 @@
+<!DOCTYPE html><html><head><title>day10</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-2674" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-3629" class="wmd-preview-section preview-content">
+
+<h1 id="day10">day10</h1>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day10">day10</a><ul>
+<li><a href="#对于分布式程序的理解-复习">对于分布式程序的理解 复习</a></li>
+<li><a href="#代码案例">代码案例</a><ul>
+<li><a href="#reduce端join算法">reduce端join算法</a></li>
+<li><a href="#map-side-原理">map side 原理</a></li>
+</ul>
+</li>
+<li><a href="#代码案例-1">代码案例</a><ul>
+<li><a href="#mapsidejoin">mapsidejoin</a></li>
+<li><a href="#倒排索引建立">倒排索引建立</a></li>
+<li><a href="#共同好友-单向-粉丝">共同好友 单向 粉丝</a></li>
+<li><a href="#web日志统计">web日志统计</a></li>
+<li><a href="#grouping-comparator">grouping comparator</a></li>
+<li><a href="#自定义-outputformat">自定义 outputFormat</a></li>
+<li><a href="#计数器">计数器</a></li>
+<li><a href="#自定义inputformat">自定义inputformat</a></li>
+<li><a href="#新的模板">新的模板</a></li>
+<li><a href="#多job-串联">多job 串联</a></li>
+<li><a href="#mr的参数优化">mr的参数优化</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div></div><div id="wmd-preview-section-3638" class="wmd-preview-section preview-content">
+
+<h2 id="对于分布式程序的理解-复习">对于分布式程序的理解 复习</h2>
+
+<p><strong>看图分析理解</strong> <br>
+jar 发送到各个机器上， nodemanager <br>
+cmd “jar -jar wc.jar”  —&gt; System.runtime.exec(cmd); <br>
+每个jar包统计出来的结果 写出到文件中  a.txt b.txt <br>
+一台机器 将  a\b 合并起来 得出最终结果写到hdfs中</p>
+
+<p>角色 ：客户端  资源服务者  任务执行者</p>
+
+<p><strong>再看 mr</strong> <br>
+replication 即使是10， 但是哟nodemanager的数量 决定….</p>
+
+<p><strong>appmaster context</strong>可以获取到 job.split job.jar job.jar ..clasapath.启动脚本 cpu 内存..等  分配调度   appmaster就启动起来 <br>
+app master 现象 resouce manager 请求container   根据  job.split 切片文件 启动maptask   一一对应</p>
+
+<p>maptask 会由 rm 调度</p>
+
+<p>根据 代码中的设置 reduce task 来运行 reducetask </p>
+
+<p><strong>再看 段狮六脉神剑 图片 架构</strong> </p>
+
+</div><div id="wmd-preview-section-4130" class="wmd-preview-section preview-content">
+
+<h2 id="代码案例">代码案例</h2>
+
+</div><div id="wmd-preview-section-4131" class="wmd-preview-section preview-content">
+
+<h3 id="reduce端join算法">reduce端join算法</h3>
+
+<p>注意：数据倾斜 负载不均衡 <br>
+小米reduce 压力大  执行时间很长 <br>
+锤子 卖的少   很快结束</p>
+
+<p>怎么做 ？  <br>
+hashcode 不好改 <br>
+reduce 也不好加</p></div><div id="wmd-preview-section-4286" class="wmd-preview-section preview-content">
+
+<h3 id="map-side-原理">map side 原理</h3>
+
+<p>map 端 join  避免数据倾斜 <br>
+注意使用场景：产品表 小的情况 被join的数据不要很大</p>
+
+<p>redis  <br>
+distributedcache  将产品信息文件交给其，其会将map文件放到 container中</p>
+
+</div><div id="wmd-preview-section-5135" class="wmd-preview-section preview-content">
+
+<h2 id="代码案例-1">代码案例</h2>
+
+</div><div id="wmd-preview-section-5145" class="wmd-preview-section preview-content">
+
+<h3 id="mapsidejoin">mapsidejoin</h3>
+
+<p>mapsidejoin.java</p>
+
+<p>//指定需要缓存一个文件到所有的maptask运行节点工作目录</p>
+
+<p>//job.addArchiveToClassPath()  //缓存jar包到task运行节点到classpath中 <br>
+//第三方的jar包   </p>
+
+<p><code>**job.addCacheFile(new uri())**</code></p>
+
+<p>setup() 方法  Mapper类查看  <br>
+run() 方法能够很清晰的看到执行流程</p>
+
+<p>虽然只写了一个mapper ，但还是会有默认的reducer ， <br>
+所以 map端join端的逻辑不需要reduce阶段，设置reducetask的数量为0</p>
+
+</div><div id="wmd-preview-section-5688" class="wmd-preview-section preview-content">
+
+<h3 id="倒排索引建立">倒排索引建立</h3>
+
+<p>需求： 有大量的文本网页 建立索引 （分词 次数）cgk  盘古</p>
+
+<p>每个单词在每个文件中长线的次数</p>
+
+<p>单词 文件名 -&gt; count <br>
+代码案例</p>
+
+</div><div id="wmd-preview-section-6537" class="wmd-preview-section preview-content">
+
+<h3 id="共同好友-单向-粉丝">共同好友 单向 粉丝</h3>
+
+<p>观点 key ？ 入口 <br>
+分布 渐进 <br>
+思路：  一个共同好友列表 <br>
+每个人是哪些人的共同好友</p>
+
+<p>俩俩配对 在做key </p>
+
+<p>拓展： 求互粉的人</p></div><div id="wmd-preview-section-7282" class="wmd-preview-section preview-content">
+
+<h3 id="web日志统计">web日志统计</h3>
+
+<p>chrome safari <br>
+切分  判断url <br>
+代码案例 <br>
+WebLogBean.java <br>
+WebLogPaser.java <br>
+WebLogPreProcess.java <br>
+001 二进制字符分隔 ，不会与所需混淆 <br>
+//可以插入静态资源 （数据资源 主题路径 规划） <br>
+WelLogPaser.filterStaticResource(webLogBean);</p>
+
+</div><div id="wmd-preview-section-8810" class="wmd-preview-section preview-content">
+
+<h3 id="grouping-comparator">grouping comparator</h3>
+
+<p>不迭代 不缓存 <br>
+同 spark  用户手机 办公地址 。。。。高效机制 <br>
+<strong>利用reduce端的grouping compartator 实现将一组bean看成相同的key</strong> <br>
+super()//要保留 注册</p>
+
+<p>partion 分区和reduce的数量   无关  由算法决定 <br>
+看 hashPartioner 与 ProivncePartioner <br>
+小文件 溢出 啥的 告诉了比大小 reduce 自动排序</p>
+
+<p><strong>writeableCompartator   源码 二进制 对比</strong></p>
+
+<p>grouping compartator 是 统扫一遍了key么?  迭代器</p>
+
+</div><div id="wmd-preview-section-10071" class="wmd-preview-section preview-content">
+
+<h3 id="自定义-outputformat">自定义 outputFormat</h3>
+
+<p>场景： 原始日志需要做增强解析  <br>
+看用户访问了什么内容？  新闻 电影 小说 啥的？ <br>
+事先爬下看网址类型  与内容信息 放入到库中 <br>
+拿到日志后到<strong>知识库</strong>中去查找 找到后 增强</p>
+
+<p>图解</p>
+
+<p><strong>代码案例</strong></p>
+
+<p>extends fileOutPutFormat   –&gt; recordWriter()</p>
+
+<p>截取文件</p>
+
+<p>no lease on …  hdfs report</p></div><div id="wmd-preview-section-11905" class="wmd-preview-section preview-content">
+
+<h3 id="计数器">计数器</h3>
+
+<p>mr 全局计数器</p>
+
+<p>枚举</p>
+
+<p>木有reduce，就木有shuffle….</p></div><div id="wmd-preview-section-11838" class="wmd-preview-section preview-content">
+
+<h3 id="自定义inputformat">自定义inputformat</h3>
+
+<p>map中的key 进行修改 <br>
+跟句文件大小进行切片 （需要<strong>改变切片机制</strong>，自定义切片合并） <br>
+大文件存储的时候 需要 a.内容|b.内容|c.内容….</p>
+
+<p>代码案例 </p>
+
+<p>combinefile <br>
+<strong>RecordREdader</strong> </p>
+
+<p>改造 多个变一个  比如每10个合并一个 … 重写outputFormat</p></div><div id="wmd-preview-section-12009" class="wmd-preview-section preview-content">
+
+<h3 id="新的模板">新的模板</h3>
+
+<p>run方法</p>
+
+</div><div id="wmd-preview-section-12532" class="wmd-preview-section preview-content">
+
+<h3 id="多job-串联">多job 串联</h3>
+
+<p>用的不多 ，实际中不要使用。 很难调整…. 要用也用shell（可以随时改）代码调整不能写死,,,一般不用</p>
+
+</div><div id="wmd-preview-section-13349" class="wmd-preview-section preview-content">
+
+<h3 id="mr的参数优化">mr的参数优化</h3>
+
+<p>看文档 day09</p>
+
+<hr>
+
+<p>话术 模板…. <br>
+项目描述 面经….</p>
+
+<p>mr 案例 <br>
+hadoop 应用实战 <br>
+hadoop 权威指南 <br>
+举一反三 触类旁通</p></div><div id="wmd-preview-section-13293" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
