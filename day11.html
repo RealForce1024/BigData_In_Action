@@ -1,0 +1,263 @@
+<!DOCTYPE html><html><head><title>day11</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
+
+<h1 id="day11">day11</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day11">day11</a><ul>
+<li><a href="#hdfs的原理机制回顾">hdfs的原理机制回顾</a></li>
+<li><a href="#yarn高可用">yarn高可用</a></li>
+<li><a href="#联邦">联邦</a></li>
+<li><a href="#实践">实践</a></li>
+<li><a href="#客户端api-如何访问-hadoop-ha">客户端api 如何访问 hadoop HA</a></li>
+<li><a href="#联邦-1">联邦</a></li>
+<li><a href="#hive">HIVE</a><ul>
+<li><a href="#什么是数据仓库">什么是数据仓库？</a></li>
+<li><a href="#为什么使用hive">为什么使用Hive</a></li>
+<li><a href="#hive架构">hive架构</a></li>
+<li><a href="#hive-thirft-服务">hive thirft 服务</a></li>
+<li><a href="#hive-ddl-dml">hive ddl dml</a></li>
+</ul>
+</li>
+<li><a href="#作业">作业</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<p>Hadoop HA (高可用) <br>
+偏运维，所以靠后讲</p>
+
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content">
+
+<h2 id="hdfs的原理机制回顾">hdfs的原理机制回顾</h2>
+
+<p>FsNameSystem 内存管理器 看源码  但内存中存数据不是很可靠 <br>
+fsimage  edits（先写入，再操作内存，之后合并） <br>
+一旦 nameNode 宕机，hdfs无法使用。 可用性 7*24 高可用 所以达不到要求。</p>
+
+<p>方案  keepalived ？  配ip维护虚拟的ip，对外提供虚拟ip，与应用是无侵入的。 一台挂掉，使用另一台，但是元数据的变化 是无法保证一致的，即状态的同步 数据的一直性。  web是一种无状态的切换，所以keepalived是可信挂掉。</p>
+
+<p>nameNode   Active standBy  <br>
+三种数据的同步 机制 <br>
+a 一进来就同步 效率低 失败的可能性比较大。 <br>
+b 将edits 下载  只差 inprogress edits <br>
+c 加入active 宕机了 ，迅速将inprogress 拿过来 迅速切换 <br>
+d 第三方需要高可靠点较好 （做成集群，类似zk最好）  <br>
+e clourea 公司 开发了 qjournal（基于zk qorumeemian）  edits 日志管理 <br>
+f 数据一致性不是很高 cap三角定理  可用可靠 数据一致性 <br>
+g zk作为 qjournal的协调服务</p>
+
+<p>自己多看官方文档  </p>
+
+<p>edits 磁盘追加  ，速度很快 <br>
+journalNode 线程池 <strong>同步</strong>去存储 edits  <strong>写多数台写入就算成功</strong> ，失败了就会主备切换</p>
+
+<p>ka 有些low，看进程能说明人家正常工作？ </p>
+
+<p>ZKFC zk fail control   RPC接口调用 Namenode的工作状态 <br>
+zkfc发现 Namenode active 挂了，通过删除zk上的active锁节点，通知对方zkfc。 <br>
+对方zkfc通过rpc通知进行状态切换 （并在zk上写锁）。</p>
+
+<p>假死 诈尸  full gc （stop the world）”瞬间昏迷”“。..两个active，双从角色…. <br>
+所以在上部，zkfc要狠点，再kill（ssh -9 kill）一次active node….但可能超时。。。此时需要我们  自定义的shell脚本</p>
+
+<p>通知切换之前，需要fence老的active namenode，如果超时，则调用用户自定义的shell脚本 ，并且在zk上注册锁</p>
+
+<p>active  standby  一对nn 有一个逻辑名称 nameServcie（配置文件中配置） 可在zk中查询到</p>
+
+<p>在standby状态的namenode会负责做checkpoint 替代secondynamenode</p>
+
+<p>namenode的safenode  fsimage 中一开始是 只记录 文件和文件的块id及副本量，但无块信息的存放信息即不知道块所在的datanode <br>
+hdfs -safemode leave (强制退出安全模式，但不建议使用，容易导致数据错乱)</p>
+
+</div><div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
+
+<h2 id="yarn高可用">yarn高可用</h2>
+
+<p>不需要记录元数据的记录，所以高可用并不那么急迫。 <br>
+但也做了 <br>
+active resource    zk 注册锁 （不用等维护好了，直接有另台机器顶上）</p>
+
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
+
+<h2 id="联邦">联邦</h2>
+
+<p>高可用  数据同套 <br>
+数据量超大  namenode 一两台不够用 <br>
+需要namenode 容量的水平拓展 <br>
+不同的服务 数据不一样  </p>
+
+<p>federation</p>
+
+<p>clusterId </p>
+
+</div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
+
+<h2 id="实践">实践</h2>
+
+<p>面试 <br>
+机器学习算法 <br>
+Python入门 <br>
+redis <br>
+**分享几个案例  <br>
+** spark 的案例  （虽然是spark的内容，但希望能够列出来，我们自己实践下）</p>
+
+<p>不要贪多，hadoop其实已经过时了 ，spark的天下，阿里招手  … <br>
+但基础jee，hadoop都是工作基础，也是经历 </p>
+
+<p>主体，后细节   总结 描述</p>
+
+<p>总之spark是在hadoop环境上，但是 企业实际中直接写mr中的不多  <br>
+学hadoop？本质是 对大数据 分布式框架底层原理 内功修炼 <br>
+提前看 spark scala</p>
+
+<p>一段 spark的代码内容 <br>
+hadoop薪水提的不高了 15-18，spark提升很大…》25</p>
+
+<p>namenode secondary name 不要放一起 <br>
+dataNode nodemanager 放一起还可以，机器富余都是可以分开的。</p>
+
+<p>集群规划</p>
+
+<ol><li rel="1"><p>copy or move <br>
+选择copy <br>
+move 物理网卡是一样的…. <br>
+copy 是会生成新的  ，eth1 改一下 eth0</p></li>
+<li rel="2"><p>主机名修改</p></li>
+<li rel="3">/etc/hosts/ <br>
+/etc/sysconfig/network   hostname=</li>
+<li rel="4">免密登录 ssh mini1 </li>
+<li rel="5">eclipse不要使用内置的jdk  </li>
+</ol>
+
+<p>程序时 单机即可，前面的集群是为了更好的理解分布式 <br>
+zk hadoop 安装  <br>
+hadoop的HA配置 </p>
+
+</div><div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+<h2 id="客户端api-如何访问-hadoop-ha">客户端api 如何访问 hadoop HA</h2>
+
+<p>代码案例 <br>
+与之前的访问方式基本一样 只是名称空间相应的改改  <br>
+最好配置文件丢过来</p>
+
+<p>两本书 源码相关 技术内幕、 ？ <br>
+namenodeProxies  PaoxandInfo….  <br>
+mapTask  newOutPutCollector  mapOutputBuffer <br>
+quickSort</p>
+
+<p>start-yarn.sh请在resource manager 对应的机器上启动</p>
+
+</div><div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+<h2 id="联邦-1">联邦</h2>
+
+<p>使用的极少，bat、运营商 等大公司  <br>
+好点20-30  <br>
+一般 10几台 <br>
+一台10t。。。</p>
+
+<p>一省  一天10t左右 </p>
+
+</div><div id="wmd-preview-section-9" class="wmd-preview-section preview-content">
+
+<h2 id="hive">HIVE</h2>
+
+<p>一般用的频繁 最多</p>
+
+<p><strong>基于hadoop的数据仓库工具</strong>。</p>
+
+</div><div id="wmd-preview-section-10" class="wmd-preview-section preview-content">
+
+<h3 id="什么是数据仓库">什么是数据仓库？</h3>
+
+<p>数据库 支撑在线联机业务 <br>
+面向历史 的 主题的  数据库  <br>
+主要用来做 数据分析   统计各种业务 <br>
+宽表  冗余 与三范式 一般不统一 </p>
+
+<p>大数据 空间换时间</p>
+
+<p>建模的几种方式 <br>
+**星型模型  事实表 关联各种维度（指标） <br>
+雪花模型** <br>
+三范式</p>
+
+</div><div id="wmd-preview-section-11" class="wmd-preview-section preview-content">
+
+<h3 id="为什么使用hive">为什么使用Hive</h3>
+
+<p>人员成本太高 <br>
+周期要求短 <br>
+mr实现复杂查询逻辑难度太大</p>
+
+<p>类似sql语法，简化开发</p>
+
+</div><div id="wmd-preview-section-12" class="wmd-preview-section preview-content">
+
+<h3 id="hive架构">hive架构</h3>
+
+<p>ods_click_data   贴源  数据集市… 不同层次 <br>
+compiler…. <br>
+一个工具 非集群 <br>
+killall -9 java </p>
+
+<p>1.2.1  2.0 deprecated  直接建议spark <br>
+bin/hive  derby 。。数据 运行的当前目录下 <br>
+配置独立的mysql</p>
+
+<p>jar jline..冲突</p>
+
+<p>适合做离线数据分析  </p>
+
+<p>row format delimited <br>
+fields terminated  by ’ , ‘</p>
+
+<p>hive 经验积累…需求量大 薪水上不去…</p>
+
+<p>parition  表的分区 提高查询效率  <br>
+bucket  提高join效率 笛卡尔 分桶</p>
+
+</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
+
+<h3 id="hive-thirft-服务">hive thirft 服务</h3>
+
+<p>bin/hiveserver2   服务 <br>
+各种客户端 <br>
+beeline   hive自带命令行客户端 <br>
+!connetct jdbc:hive2://localhost 10000</p>
+
+</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
+
+<h3 id="hive-ddl-dml">hive ddl dml</h3>
+
+<p>蓝屏 掉了一段视频  一点都不重要的  真不如看文档喽……</p>
+
+<p>hive 不做数据检查  解释不了的 null .. 不care </p>
+
+<p>hive 中也能查看hdfs  》 dfs -ls /cl</p>
+
+<p>外部表与内部表的区别  <br>
+drop 内部表 元数据 表目录 也会删掉 <br>
+外部表的表目录文件会保留。</p>
+
+<p>分区 <br>
+partion 伪字段 </p>
+
+<p>group by … 研究 5 1..17:33 分 </p>
+
+</div><div id="wmd-preview-section-15" class="wmd-preview-section preview-content">
+
+<h2 id="作业">作业</h2></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
