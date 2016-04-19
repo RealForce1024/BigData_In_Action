@@ -1,0 +1,219 @@
+<!DOCTYPE html><html><head><title>day12</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
+
+<h1 id="day12">day12</h1>
+
+<p>mysq ip 远程登录  ip权限映射</p>
+
+</div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+<p>看笔记 昨天讲的回顾</p>
+
+</div><div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+<h3 id="分桶表">分桶表</h3>
+
+</div><div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+<h2 id="什么是分桶表">什么是分桶表？</h2>
+
+<p>画图理解 <br>
+将数据hash散列 分桶 <br>
+分桶表  导入数据 是不会帮你分桶的  所以不适合 load 数据的方式 否则需要先粪桶 <br>
+正确的方式是 经过mr下，</p>
+
+</div><div id="wmd-preview-section-9" class="wmd-preview-section preview-content">
+
+<h3 id="实践">实践</h3>
+
+<p>所以 insert into t_buck select * from other. <br>
+但未成功 <br>
+需要 打开模式开关 ，且设置mr的 <br>
+set hive.enforce.bucketing=true; #指定开启粪桶 <br>
+set mapredue.job.reduces=4; #设置reduce数量 分桶数是与mr的一样 <br>
+ insert into t_buck select * from other <strong>cluster by (id)</strong> into t_buck # cluster –&gt;partion key <br>
+distribute by  sort by  === cluster by (根据id分桶并排序)</p>
+
+<p>hive 与传统数据库 的最大区别在于查询 <br>
+reduce内部有序，全局无序 <br>
+有特有的sort by </p>
+
+<p>hive中的分桶 与 mr中的分区相似</p>
+
+</div><div id="wmd-preview-section-10" class="wmd-preview-section preview-content">
+
+<h3 id="总结-看笔记">总结 看笔记</h3>
+
+<p>clusterId 最大的意义在于 提高join的效率  前提是数据是分好桶的</p>
+
+</div><div id="wmd-preview-section-11" class="wmd-preview-section preview-content">
+
+<h3 id="倍数关系-或相同-分桶join才有意义">倍数关系 或相同 分桶join才有意义</h3>
+
+</div><div id="wmd-preview-section-12" class="wmd-preview-section preview-content">
+
+<h3 id="order-by-全局慎用">order by 全局慎用</h3>
+
+</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
+
+<h3 id="保存查询结果的方式">保存查询结果的方式</h3>
+
+<ol><li rel="1"> <br>
+create table t as select * from t_o;</li>
+<li rel="2"> <br>
+insert into t select * from t_o;</li>
+<li rel="3"> <br>
+insert overwrite lcoal directory ‘/home/hadoop/test’ select * from t;</li>
+<li rel="4"> <br>
+insert overwrite  directory ‘/home/hadoop/test’ select * from t;</li>
+</ol>
+
+<p>ctrl a  \001 不会与内容混淆</p>
+
+<p>hive 版本并不是很稳定 ，网上讨论可能是不同的版本情形…..</p>
+
+</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
+
+<h3 id="hive中的各种join">hive中的各种join</h3>
+
+<p>left right out full ..semi .join <br>
+案例</p>
+
+<ol><li rel="0">准备数据</li>
+<li rel="1">建表</li>
+<li rel="2">导数据</li>
+<li rel="3">写语句</li>
+<li rel="4">实验</li>
+</ol>
+
+<p>semi –&gt;hive 中没有  exist in  子查询  innerjoin 取左边的一般 比inner join 效率较高点</p>
+
+<p>纯粹写hive sql的 就不要去了，薪资上不去的…..</p>
+
+<p>大数据 学完 到底做啥？  <br>
+项目将分发给我们 <br>
+<strong>## 广告精准推送 用户画像案例介绍</strong> <br>
+行业背景 ： <br>
+    角色： <br>
+     广告提供商  （网站，app） <br>
+    广告中介商 （提供平台 让广告提供商选择属性） 广告引擎 —&gt; 用户画像数据仓库（大数据系统核心   数据聚集识别  hive实现低，慢  <strong>图计算</strong> 高效 （sprak中 graphx 将会学习）  地图信息库 （地理位置信息表）[算距离] <strong>knn</strong> k近邻 分布式运算框架）  mahout  mlib 算法叫固定，不如自己写，但前提是得懂。 <br>
+     广告用户（业主、各行业厂商 苏宁 李宁 …）</p>
+
+<p>大数据 为jee 提供底层数据服务  ，是jee的一个领域层次。 <br>
+整个系统架构起来 什么都要会…最好 …. <br>
+经验  <br>
+道 与 术</p>
+
+<p>顶层模块 <br>
+分模块 分层</p>
+
+<p>传智大数据 研究院  比javaEE累很多….  变化很大… <br>
+极度缺人手….. <br>
+25~30 好的 到理想的 可能比35还高…. <br>
+一定要出去做一段时间 再回来….讲课与实战是不一样的感觉</p>
+
+</div><div id="wmd-preview-section-15" class="wmd-preview-section preview-content">
+
+<h2 id="hive函数">hive函数</h2>
+
+<p>大量内置函数 <br>
+hive 官方文档  hive.apache.org <br>
+language  manaual   udf <br>
+substr trim upper  round float substring</p>
+
+<p>如何快速测试函数  oracle dual  <br>
+create table dual(id string): <br>
+select concat (‘a’,’b’); <br>
+insert into 。。。很慢 <br>
+自己去准备数据导入  <br>
+load data locali inpath …</p>
+
+</div><div id="wmd-preview-section-16" class="wmd-preview-section preview-content">
+
+<h3 id="自定义函数">自定义函数</h3>
+
+</div><div id="wmd-preview-section-17" class="wmd-preview-section preview-content">
+
+<h4 id="代码案例-tolowercase">代码案例 toLowerCase</h4>
+
+<p>extends UDF  override evaluate()</p>
+
+<p>效率 <br>
+hdfs 不适合做网盘 读取都很慢，尤其是写数据 <br>
+不是专业的存储工具，而是支撑上层的运算框架。</p>
+
+<p>数据不切块 （数据切块一定会很慢），很多的磁盘看成是整体目录。 <br>
+逻辑卷 虚拟化</p>
+
+<p>成本问题  <br>
+扩容 加机器而不是 磁盘</p>
+
+<p>小米云盘 基于hbase（hdfs的封装，改变了其特性，在内存中先存储，查找速度提高，基于hdfs的数据库）</p>
+
+</div><div id="wmd-preview-section-18" class="wmd-preview-section preview-content">
+
+<h3 id="tranform">tranform</h3>
+
+<p>调用python或shell脚本</p>
+
+</div><div id="wmd-preview-section-19" class="wmd-preview-section preview-content">
+
+<h3 id="hive级联求和累计报表">hive级联求和（累计报表）</h3>
+
+<p>hive中无存储过程。  <br>
+写出一个访客月访问总记   累计访问总计 <br>
+重点掌握下 该种sql模型</p>
+
+<p>hive 优化 文档 整理给我们…….</p>
+
+</div><div id="wmd-preview-section-20" class="wmd-preview-section preview-content">
+
+<h2 id="flume">flume</h2>
+
+<p>采集网站的web日志 <br>
+flume采集 <br>
+mr 清洗  <br>
+入库 hive 数据仓库 <br>
+Etl 数据抽取 各种中间表 <br>
+最终报表 mysql中 <br>
+azkban sqoop <br>
+图形化工具 echarts  highcharts</p>
+
+<p>主要是传输到hdfs中，其他的也是可以  <br>
+可以对接各种数据源 及各种外部存储系统当中</p>
+
+<p>简单的好，复杂不得已为之，容易出错</p>
+
+</div><div id="wmd-preview-section-21" class="wmd-preview-section preview-content">
+
+<h3 id="案例讲解">案例讲解</h3>
+
+<p>netcat-logger.conf <br>
+nc - &gt; linux  nc -l 6666  </p>
+
+<p>打印到屏幕中的  有最大长度  会截断，该参数可配置。 <br>
+telnet <br>
+nc</p>
+
+<p>flume.apache.org 文档参数很详细</p>
+
+<p>最好是文件move进去 <br>
+a.txt.completed 。。。文件名不能重复。</p>
+
+</div><div id="wmd-preview-section-22" class="wmd-preview-section preview-content">
+
+<h2 id="作业">作业</h2>
+
+<p>mr 点击流模型 <br>
+计算session  定义规则 <br>
+mr需要掌握 能够写出 <br>
+项目前期的准备</p>
+
+<p>hive 课堂用的sql语句 及练习题 神sql  </p>
+
+</div><div id="wmd-preview-section-23" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
