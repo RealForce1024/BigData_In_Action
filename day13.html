@@ -1,0 +1,299 @@
+<!DOCTYPE html><html><head><title>day13</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-165" class="wmd-preview-section preview-content">
+
+<h1 id="day13">day13</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day13">day13</a><ul>
+<li><a href="#复习hive">复习hive</a><ul>
+<li><a href="#hive的结构组成">hive的结构组成</a></li>
+<li><a href="#使用方式-hive-thirftsever-hiveserver2">使用方式  hive  thirftsever  hiveserver2</a></li>
+<li><a href="#hive-e-sql">hive -e ‘sql’</a></li>
+<li><a href="#ddl方式">ddl方式</a></li>
+<li><a href="#partion">partion</a></li>
+<li><a href="#hive函数与udf">hive函数与UDF</a></li>
+<li><a href="#transform">transform</a></li>
+<li><a href="#accumulate">accumulate</a></li>
+<li><a href="#面试题插播">面试题插播</a></li>
+<li><a href="#flume-source">flume source</a></li>
+</ul>
+</li>
+<li><a href="#flume-案例讲解">flume 案例讲解</a></li>
+<li><a href="#将flume数据导入hdfs中">将flume数据导入hdfs中</a></li>
+<li><a href="#一些小事儿">一些小事儿</a></li>
+<li><a href="#多级agent串联">多级agent串联</a></li>
+<li><a href="#azkaban-工作流调度器">azkaban  工作流调度器</a></li>
+<li><a href="#案例">案例</a></li>
+<li><a href="#sqoop-数据迁移工具">sqoop 数据迁移工具</a></li>
+<li><a href="#综合案例">综合案例</a><ul>
+<li><a href="#转化路径分析">转化路径分析</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-312" class="wmd-preview-section preview-content">
+
+<h2 id="复习hive">复习hive</h2>
+
+</div><div id="wmd-preview-section-318" class="wmd-preview-section preview-content">
+
+<h3 id="hive的结构组成">hive的结构组成</h3>
+
+</div><div id="wmd-preview-section-325" class="wmd-preview-section preview-content">
+
+<h3 id="使用方式-hive-thirftsever-hiveserver2">使用方式  hive  thirftsever  hiveserver2</h3>
+
+</div><div id="wmd-preview-section-332" class="wmd-preview-section preview-content">
+
+<h3 id="hive-e-sql"><strong>hive -e ‘sql’</strong></h3>
+
+<p>shell 基本的方式  使用shell与hive结合的方式 相当强大，类似于存储过程的方式。</p>
+
+</div><div id="wmd-preview-section-471" class="wmd-preview-section preview-content">
+
+<h3 id="ddl方式">ddl方式</h3>
+
+<p>内部表与外部表 何时使用？ <br>
+一般对于外部业务 内部业务来区分 使用</p></div><div id="wmd-preview-section-1240" class="wmd-preview-section preview-content">
+
+<h3 id="partion">partion</h3>
+
+<p>分区表 做文件夹 一般使用日期时间 <br>
+分桶 文件数据分开，与mr的getPartion ，减少笛卡尔积 同时也不适合load方式。</p>
+
+<p>主要是做批量数据分析处理，不是用来做数据库的，将已有数据 读而非去写(本身就不适合写，能做也尽量不要写…)</p></div><div id="wmd-preview-section-1360" class="wmd-preview-section preview-content">
+
+<h3 id="hive函数与udf">hive函数与UDF</h3>
+
+<p>可以改源码注册进去 编译该类 编程永久的自定义函数</p>
+
+</div><div id="wmd-preview-section-1512" class="wmd-preview-section preview-content">
+
+<h3 id="transform">transform</h3>
+
+</div><div id="wmd-preview-section-1768" class="wmd-preview-section preview-content">
+
+<h3 id="accumulate">accumulate</h3>
+
+</div><div id="wmd-preview-section-3043" class="wmd-preview-section preview-content">
+
+<h3 id="面试题插播">面试题插播</h3>
+
+<p>gc 垃圾回收 <br>
+gc日志 <br>
+<strong>jvm</strong>  <br>
+<strong>kafka相当重要</strong> <br>
+10多个问题  spark与kafka整合 的各种问题  storm与kafka    其整合的类要看源码 <br>
+集合框架的核心源码  <br>
+基础架构设计</p>
+
+<p>明天将一天系统项目 <br>
+后天上午 流量运营系统 代码 文档 <br>
+下午 算法 机器学习 案例</p>
+
+</div><div id="wmd-preview-section-4837" class="wmd-preview-section preview-content">
+
+<h3 id="flume-source">flume source</h3>
+
+<p>exec source  –&gt; tail -f  一直采集文件的新数据  相当有用   -F文件名   -f idnode</p></div><div id="wmd-preview-section-4643" class="wmd-preview-section preview-content">
+
+<h2 id="flume-案例讲解">flume 案例讲解</h2>
+
+<p>telnet ip 失败   网络原因  lo 回环地址  <br>
+netstat -nltp <br>
+将…config 配置正确ip ，而非localhost 或 127.0.0.1 <br>
+但是 start-yarn.sh  resourcemanager 是没有通过ssh的方式 ，是在本地上起的，而非真正运行yarn的resourcemanager上，查看下启动日志就明白了 在本机上是无法绑定其他机器的端口….  <br>
+做大数据 知识面要广……..!!!!!</p>
+
+<p>常用命令  常用语句  总结 </p>
+
+</div><div id="wmd-preview-section-7702" class="wmd-preview-section preview-content">
+
+<h2 id="将flume数据导入hdfs中">将flume数据导入hdfs中</h2>
+
+<p>软链接 <br>
+ln -s   快捷方式 本质是文件 <br>
+注意  rm  -rf 连接…. 会删除引用的文件夹 <br>
+硬链接 <br>
+ln   一个文件的节点 inode <br>
+文件名 引用 </p>
+
+<p>tail-hdfs.config <br>
+参数讲解 <br>
+案例演示 <br>
+看web页面 反应较快…</p>
+
+</div><div id="wmd-preview-section-7720" class="wmd-preview-section preview-content">
+
+<h2 id="一些小事儿">一些小事儿</h2>
+
+<p>20`..很简单…</p>
+
+<p>一期数据 平均22 <br>
+mr …本次的50% spark   虚拟化……. <br>
+storm 一天……</p>
+
+<p>项目实际规范做法 </p>
+
+<p>大数据领域 有各种机会.. <br>
+中间件  rpc  消息队列 等核心</p>
+
+<p>大数据 –项目经理 —架构—讲师  <br>
+做着做着 …发现了机会 <br>
+别想太多…</p>
+
+<p>找什么方向  现在是岸上 <br>
+先下水游 <br>
+提高技能  浪  顺  <br>
+看到彼岸</p>
+
+</div><div id="wmd-preview-section-10015" class="wmd-preview-section preview-content">
+
+<h2 id="多级agent串联">多级agent串联</h2>
+
+<ul><li>sink\ source avro（序列化通信） <br>
+sink 端的avro是数据发送者 <br>
+source 端 的avro 为服务端，接收数据</li>
+</ul>
+
+<p>需要人工重启或者 写个脚本 监控进程，无则重启 ，目前没有高可用 <br>
+flume 高可用 热备？  良莠不齐，老一代的flume … <br>
+og 老版本 agent非高可用..master高可用有个啥用… <br>
+ng 新版本 </p>
+
+<p>flume只是个通用的日志采集方式，在特定场景，比如高可用 高并发 实时性 大量数据下是不太适用的。 </p>
+
+<p>ftp大量数据涌过来的 ….还是得自己搞搞…. <br>
+美团在flume的基础上改造的很大  关键词 ：<strong>美团flume</strong></p>
+
+</div><div id="wmd-preview-section-10919" class="wmd-preview-section preview-content">
+
+<h2 id="azkaban-工作流调度器">azkaban  工作流调度器</h2>
+
+<p>Oozie 功能丰富,<strong>Azkaban</strong>,CAscading,Hamake等 <br>
+why it？ <br>
+各种同类对比</p>
+
+</div><div id="wmd-preview-section-11760" class="wmd-preview-section preview-content">
+
+<h2 id="案例">案例</h2>
+
+<p>azkaban安装 配置 （sql,本地时区，ssl） <br>
+hwclock </p>
+
+<ul><li>单job演示</li>
+<li>依赖job演示</li>
+<li>操作hdfs创建目录</li>
+<li>mr</li>
+</ul>
+
+</div><div id="wmd-preview-section-13293" class="wmd-preview-section preview-content">
+
+<ul><li>hive </li>
+<li></li>
+</ul>
+
+<p>文件格式要 utf-8 <br>
+脚本啥的都可以通过 工作流来控制，结合shell相当自动化….</p>
+
+</div><div id="wmd-preview-section-14900" class="wmd-preview-section preview-content">
+
+<h2 id="sqoop-数据迁移工具">sqoop 数据迁移工具</h2>
+
+<p>hadoop和关系型数据库之间的双向数据迁移。</p>
+
+<p>工作机制  将导入导出命令翻译成mr</p>
+
+<p>which  java  hadoop  ls..</p>
+
+<p>按文档 跑案例</p>
+
+<p>本地运行 是种开关判断，如果本地不可以跑job，还是需要到集群中运行job</p>
+
+<p>hbase 路由信息都在zk中</p>
+
+</div><div id="wmd-preview-section-19969" class="wmd-preview-section preview-content">
+
+<h2 id="综合案例">综合案例</h2>
+
+<p>原型  cnzz.com <br>
+tongji.baidu.com <br>
+shangxiaoban.net  <br>
+91xbpx.com</p>
+
+<p>item.jd.com  百度后台统计 <br>
+通用统计 <br>
+业务统计 ：多少人看  点了多少次  推荐的有没有点击 等等 <br>
+《网站分析实战—如何以数据驱动决策…..》网站分析  业务思想  业务含义  <br>
+需求量很大</p>
+
+<p><strong>点击流日志分析</strong>  <br>
+cnzz 类的还是很少，但是公司、用户数据很多 <br>
+有些数据宝贵</p>
+
+<p>BI的 业务分析模型 很提升</p>
+
+<p>项目背景 <br>
+什么是点击流数据？ <br>
+web访问日志</p>
+
+<ul><li>web访问流日志 （比较散乱，不好分析）</li>
+<li>特征</li>
+</ul>
+
+<p>点击流数据模型 <br>
+页面设计看不到订单详情，退回去看 ，有的就不想买了 <br>
+做成一笔成交 好 用户行为轨迹分析</p>
+
+<p>常见指标</p>
+
+<p>统一的出网ip，公用路由  <br>
+手机、办公室各个地方的ip <br>
+uv 用户标识 cookieid  禁用 或 好多电脑  <br>
+基于统计学</p>
+
+</div><div id="wmd-preview-section-23018" class="wmd-preview-section preview-content">
+
+<h3 id="转化路径分析">转化路径分析</h3>
+
+<p>目标是在业务基础上定义的</p>
+
+<p>漏斗模型 <br>
+转化路径</p>
+
+<p>技术流程及架构 <br>
+1 数据采集  <br>
+2 数据预处理 清洗整理 形成宽表 （以空间换时间的思想 尽可能的减少join） <br>
+3 数据仓库 <br>
+4 数据分析 <br>
+5 数据展现</p>
+
+<p>理想的文件 建议1g文件 在两个12核和  64g内存 1w转硬盘  1t <br>
+这个可以调整 通过测试 经验得来的数据 <br>
+480条*20000</p>
+
+<p>代码讲解</p>
+
+<p>hive.mr <br>
+weblogPreProcess <br>
+clickStreamThree  <br>
+clickStreamVisit</p>
+
+<p>唱歌 <br>
+香蕉 用 吃 <br>
+下面吃 <br>
+烤牛津 <br>
+ 黄教授 男  种田  力</p></div><div id="wmd-preview-section-11782" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
