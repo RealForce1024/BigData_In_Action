@@ -1,0 +1,140 @@
+<!DOCTYPE html><html><head><title>day14</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-32" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-57" class="wmd-preview-section preview-content">
+
+<h1 id="day14">day14</h1>
+
+</div><div id="wmd-preview-section-428" class="wmd-preview-section preview-content">
+
+<h2 id="项目流程继续讲解">项目流程继续讲解</h2>
+
+</div><div id="wmd-preview-section-1540" class="wmd-preview-section preview-content">
+
+<h3 id="梳理点击流mr程序">梳理点击流mr程序</h3>
+
+<p>结构虽然感觉简单，但是指标是相当的多，主要规范做法与流程。 <br>
+etl  源表 抽取 各种中间表 不是一步到位的  逐渐衍生出各种报表</p>
+
+<p>python 脚本 封装 hive脚本 案例讲解</p>
+
+<p>邮件模板（公司需要对外邮件接口 邮件服务器） Python脚本实例 </p>
+
+<p>每个流程的实现规范的做法，流程串联起来。</p>
+
+<p>将不合法的打赏标记  且 一些转换</p>
+
+<p>先处理特殊情况</p>
+
+<p>visit three 设计到排序  最好使用框架来排序  <br>
+将其作为复合bean 组合key  ip 时间  框架自动排序   改写   效率将提高</p>
+
+<p>星型模型  事实表 维度表关联 <br>
+雪花模型 事实表 维度表（三范式） 多级关联</p>
+
+<p>数据仓库概念复习  <br>
+data warehouse  缩写  <br>
+dw  或dwh</p>
+
+</div><div id="wmd-preview-section-1590" class="wmd-preview-section preview-content">
+
+<h3 id="bi-与-技术">BI 与 技术..</h3>
+
+<p>BI 业务建模 很值钱.. <br>
+技术与业务的对比</p>
+
+<p>业务解决方案  例如 互联网金融  传统是：汽车贷款业务 <br>
+银行    车主  4s店 汽车厂商 零部件 <br>
+一个合同 业务链 跑起来  业务体系建立  业务模型  </p>
+
+<p>互联网金融体系规划好，架构师 带领 技术员已经是底层了…..</p>
+
+<p>人员的替代性…..</p></div><div id="wmd-preview-section-1871" class="wmd-preview-section preview-content">
+
+<h2 id="数据库与数据仓库的区别">数据库与数据仓库的区别</h2>
+
+<p>数据库 联机业务 <br>
+数据仓库  数据分析 离线或在线数据分析</p>
+
+<p>ip 字点池</p>
+
+<p>51期间 修炼提升 项目</p>
+
+<p>lateral view 行-&gt;列</p>
+
+<p>检查  </p>
+
+</div><div id="wmd-preview-section-2037" class="wmd-preview-section preview-content">
+
+<h2 id="数据质量检查">数据质量检查</h2>
+
+<p>写脚本看特定的 结果 进行检查，发现异常再人工检查</p>
+
+</div><div id="wmd-preview-section-4830" class="wmd-preview-section preview-content">
+
+<h2 id="hive-sql">hive sql</h2>
+
+<p>topN  打标号  row_number() over() order by ..as ..</p>
+
+<p>取分组top N sql套路  面试经典案例  <br>
+每天的新访客统计  left semi join 效率高点</p>
+
+<p>漏斗模型  <br>
+首先要有业务模型定义  </p>
+
+<p>下步对上步的比率  自关联 <br>
+是否是上步骤来的 链接  自己拓展实现。</p>
+
+<p>cast()  as  </p>
+
+<p>练习时遇到的问题 ，对于面试时有帮助的   你遇到了哪些问题？</p>
+
+<p>太复杂的步骤 可以考虑生成 中间临时表</p>
+
+<p>数据部 临时需求 </p>
+
+<ul><li><p>页面分析</p></li>
+<li><p>订单分析  <br>
+大胃王  京东数据仓库资料   讲课资料 视频等</p></li>
+<li><p>需求文档  数据需求单</p></li>
+<li>报表开发文档</li>
+</ul>
+
+<p>另外新项目</p>
+
+</div><div id="wmd-preview-section-6301" class="wmd-preview-section preview-content">
+
+<h2 id="运营商流量运营">运营商流量运营</h2>
+
+<p>背景： <br>
+    甲方:    移动、电信、联通  <br>
+    乙方： 亚信、斯特奇、东方网新、东方国信、华为</p>
+
+<p>基础  快速学习能力 <br>
+大数据 api …很基础… <br>
+向上方向  机器学习算法 8天 … 周末…苏宁…专做机器学习 算法 <br>
+机器学习导论</p>
+
+<p>亚信流量经营系统 <br>
+中国移动通信 – 流量分析系统 <br>
+上网详单  –hbase 海量数据 毫秒级查询</p>
+
+<p>flume 不适合 实时性 高可用性的数据采集 <br>
+自己写的Java数据采集系统</p>
+
+<ol><li rel="1">健壮性（人家挂了，自己不能挂）</li>
+<li rel="2">实时性 （最好要超过其数据生成，不要落后太多）–每小时 跑一次运算 etl脚本 </li>
+<li rel="3">可靠性 （）</li>
+<li rel="4">异常解决  log日志或数据库记录   清理一次 重来</li>
+</ol>
+
+<p>小文件最好在源头处合并</p>
+
+<p>金刚经 法华…  因式如是观…. <br>
+质保或 放空</p>
+
+<p>佛 较为消极… <br>
+道 仙丹. .根 毒…</p>
+
+<p>但有些教义还是不错…</p></div><div id="wmd-preview-section-2669" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
