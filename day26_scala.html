@@ -1,0 +1,239 @@
+<!DOCTYPE html><html><head><title>day26 scala</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-67116" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-67117" class="wmd-preview-section preview-content">
+
+<h1 id="day26-scala">day26 scala</h1>
+
+<p></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day26-scala">day26 scala</a><ul>
+<li><a href="#回顾">回顾</a></li>
+<li><a href="#类对象继承特质">类、对象、继承、特质</a><ul>
+<li><a href="#伴生对象">伴生对象</a></li>
+<li><a href="#apply方法">apply方法</a></li>
+<li><a href="#app">App</a></li>
+<li><a href="#构造器重载">构造器重载</a></li>
+<li><a href="#继承">继承</a></li>
+<li><a href="#类型转换和检查">类型转换和检查</a></li>
+</ul>
+</li>
+<li><a href="#模式匹配和样例类">模式匹配和样例类</a><ul>
+<li><a href="#option类型-样例类">option类型 样例类</a></li>
+<li><a href="#偏函数">偏函数</a></li>
+</ul>
+</li>
+<li><a href="#scala-actor-并发编程">scala Actor 并发编程</a><ul>
+<li><a href="#版本说明">版本说明</a></li>
+<li><a href="#传统java并发与scala-actor编程模型对比">传统Java并发与scala actor编程模型对比</a></li>
+<li><a href="#actor打印案例">actor打印案例</a></li>
+<li><a href="#发送消息案例">发送消息案例</a></li>
+</ul>
+</li>
+<li><a href="#java-线程池-callable回顾">Java 线程池 、 callable回顾</a></li>
+<li><a href="#调度器">调度器</a></li>
+<li><a href="#分享">分享</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-67118" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+<p>方法作为参数的时候 ，scala底层 将方法转换成了函数  val f = m _ <br>
+yield 很少用 <br>
+map filter sorted reverse grouped  Iterator  toList </p>
+
+<p>map 响应操作  最后将返回值 放回新的集合 ，但往往不需要，有时会很大，不需要 <br>
+foreach  仅仅集合元素的应用</p>
+
+<p>flat  map flatten  <br>
+map 不支持排序，先转为list</p>
+
+<p>单机版 1000万 数组  sum 较慢 单核 <br>
+list 转为并行化集合  par()   reduce  拆分任务 默认与核数分配 <br>
+fold <br>
+<strong>aggregate</strong> 聚合 <br>
+union <br>
+intersect <br>
+diff </p>
+
+<p>之前的四条建议 ： linux Java基础 集群相关知识  scala</p>
+
+</div><div id="wmd-preview-section-67119" class="wmd-preview-section preview-content">
+
+<h2 id="类对象继承特质">类、对象、继承、特质</h2>
+
+<p>类 半生对象（静态方法、常量） <br>
+反编译查看scala class  </p>
+
+<p>private 修饰符 <br>
+private[this] var pop = _   //scala中不想初始化，需要根据对应的类型给值.  <br>
+[this]  只有类的内部能使用 <br>
+【packagename】 包级别访问 <br>
+protected  。。。private [] class Person private{} //包级别  私有构造</p>
+
+<p>构造器（val name:String,var age:Int ,Gender:String） gender private[this]</p>
+
+<p>读取文件 </p>
+
+<p>new 的时候  主构造器里的内容 会被执行 <br>
+主构造器  注意 看深点  <br>
+scala  object 本身就是单例  10：54分 没听清 再看下</p>
+
+</div><div id="wmd-preview-section-67120" class="wmd-preview-section preview-content">
+
+<h3 id="伴生对象">伴生对象</h3>
+
+</div><div id="wmd-preview-section-67121" class="wmd-preview-section preview-content">
+
+<h3 id="apply方法">apply方法</h3>
+
+<p>不new 的时候 找 参数一致的apply方法</p>
+
+</div><div id="wmd-preview-section-67122" class="wmd-preview-section preview-content">
+
+<h3 id="app">App</h3>
+
+<p>一般做测试时用，但平常不建议使用</p>
+
+</div><div id="wmd-preview-section-67123" class="wmd-preview-section preview-content">
+
+<h3 id="构造器重载">构造器重载</h3>
+
+<p>主构造 辅助构造（要先调用主构造器）且一定要在第一行 <br>
+extends <br>
+with  <br>
+override</p>
+
+</div><div id="wmd-preview-section-67124" class="wmd-preview-section preview-content">
+
+<h3 id="继承">继承</h3>
+
+<p>trait </p>
+
+</div><div id="wmd-preview-section-67125" class="wmd-preview-section preview-content">
+
+<h3 id="类型转换和检查">类型转换和检查</h3>
+
+</div><div id="wmd-preview-section-67126" class="wmd-preview-section preview-content">
+
+<h2 id="模式匹配和样例类">模式匹配和样例类</h2>
+
+<p>rpc的基础</p>
+
+<p>match  case  =&gt; </p>
+
+<p>List 头 尾 </p>
+
+<p>case class </p>
+
+<p>第四种使用的较多 <br>
+样例类是特殊的类 <br>
+case class 多例   不需要new 也可以new 底层会自动new 。加参数，利于封装数据 <br>
+case object 单例  不能带参数 。有啥用？</p>
+
+</div><div id="wmd-preview-section-67127" class="wmd-preview-section preview-content">
+
+<h3 id="option类型-样例类">option类型 样例类</h3>
+
+<p>map.get  match  <br>
+get方法点进去  def get(): <strong>Option -&gt; some none</strong> </p>
+
+<p>getOrElse  底层实现就是上面的逻辑</p>
+
+</div><div id="wmd-preview-section-67128" class="wmd-preview-section preview-content">
+
+<h3 id="偏函数">偏函数</h3>
+
+<p>被抱在花括号内没有match的一组case语句是个偏函数</p>
+
+<p>def fun1: PartialFunction[String, Int]</p>
+
+</div><div id="wmd-preview-section-67129" class="wmd-preview-section preview-content">
+
+<h2 id="scala-actor-并发编程">scala Actor 并发编程</h2>
+
+<p>Java 并发 使用线程 有些危险  安全 加锁 <br>
+scala不需要操作线程，由于actor编程模型 <br>
+Akka 底层通信 模型 1.6 netty、akka</p>
+
+</div><div id="wmd-preview-section-67130" class="wmd-preview-section preview-content">
+
+<h3 id="版本说明">版本说明</h3>
+
+</div><div id="wmd-preview-section-67131" class="wmd-preview-section preview-content">
+
+<h3 id="传统java并发与scala-actor编程模型对比">传统Java并发与scala actor编程模型对比</h3>
+
+</div><div id="wmd-preview-section-67132" class="wmd-preview-section preview-content">
+
+<h3 id="actor打印案例">actor打印案例</h3>
+
+<p>俩actor打印  <br>
+object xx extend Actor  //scala.actors.Actor  2.11.x已经废弃 ，使用的akka的actor</p>
+
+<p>case calss  封装数据 模式匹配</p>
+
+</div><div id="wmd-preview-section-67133" class="wmd-preview-section preview-content">
+
+<h3 id="发送消息案例">发送消息案例</h3>
+
+<p>loop==while  react 服用线程池 性能会高些&gt; receive</p>
+
+<p>akka 学习笔记 《过往记忆 》 博客 <br>
+actor 发送的消息 处理是有顺序的</p>
+
+<p>多线程 callable 返回 future 真正完成后 放到future 中 不停的检查future中的结果，然后进行汇总 <br>
+提交到线程池中 </p>
+
+<p>单机并发wordcount</p>
+
+<p>Java线程池  wordcount </p>
+
+<p>akka–spark <br>
+hadoop mr 越来越少 <br>
+yarn 还是会流行 storm hadoop spark  <br>
+图 sql mr 离线 实时 等  <br>
+线程池 callable </p>
+
+<p>这里result task 没有去序列化 ，是单机版本的。 </p>
+
+<p>出去俩基本功  jvm 、 多线程 俩问题搞shit </p>
+
+<p>马大爷  泛型等 <br>
+dogue  leg 线程并发包</p>
+
+</div><div id="wmd-preview-section-67134" class="wmd-preview-section preview-content">
+
+<h2 id="java-线程池-callable回顾">Java 线程池 、 callable回顾</h2>
+
+</div><div id="wmd-preview-section-67135" class="wmd-preview-section preview-content">
+
+<h2 id="调度器">调度器</h2>
+
+<p>先进先出  blockqueue <br>
+调度器</p>
+
+</div><div id="wmd-preview-section-67136" class="wmd-preview-section preview-content">
+
+<h2 id="分享">分享</h2>
+
+<p>快学scala 画些重点  多翻翻  回头看看重点 <br>
+scala in deepth 内容很精深</p>
+
+<p>建议写scala的时候 加些注释 <br>
+有些结果粘贴 等 或 多行过程等</p>
+
+<p>自动化控制 大学 c c++ 工作 java  python  两年前 scala  开始使用的Java 然后python接口，还是觉得spark的内核 scala 还是scala </p>
+
+</div><div id="wmd-preview-section-67137" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
