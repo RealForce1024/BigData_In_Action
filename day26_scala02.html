@@ -1,10 +1,10 @@
-<!DOCTYPE html><html><head><title>day26 scala</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+<!DOCTYPE html><html><head><title>day26_scala02</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-67116" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-125" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-67117" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-126" class="wmd-preview-section preview-content">
 
-<h1 id="day26-scala">day26 scala</h1>
+<h1 id="day26scala02">day26_scala02</h1>
 
 <p></p>
 
@@ -12,7 +12,7 @@
 
 <div><div class="toc"><div class="toc">
 <ul>
-<li><a href="#day26-scala">day26 scala</a><ul>
+<li><a href="#day26scala02">day26_scala02</a><ul>
 <li><a href="#回顾">回顾</a></li>
 <li><a href="#类对象继承特质">类、对象、继承、特质</a><ul>
 <li><a href="#伴生对象">伴生对象</a></li>
@@ -45,7 +45,7 @@
 </div>
 </div>
 
-</div><div id="wmd-preview-section-67118" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-127" class="wmd-preview-section preview-content">
 
 <h2 id="回顾">回顾</h2>
 
@@ -69,7 +69,7 @@ diff </p>
 
 <p>之前的四条建议 ： linux Java基础 集群相关知识  scala</p>
 
-</div><div id="wmd-preview-section-67119" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-128" class="wmd-preview-section preview-content">
 
 <h2 id="类对象继承特质">类、对象、继承、特质</h2>
 
@@ -90,23 +90,23 @@ protected  。。。private [] class Person private{} //包级别  私有构造<
 主构造器  注意 看深点  <br>
 scala  object 本身就是单例  10：54分 没听清 再看下</p>
 
-</div><div id="wmd-preview-section-67120" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-129" class="wmd-preview-section preview-content">
 
 <h3 id="伴生对象">伴生对象</h3>
 
-</div><div id="wmd-preview-section-67121" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-130" class="wmd-preview-section preview-content">
 
 <h3 id="apply方法">apply方法</h3>
 
 <p>不new 的时候 找 参数一致的apply方法</p>
 
-</div><div id="wmd-preview-section-67122" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-131" class="wmd-preview-section preview-content">
 
 <h3 id="app">App</h3>
 
 <p>一般做测试时用，但平常不建议使用</p>
 
-</div><div id="wmd-preview-section-67123" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-132" class="wmd-preview-section preview-content">
 
 <h3 id="构造器重载">构造器重载</h3>
 
@@ -115,17 +115,17 @@ extends <br>
 with  <br>
 override</p>
 
-</div><div id="wmd-preview-section-67124" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-133" class="wmd-preview-section preview-content">
 
 <h3 id="继承">继承</h3>
 
 <p>trait </p>
 
-</div><div id="wmd-preview-section-67125" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-134" class="wmd-preview-section preview-content">
 
 <h3 id="类型转换和检查">类型转换和检查</h3>
 
-</div><div id="wmd-preview-section-67126" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-135" class="wmd-preview-section preview-content">
 
 <h2 id="模式匹配和样例类">模式匹配和样例类</h2>
 
@@ -142,7 +142,7 @@ override</p>
 case class 多例   不需要new 也可以new 底层会自动new 。加参数，利于封装数据 <br>
 case object 单例  不能带参数 。有啥用？</p>
 
-</div><div id="wmd-preview-section-67127" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-136" class="wmd-preview-section preview-content">
 
 <h3 id="option类型-样例类">option类型 样例类</h3>
 
@@ -151,7 +151,7 @@ get方法点进去  def get(): <strong>Option -&gt; some none</strong> </p>
 
 <p>getOrElse  底层实现就是上面的逻辑</p>
 
-</div><div id="wmd-preview-section-67128" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-137" class="wmd-preview-section preview-content">
 
 <h3 id="偏函数">偏函数</h3>
 
@@ -159,7 +159,7 @@ get方法点进去  def get(): <strong>Option -&gt; some none</strong> </p>
 
 <p>def fun1: PartialFunction[String, Int]</p>
 
-</div><div id="wmd-preview-section-67129" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-138" class="wmd-preview-section preview-content">
 
 <h2 id="scala-actor-并发编程">scala Actor 并发编程</h2>
 
@@ -167,15 +167,15 @@ get方法点进去  def get(): <strong>Option -&gt; some none</strong> </p>
 scala不需要操作线程，由于actor编程模型 <br>
 Akka 底层通信 模型 1.6 netty、akka</p>
 
-</div><div id="wmd-preview-section-67130" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-139" class="wmd-preview-section preview-content">
 
 <h3 id="版本说明">版本说明</h3>
 
-</div><div id="wmd-preview-section-67131" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-140" class="wmd-preview-section preview-content">
 
 <h3 id="传统java并发与scala-actor编程模型对比">传统Java并发与scala actor编程模型对比</h3>
 
-</div><div id="wmd-preview-section-67132" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-141" class="wmd-preview-section preview-content">
 
 <h3 id="actor打印案例">actor打印案例</h3>
 
@@ -184,7 +184,7 @@ object xx extend Actor  //scala.actors.Actor  2.11.x已经废弃 ，使用的akk
 
 <p>case calss  封装数据 模式匹配</p>
 
-</div><div id="wmd-preview-section-67133" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-142" class="wmd-preview-section preview-content">
 
 <h3 id="发送消息案例">发送消息案例</h3>
 
@@ -213,18 +213,18 @@ yarn 还是会流行 storm hadoop spark  <br>
 <p>马大爷  泛型等 <br>
 dogue  leg 线程并发包</p>
 
-</div><div id="wmd-preview-section-67134" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-143" class="wmd-preview-section preview-content">
 
 <h2 id="java-线程池-callable回顾">Java 线程池 、 callable回顾</h2>
 
-</div><div id="wmd-preview-section-67135" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-144" class="wmd-preview-section preview-content">
 
 <h2 id="调度器">调度器</h2>
 
 <p>先进先出  blockqueue <br>
 调度器</p>
 
-</div><div id="wmd-preview-section-67136" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-145" class="wmd-preview-section preview-content">
 
 <h2 id="分享">分享</h2>
 
@@ -236,4 +236,4 @@ scala in deepth 内容很精深</p>
 
 <p>自动化控制 大学 c c++ 工作 java  python  两年前 scala  开始使用的Java 然后python接口，还是觉得spark的内核 scala 还是scala </p>
 
-</div><div id="wmd-preview-section-67137" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-146" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
