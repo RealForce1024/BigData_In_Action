@@ -1,14 +1,18 @@
 <!DOCTYPE html><html><head><title>day25_scala01</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-31283" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-54726" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31814" class="wmd-preview-section preview-content">
 
 <h1 id="day25scala01">day25_scala01</h1>
 
 <p></p>
 
-<p>听课策略 <br>
+<p><strong>声明</strong>: <br>
+该笔记为随堂笔记+课后整理拓展 老师讲解与自我思考的融合。 <br>
+有些错误总会修补的，只是早晚，最好以老师的文档为准，我整理为辅</p>
+
+<p><strong>听课策略</strong> <br>
 这三天 是scala的语法和特性  <br>
 基本的数据结构和算法 scala的面试题注意 <br>
 scala书籍刷完 <br>
@@ -17,10 +21,8 @@ scala书籍刷完 <br>
 《scala编程思想》：写给小白的书,这本就不要入坑了 <br>
 《scala函数式编程》：值得深究</p>
 
-<p>约定： 函数 方法 <br>
-scala函数是一等公民，方法 和 函数 区别开来是为了更好的讲解与理解。</p>
-
-</div><div id="wmd-preview-section-56627" class="wmd-preview-section preview-content">
+<p><strong>约定： 函数 方法</strong> <br>
+scala函数是一等公民，方法 和 函数 区别开来是为了更好的讲解与理解。</p></div><div id="wmd-preview-section-31285" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">methodxx</span>(</span>args:<span class="hljs-type">Int</span>):<span class="hljs-type">Int</span> = {<span class="hljs-number">123</span>} <span class="hljs-comment">// 约定称之为方法</span><br><span class="hljs-keyword">val</span> methodxx2 = (x:<span class="hljs-type">Int</span>)=&gt;x*<span class="hljs-number">2</span> <span class="hljs-comment">// 约定称之为函数</span><br></code></pre>
 
@@ -55,6 +57,8 @@ scala函数是一等公民，方法 和 函数 区别开来是为了更好的讲
 <li><a href="#块表达式-与-的使用">块表达式 与 ; 的使用</a></li>
 <li><a href="#循环">循环</a></li>
 <li><a href="#带过滤条件的for循环">带过滤条件的for循环</a></li>
+<li><a href="#yield关键字-for-推导式">yield关键字 for 推导式</a></li>
+<li><a href="#filter-替换含过滤条件的for推导式">filter 替换含过滤条件的for推导式</a></li>
 <li><a href="#yield-的强大">yield 的强大</a></li>
 <li><a href="#1to10map10">1.to(10).map(_*10)</a></li>
 <li><a href="#数组下标的使用方法">数组下标的使用方法</a></li>
@@ -102,7 +106,9 @@ scala函数是一等公民，方法 和 函数 区别开来是为了更好的讲
 </ul>
 </div>
 </div>
-</div></div><div id="wmd-preview-section-56728" class="wmd-preview-section preview-content">
+</div>
+
+</div><div id="wmd-preview-section-31286" class="wmd-preview-section preview-content">
 
 <h2 id="why-scala">why scala</h2>
 
@@ -139,7 +145,9 @@ actor编程  <br>
   Scala不仅仅是更好的Java。你应该用全新的头脑来学习它。</p>
 </blockquote>
 
-<p>hadoop mr程序代码回顾</p></div><div id="wmd-preview-section-54729" class="wmd-preview-section preview-content">
+<p>hadoop mr程序代码回顾</p>
+
+</div><div id="wmd-preview-section-31287" class="wmd-preview-section preview-content">
 
 <h2 id="体验一把spark的强悍">体验一把spark的强悍</h2>
 
@@ -152,7 +160,7 @@ Java写的运行速度也很快，但是写起来麻烦</p>
 <p>立即看到 ， 速度真的很快  <br>
 spark 有分区的概念，但没有 reduer的改变</p>
 
-</div><div id="wmd-preview-section-54730" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31288" class="wmd-preview-section preview-content">
 
 <h2 id="scala概述">Scala概述</h2>
 
@@ -163,7 +171,7 @@ Object-Oriented Meets Functional  <br>
 elegant 优雅  <br>
 higher-order functions 高阶函数</p>
 
-</div><div id="wmd-preview-section-54731" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31289" class="wmd-preview-section preview-content">
 
 <h3 id="作者简介">作者简介</h3>
 
@@ -188,7 +196,7 @@ c\c++ 导弹 说走就走但是 不好控制</p>
 <p>Java又臭又长 scala优雅 <br>
 爱到无法自拔 海枯石烂…………..</p>
 
-</div><div id="wmd-preview-section-54732" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31290" class="wmd-preview-section preview-content">
 
 <h2 id="scala环境准备">scala环境准备</h2>
 
@@ -197,38 +205,38 @@ c\c++ 导弹 说走就走但是 不好控制</p>
 <li rel="3">scala shell 所见即所得  学习 测试时使用较多</li>
 </ol>
 
-</div><div id="wmd-preview-section-54733" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31291" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-keyword">val</span> str = <span class="hljs-string">"i love scala"</span>  <span class="hljs-comment">//val 不变量 相当于Java 中 final value 常常量值 value</span><br><span class="hljs-keyword">var</span> str = <span class="hljs-string">"hello world"</span> <span class="hljs-comment">// 变量 variable</span><br></code></pre>
 
 <p>一句话调侃  hello world  找不到对象（js对象 ie6 7）</p>
 
-</div><div id="wmd-preview-section-54734" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31292" class="wmd-preview-section preview-content">
 
 <h2 id="helloscala-helloworld">HelloScala helloworld</h2>
 
 <p>与Java的Hello world 流程没区别</p>
 
-</div><div id="wmd-preview-section-54735" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31293" class="wmd-preview-section preview-content">
 
 <h3 id="代码编写">代码编写</h3>
 
 <p>HelloScala.scala</p>
 
-</div><div id="wmd-preview-section-54736" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31294" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">HelloScala</span>{</span>   <span class="hljs-comment">//object 伴生对象 相当于静态的 </span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span> (</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]){<br>        println(<span class="hljs-string">"hello scala, i love you so much"</span>)<br>    }<br>}<br></code></pre>
 
 <p>object 中的 方法、变量是静态的</p>
 
-</div><div id="wmd-preview-section-54737" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31295" class="wmd-preview-section preview-content">
 
 <h3 id="代码编译">代码编译</h3>
 
 <p>scalac HelloScala.scala <br>
 被编译成 HelloScala.class </p>
 
-</div><div id="wmd-preview-section-54738" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31296" class="wmd-preview-section preview-content">
 
 <h3 id="运行">运行</h3>
 
@@ -236,7 +244,7 @@ c\c++ 导弹 说走就走但是 不好控制</p>
 
 <p>插画：据说之前的搜狐老大 直接vim 撸起来 …. 更强悍的emacs</p>
 
-</div><div id="wmd-preview-section-54739" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31297" class="wmd-preview-section preview-content">
 
 <h2 id="ide的示范">IDE的示范</h2>
 
@@ -247,13 +255,13 @@ IDEA官网 plugins <br>
 <strong>注意 编码的修改  default settings 全局</strong> <br>
 <strong>settings针对自身工程</strong></p>
 
-</div><div id="wmd-preview-section-54740" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31298" class="wmd-preview-section preview-content">
 
 <h2 id="scala基础">Scala基础</h2>
 
 <p>以下快速阅读解释</p>
 
-</div><div id="wmd-preview-section-54741" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31299" class="wmd-preview-section preview-content">
 
 <h3 id="变量定义">变量定义</h3>
 
@@ -262,46 +270,46 @@ scala编程哲学  多敲一个键盘都是浪费 <br>
 val =&gt; Value 值 不可变 类似Java Final  原因 1. 线程安全的  2. jvm 分代回收的更快  <br>
 var=&gt; Variable  可变的</p>
 
-</div><div id="wmd-preview-section-54742" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31300" class="wmd-preview-section preview-content">
 
 <h3 id="编译器自动推断类型">编译器自动推断类型</h3>
 
-</div><div id="wmd-preview-section-54743" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31301" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-keyword">val</span> str: <span class="hljs-type">String</span> = <span class="hljs-string">"hello world"</span><br><span class="hljs-keyword">val</span> str = <span class="hljs-string">"hello world"</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54744" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31302" class="wmd-preview-section preview-content">
 
 <h3 id="常用的类型">常用的类型</h3>
 
 <p>7中常用的基本类型  <br>
 Java有包装类，但是Scala中没有， 其都是类</p>
 
-</div><div id="wmd-preview-section-54745" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31303" class="wmd-preview-section preview-content">
 
 <h3 id="表达式计算返回值">表达式计算返回值</h3>
 
-</div><div id="wmd-preview-section-54746" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31304" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">2</span>) x<br>res0: <span class="hljs-type">AnyVal</span> = <span class="hljs-number">3</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54747" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31305" class="wmd-preview-section preview-content">
 
 <h3 id="混合类型表达式返回">混合类型表达式返回</h3>
 
 <p>在表达式中可返回多种类型的值</p>
 
-</div><div id="wmd-preview-section-54748" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31306" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">5</span>) x <span class="hljs-keyword">else</span> <span class="hljs-string">"error"</span><br>res2: <span class="hljs-type">Any</span> = error<br></code></pre>
 
 <p>可返回Int 或 Any类型</p>
 
-</div><div id="wmd-preview-section-54749" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31307" class="wmd-preview-section preview-content">
 
 <h3 id="缺失-else-返回unit-相当于java-void">缺失 else  返回unit 相当于Java void</h3>
 
-</div><div id="wmd-preview-section-54750" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31308" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">5</span>) x<br>res0: <span class="hljs-type">AnyVal</span> = ()<br></code></pre>
 
@@ -319,7 +327,7 @@ Java有包装类，但是Scala中没有， 其都是类</p>
   }</li>
   </ul>
   
-  </blockquote></div><div id="wmd-preview-section-54751" class="wmd-preview-section preview-content">
+  </blockquote></div><div id="wmd-preview-section-31309" class="wmd-preview-section preview-content">
 
 
 <h3 id="scala中的空-unit">scala中的空 Unit {} ()</h3>
@@ -327,19 +335,19 @@ Java有包装类，但是Scala中没有， 其都是类</p>
 <p>返回值类型为空 Unit 默认 可以省略 <br>
 除Unit类型外还有()或{}都可以表达为空</p>
 
-</div><div id="wmd-preview-section-54752" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31310" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> arr = {}<br>arr: <span class="hljs-type">Unit</span> = ()<br><br>scala&gt; <span class="hljs-keyword">val</span> azz = ()<br>azz: <span class="hljs-type">Unit</span> = ()<br></code></pre>
 
-</div><div id="wmd-preview-section-54753" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31311" class="wmd-preview-section preview-content">
 
 <h3 id="if-else-if-else">if else if else</h3>
 
-</div><div id="wmd-preview-section-54754" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31312" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">5</span>) x <span class="hljs-keyword">else</span> <span class="hljs-function"><span class="hljs-title">if</span><span class="hljs-params">(x==<span class="hljs-number">3</span>)</span></span> x <span class="hljs-keyword">else</span> <span class="hljs-string">"error"</span><br>res5: Any = <span class="hljs-number">3</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54755" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31313" class="wmd-preview-section preview-content">
 
 <h3 id="块表达式-与-的使用">块表达式 与 ; 的使用</h3>
 
@@ -351,13 +359,13 @@ Java有包装类，但是Scala中没有， 其都是类</p>
 
 <p>直接在scala中执行</p>
 
-</div><div id="wmd-preview-section-54756" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31314" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-keyword">val</span> method01 = (x:<span class="hljs-type">Int</span>)=&gt;x&gt;<span class="hljs-number">5</span> println(x)<br>&lt;console&gt;:<span class="hljs-number">8</span>: error: value println is not a member of <span class="hljs-type">Boolean</span><br>       <span class="hljs-keyword">val</span> method01 = (x:<span class="hljs-type">Int</span>)=&gt;x&gt;<span class="hljs-number">5</span> println(x)<br>                                   ^<br></code></pre>
 
 <p>注意两条语句中<code>;</code>隔开</p>
 
-</div><div id="wmd-preview-section-54757" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31315" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> method01 = (x:<span class="hljs-type">Int</span>)=&gt;x&gt;<span class="hljs-number">5</span>; println(x)<br><span class="hljs-number">3</span><br>method01: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">Boolean</span> = &lt;function1&gt;<br><br>scala&gt; <span class="hljs-keyword">val</span> method02 = {(x:<span class="hljs-type">Int</span>)=&gt;x&gt;<span class="hljs-number">5</span>; println(x)}<br>method02: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">Unit</span> = &lt;function1&gt;<br></code></pre>
 
@@ -368,61 +376,86 @@ Java有包装类，但是Scala中没有， 其都是类</p>
 
 <p>区别显而易见</p>
 
-</div><div id="wmd-preview-section-54758" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31316" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs zephir">method01: <span class="hljs-keyword">Int</span> =&gt; <span class="hljs-keyword">Boolean</span> = &lt;function1&gt;<br>method02: <span class="hljs-keyword">Int</span> =&gt; Unit = &lt;function1&gt;<br></code></pre>
 
 <p>更多示例</p>
 
-</div><div id="wmd-preview-section-54759" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31317" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> method01 = (x:<span class="hljs-type">Int</span>)=&gt;{<span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">5</span>) println(x)}<br>method01: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">Unit</span> = &lt;function1&gt;<br>scala&gt; <span class="hljs-keyword">val</span> method01 = (x:<span class="hljs-type">Int</span>)=&gt;<span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">5</span>) x<br>method01: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">AnyVal</span> = &lt;function1&gt;<br><br>scala&gt; <span class="hljs-keyword">val</span> a = {<span class="hljs-keyword">val</span> b =<span class="hljs-number">2</span> ; b+<span class="hljs-number">2</span>}<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">4</span><br>scala&gt; <span class="hljs-keyword">val</span> a = <span class="hljs-keyword">val</span> b =<span class="hljs-number">2</span> ; b+<span class="hljs-number">2</span> <span class="hljs-comment">//注意这种表达式多行时{ val xx...；..}</span><br>&lt;console&gt;:<span class="hljs-number">1</span>: error: illegal start of simple expression<br>       <span class="hljs-keyword">val</span> a = <span class="hljs-keyword">val</span> b =<span class="hljs-number">2</span> ; b+<span class="hljs-number">2</span><br><span class="hljs-keyword">for</span>(x &lt;- arr) println(x); print(x); print(x) <span class="hljs-comment">//这种情况是没有问题的 方法块 ...方法块是可以的</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54760" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31318" class="wmd-preview-section preview-content">
 
 <h3 id="循环">循环</h3>
 
 <p>1 to 10  dsl风格 to其实是个方法 返回值类型Range <br>
 toList 方法转为List类型</p>
 
-</div><div id="wmd-preview-section-54761" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31319" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><br>scala&gt; <span class="hljs-keyword">val</span> arr = <span class="hljs-number">1</span> to <span class="hljs-number">10</span><br>arr: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> arr = <span class="hljs-number">1</span> to <span class="hljs-number">10</span> toList<br>arr: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(x &lt;- arr) println(x)<br><span class="hljs-number">1</span><br>...<br><span class="hljs-number">10</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54762" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31320" class="wmd-preview-section preview-content">
 
 <h3 id="带过滤条件的for循环">带过滤条件的for循环</h3>
 
-</div><div id="wmd-preview-section-54763" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31321" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(x &lt;- arr) <span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) println(x)<br><span class="hljs-number">2</span><br><span class="hljs-number">4</span><br><span class="hljs-number">6</span><br><span class="hljs-number">8</span><br><span class="hljs-number">10</span><br></code></pre>
 
-<p>其实这个种方式很low的，以后基本上不用 <br>
-大多数使用类似filter的高阶函数</p>
+</div><div id="wmd-preview-section-31322" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-54764" class="wmd-preview-section preview-content">
+<pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span>; j &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span> <span class="hljs-keyword">if</span> i!=j) println(i*<span class="hljs-number">10</span>+j)<br><span class="hljs-number">12</span><br><span class="hljs-number">13</span><br><span class="hljs-number">21</span><br><span class="hljs-number">23</span><br><span class="hljs-number">31</span><br><span class="hljs-number">32</span><br></code></pre>
 
-<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">//这里我使用三种方式表达，逐一演变</span><br>scala&gt; arr.filter((x:<span class="hljs-type">Int</span>)=&gt;x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res21: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; arr.filter(x=&gt;x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res19: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; arr.filter(_%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res18: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br></code></pre>
+</div><div id="wmd-preview-section-31323" class="wmd-preview-section preview-content">
+
+<h3 id="yield关键字-for-推导式">yield关键字 for 推导式</h3>
+
+</div><div id="wmd-preview-section-31324" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; <span class="hljs-keyword">for</span>(x &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">10</span>) yield x*<span class="hljs-number">10</span><br>res18: scala.collection.immutable.IndexedSeq[Int] = Vector(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>, <span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">90</span>, <span class="hljs-number">100</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-31325" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; <span class="hljs-keyword">for</span>(x &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">10</span> <span class="hljs-keyword">if</span> x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) yield x*<span class="hljs-number">10</span><br>res19: scala.collection.immutable.IndexedSeq[Int] = Vector(<span class="hljs-number">20</span>, <span class="hljs-number">40</span>, <span class="hljs-number">60</span>, <span class="hljs-number">80</span>, <span class="hljs-number">100</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-31326" class="wmd-preview-section preview-content">
+
+<h3 id="filter-替换含过滤条件的for推导式">filter 替换含过滤条件的for推导式</h3>
+
+<p>其实上个示例low的，以后基本上不用 <br>
+大多数使用类似filter map的高阶函数 <br>
+一行替代 for if yield</p>
+
+</div><div id="wmd-preview-section-31327" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs cpp"><br>scala&gt; arr.filter(_%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>).<span class="hljs-built_in">map</span>(_*<span class="hljs-number">10</span>)<span class="hljs-comment">//一行搞定</span><br>res23: List[Int] = List(<span class="hljs-number">20</span>, <span class="hljs-number">40</span>, <span class="hljs-number">60</span>, <span class="hljs-number">80</span>, <span class="hljs-number">100</span>)<br><br><br><span class="hljs-comment">//注意其他演变过程</span><br>scala&gt; arr.<span class="hljs-built_in">map</span>(x=&gt;<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x*<span class="hljs-number">10</span>)<br>res26: List[AnyVal] = List((), <span class="hljs-number">20</span>, (), <span class="hljs-number">40</span>, (), <span class="hljs-number">60</span>, (), <span class="hljs-number">80</span>, (), <span class="hljs-number">100</span>)<br><span class="hljs-comment">//注意 为啥返回中包含（）。</span><br><span class="hljs-comment">//看这里就明白了 上句代码为满足条件者默认else (). </span><br>scala&gt; arr.<span class="hljs-built_in">map</span>(x=&gt;<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x*<span class="hljs-number">10</span> <span class="hljs-keyword">else</span> None)<br>res28: List[Any] = List(None, <span class="hljs-number">20</span>, None, <span class="hljs-number">40</span>, None, <span class="hljs-number">60</span>, None, <span class="hljs-number">80</span>, None, <span class="hljs-number">100</span>)<br><span class="hljs-comment">//最后再看该段落的第一行代码 使用filter其实就可以过滤掉()，留下符合要求的值</span><br></code></pre>
+
+</div><div id="wmd-preview-section-31328" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">//这里我使用三种方式表达，逐一演变</span><br><br>scala&gt; arr.filter((x:<span class="hljs-type">Int</span>)=&gt;x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res21: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; arr.filter(x=&gt;x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res19: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; arr.filter(_%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>)<br>res18: <span class="hljs-type">List</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">List</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>, <span class="hljs-number">10</span>)<br></code></pre>
 
 <p><strong>note:</strong></p>
 
-</div><div id="wmd-preview-section-54765" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31329" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; x<br>res31: Int = <span class="hljs-number">3</span><br><br>scala&gt; arr.filter(x=&gt;x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>);println(x)<br><span class="hljs-number">3</span>    <span class="hljs-comment">//这里只打印了x的值3。 而前面的List过滤值在scala shell中没有显示。所以</span><br></code></pre>
 
 <p><strong>note:</strong></p>
 
-</div><div id="wmd-preview-section-54766" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31330" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">mismatch</span>;</span><br> found   : <span class="hljs-type">Int</span><br> required: <span class="hljs-type">Boolean</span><br>              arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br>                                        ^<br>scala&gt; arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br></code></pre>
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">mismatch</span>;</span><br> found   : <span class="hljs-type">Int</span><br> required: <span class="hljs-type">Boolean</span> <span class="hljs-comment">//filter要求返回Boolean类型执行</span><br>              arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br>                                        ^<br>scala&gt; arr.filter(x=&gt;{<span class="hljs-keyword">if</span>(x%<span class="hljs-number">2</span>==<span class="hljs-number">0</span>) x})<br></code></pre>
 
-</div><div id="wmd-preview-section-54767" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31331" class="wmd-preview-section preview-content">
 
 <h3 id="yield-的强大">yield 的强大</h3>
 
 <p>yield前的类型是啥 就会返回啥类型</p>
 
-</div><div id="wmd-preview-section-54768" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31332" class="wmd-preview-section preview-content">
 
 <h3 id="1to10map10">1.to(10).map(_*10)</h3>
 
@@ -435,23 +468,21 @@ toList 方法转为List类型</p>
 找偶数  for  if yield <br>
 fielter(_ % 2==0) 10:42</p>
 
-<p>for(i &lt;- 1 to 3; j &lt;- 1 to 3 if i!=j) println(i*10+j)</p>
-
-</div><div id="wmd-preview-section-54769" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31333" class="wmd-preview-section preview-content">
 
 <h3 id="数组下标的使用方法">数组下标的使用方法</h3>
 
 <p>to <br>
 until </p>
 
-</div><div id="wmd-preview-section-54770" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31334" class="wmd-preview-section preview-content">
 
 <h3 id="隐式转化">隐式转化</h3>
 
 <p>Int 的to方法    RichInt  <br>
 后面再说 </p>
 
-</div><div id="wmd-preview-section-54771" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31335" class="wmd-preview-section preview-content">
 
 <h3 id="方法调用-函数">方法调用 函数</h3>
 
@@ -462,7 +493,7 @@ until </p>
 
 <p>以上内容领大家入门，感受scala的魅力与强大，但是上面的内容有些还可以被更加简化与更强的表现力所替代。 Follow me ~ just try ~</p>
 
-</div><div id="wmd-preview-section-54772" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31336" class="wmd-preview-section preview-content">
 
 <h2 id="scala中的函数式编程">scala中的函数式编程</h2>
 
@@ -470,7 +501,7 @@ until </p>
 方法 和函数 到底啥区别 <br>
 看论坛 中 和高手交流</p>
 
-</div><div id="wmd-preview-section-54773" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31337" class="wmd-preview-section preview-content">
 
 <h3 id="方法定义">方法定义</h3>
 
@@ -481,7 +512,7 @@ until </p>
 <p>在scala中你需要为方法指定参数类型签名 <br>
 <code>def m1(x,y)=x*y</code>  //该行代码shell中执行错误，idea中编译不通过</p>
 
-</div><div id="wmd-preview-section-54774" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31338" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs ruby">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span><span class="hljs-params">(x,y)</span>=<span class="hljs-title">x</span><span class="hljs-title">*</span><span class="hljs-title">y</span></span><br>&lt;console&gt;<span class="hljs-symbol">:</span><span class="hljs-number">1</span><span class="hljs-symbol">:</span> <span class="hljs-symbol">error:</span> <span class="hljs-string">':'</span> expected but <span class="hljs-string">','</span> found.<br>       <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span><span class="hljs-params">(x,y)</span>=<span class="hljs-title">x</span><span class="hljs-title">*</span><span class="hljs-title">y</span></span><br>               ^<br></code></pre>
 
@@ -493,7 +524,7 @@ until </p>
 
 <p><strong>但递归中  特殊情况   出口处需要些返回类型</strong></p>
 
-</div><div id="wmd-preview-section-54775" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31339" class="wmd-preview-section preview-content">
 
 <h3 id="函数定义">函数定义</h3>
 
@@ -501,14 +532,14 @@ until </p>
 <code>（x:Int,y:Int）=&gt; x+y</code> <br>
 注意：匿名函数不要返回值类型</p>
 
-</div><div id="wmd-preview-section-54776" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31340" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs zephir">scala&gt; (x:<span class="hljs-keyword">Int</span>):<span class="hljs-keyword">Int</span>=&gt;x+<span class="hljs-number">1</span> <span class="hljs-comment">//匿名函数 参数类型如同方法一样都需要指定，但是返回值类型是不能指定的。</span><br>&lt;console&gt;:<span class="hljs-number">1</span>: error: not a legal formal parameter<br>       (x:<span class="hljs-keyword">Int</span>):<span class="hljs-keyword">Int</span>=&gt;x+<span class="hljs-number">1</span><br>              ^<br></code></pre>
 
 <p>因此<strong>总结</strong>： 参数签名要写完整，方法或函数的返回值类型尽量不写。 <br>
 在方法体中如果有多行代码，可以使用{ } 格式化代码,如果写在一行，需要使用 <code>;</code>隔开</p>
 
-</div><div id="wmd-preview-section-54777" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31341" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs zephir">scala&gt; (x:<span class="hljs-keyword">Int</span>,y:<span class="hljs-keyword">Int</span>)=&gt; x+y<br>res5: (<span class="hljs-keyword">Int</span>, <span class="hljs-keyword">Int</span>) =&gt; <span class="hljs-keyword">Int</span> = &lt;function2&gt;<br><br>scala&gt; (x:<span class="hljs-keyword">Int</span>,y:<span class="hljs-keyword">Int</span>,c:<span class="hljs-keyword">Double</span>)=&gt; x+y<br>res6: (<span class="hljs-keyword">Int</span>, <span class="hljs-keyword">Int</span>, <span class="hljs-keyword">Double</span>) =&gt; <span class="hljs-keyword">Int</span> = &lt;function3&gt;<br></code></pre>
 
@@ -518,7 +549,7 @@ until </p>
 方法： def   名称:(参数列表):[Type] = 方法体 <br>
 函数： 参数列表 =&gt; 方法体</p>
 
-</div><div id="wmd-preview-section-54778" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31342" class="wmd-preview-section preview-content">
 
 <h3 id="方法和函数的区别">方法和函数的区别</h3>
 
@@ -535,21 +566,21 @@ oo 和function 结合 最近10几年开始流行</p>
 
 <p>函数的应用 <strong>方法中调用函数</strong></p>
 
-</div><div id="wmd-preview-section-54779" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31343" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> r = <span class="hljs-number">1</span> to <span class="hljs-number">10</span><br>r: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br><span class="hljs-comment">//定义函数</span><br>scala&gt; <span class="hljs-keyword">val</span> f1 = (x:<span class="hljs-type">Int</span>) =&gt; x*<span class="hljs-number">10</span><br>f1: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">Int</span> = &lt;function1&gt;<br><br>scala&gt; <span class="hljs-keyword">val</span> f2 = (x:<span class="hljs-type">Int</span>) =&gt; x+<span class="hljs-number">10</span><br>f2: <span class="hljs-type">Int</span> =&gt; <span class="hljs-type">Int</span> = &lt;function1&gt;<br><br>scala&gt; r.map(f1)<br>res9: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>, <span class="hljs-number">40</span>, <span class="hljs-number">50</span>, <span class="hljs-number">60</span>, <span class="hljs-number">70</span>, <span class="hljs-number">80</span>, <span class="hljs-number">90</span>, <span class="hljs-number">100</span>)<br><br>scala&gt; r.map(f2)<br>res10: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>)<br><br>scala&gt; r.map(_ *<span class="hljs-number">100</span>)<br>res11: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span>, <span class="hljs-number">700</span>, <span class="hljs-number">800</span>, <span class="hljs-number">900</span>, <span class="hljs-number">1000</span>)<br><br>scala&gt; r.map((x:<span class="hljs-type">Int</span>) =&gt; x*<span class="hljs-number">100</span>)<br>res12: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span>, <span class="hljs-number">700</span>, <span class="hljs-number">800</span>, <span class="hljs-number">900</span>, <span class="hljs-number">1000</span>)<br><br>scala&gt; r.map(x =&gt; x*<span class="hljs-number">100</span>) <span class="hljs-comment">// 判断类型</span><br>res13: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span>, <span class="hljs-number">700</span>, <span class="hljs-number">800</span>, <span class="hljs-number">900</span>, <span class="hljs-number">1000</span>)<br><br>scala&gt; r.map(_ *<span class="hljs-number">100</span>)  <span class="hljs-comment">//很high啊</span><br>res11: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">100</span>, <span class="hljs-number">200</span>, <span class="hljs-number">300</span>, <span class="hljs-number">400</span>, <span class="hljs-number">500</span>, <span class="hljs-number">600</span>, <span class="hljs-number">700</span>, <span class="hljs-number">800</span>, <span class="hljs-number">900</span>, <span class="hljs-number">1000</span>)<br><br></code></pre>
 
-</div><div id="wmd-preview-section-54780" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31344" class="wmd-preview-section preview-content">
 
 <h3 id="内容可变但引用不变">内容可变，但引用不变</h3>
 
-</div><div id="wmd-preview-section-54781" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31345" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; val arr = Array(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br>arr: Array[Int] = Array(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; arr(<span class="hljs-number">1</span>)<br>res15: Int = <span class="hljs-number">2</span><br><br>scala&gt; arr(<span class="hljs-number">1</span>)=<span class="hljs-number">100</span><br><br>scala&gt; arr<br>res17: Array[Int] = Array(<span class="hljs-number">1</span>, <span class="hljs-number">100</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br></code></pre>
 
 <p><strong>函数式编程的强大性 之后会更加体会到</strong></p>
 
-</div><div id="wmd-preview-section-54782" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31346" class="wmd-preview-section preview-content">
 
 <h3 id="定义函数的多种方式">定义函数的多种方式</h3>
 
@@ -564,11 +595,11 @@ startService </p>
 上午内容 <br>
 scala  shell window   obj. tab 提示  arr.m tab    map min max ….</p>
 
-</div><div id="wmd-preview-section-54783" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31347" class="wmd-preview-section preview-content">
 
 <h3 id="元组">元组</h3>
 
-</div><div id="wmd-preview-section-54784" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31348" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> fun1 = (x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Double</span>) =&gt; (y,x)<br>fun1: (<span class="hljs-type">Int</span>, <span class="hljs-type">Double</span>) =&gt; (<span class="hljs-type">Double</span>, <span class="hljs-type">Int</span>) = &lt;function2&gt;<br></code></pre>
 
@@ -576,15 +607,15 @@ scala  shell window   obj. tab 提示  arr.m tab    map min max ….</p>
 
 <p>函数是头等公民 </p>
 
-</div><div id="wmd-preview-section-54785" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31349" class="wmd-preview-section preview-content">
 
 <h3 id="将方法转化为函数-神奇的下划线">将方法转化为函数 神奇的下划线</h3>
 
-</div><div id="wmd-preview-section-54786" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31350" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span>(</span>x:<span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>):<span class="hljs-type">Int</span> = x+y<br>m2: (x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>)<span class="hljs-type">Int</span><br><br>scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">m2</span>(</span>x:<span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>) = x+y<br>m2: (x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>)<span class="hljs-type">Int</span><br><br>scala&gt; <span class="hljs-keyword">val</span> f2 = (x: <span class="hljs-type">Int</span>, y: <span class="hljs-type">Int</span>) =&gt; x+y<br>f2: (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) =&gt; <span class="hljs-type">Int</span> = &lt;function2&gt;<br><br>scala&gt; <span class="hljs-keyword">val</span> f22 = m2 _<br>f22: (<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>) =&gt; <span class="hljs-type">Int</span> = &lt;function2&gt;<br><br>scala&gt; f2(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br>res3: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54787" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31351" class="wmd-preview-section preview-content">
 
 <h3 id="数组-映射元组集合">数组 、 映射、元组、集合</h3>
 
@@ -605,23 +636,23 @@ val 一般常用  for循环中i var 大部分够用 <br>
   <p>In the untyped lambda calculus, all functions are higher-order; in a typed lambda calculus, from which most functional programming languages are derived, higher-order functions that take one function as argument are values with types of the form (\tau_1\to\tau_2)\to\tau_3.</p>
 </blockquote>
 
-</div><div id="wmd-preview-section-54788" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31352" class="wmd-preview-section preview-content">
 
 <h4 id="array">Array</h4>
 
-</div><div id="wmd-preview-section-54789" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31353" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> arr = <span class="hljs-keyword">new</span> <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>](<span class="hljs-number">10</span>)<br>arr: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt; arr(<span class="hljs-number">0</span>)=<span class="hljs-number">0</span><br><br>scala&gt; arr(<span class="hljs-number">1</span>)=<span class="hljs-number">1</span><br><br>scala&gt; arr<br>res6: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> arr1 = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<span class="hljs-comment">//apply()方法</span><br>arr1: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; arr1<br>res7: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>arr1.toString() <span class="hljs-comment">//hashCode</span><br>arr1.toBuffer() <span class="hljs-comment">//重写了toString方法 </span><br><br><span class="hljs-keyword">val</span> arr2 = <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>](<span class="hljs-number">10</span>)<br>scala&gt; <span class="hljs-keyword">val</span> arr2 = <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>](<span class="hljs-number">10</span>)<br>arr2: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>)<br><br>scala&gt; arr2<br>res8: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>)<br></code></pre>
 
-</div><div id="wmd-preview-section-54790" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31354" class="wmd-preview-section preview-content">
 
 <h4 id="arraybuffer">ArrayBuffer</h4>
 
-</div><div id="wmd-preview-section-54791" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31355" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; val ab = <span class="hljs-keyword">new</span> ArrayBuffer[Int]()<br>&lt;console&gt;:<span class="hljs-number">7</span>: error: not found: type ArrayBuffer<br>       val ab = <span class="hljs-keyword">new</span> ArrayBuffer[Int]()<br>                    ^<br><br>scala&gt; import scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer<br>import scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer<br><br>scala&gt; val ab = <span class="hljs-keyword">new</span> ArrayBuffer[Int](<span class="hljs-number">10</span>)<br>ab: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer()<br><br>scala&gt; ab<br>res13: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer()<br><br><span class="hljs-comment">//追加</span><br>scala&gt; ab+=<span class="hljs-number">1</span><br>res14: ab.type = ArrayBuffer(<span class="hljs-number">1</span>)<br><br>scala&gt; ab<br>res15: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer(<span class="hljs-number">1</span>)<br><br>scala&gt; ab += arr<br>&lt;console&gt;:<span class="hljs-number">11</span>: error: type mismatch;<br> found   : Array[Int]<br> required: Int<br>              ab += arr<br>                    ^<br><br>scala&gt; arr<br>res17: Array[Int] = Array(<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br><br>scala&gt; ab+=(<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>)<br>res18: ab.type = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br><br><span class="hljs-comment">//追加数组或ArrayBuffer ++=</span><br>scala&gt; ab += arr<br>&lt;console&gt;:<span class="hljs-number">11</span>: error: type mismatch;<br> found   : Array[Int]<br> required: Int<br>              ab += arr<br>                    ^<br><br>scala&gt; ab ++= arr<br>res20: ab.type = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br><br><span class="hljs-comment">//在下标1后 添加 2 3 </span><br>scala&gt; ab<br>res21: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt; ab.insert(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br><br>scala&gt; ab<br>res23: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt;<br><br><span class="hljs-comment">//remove</span><br>scala&gt; ab<br>res25: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt; ab.remove(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br><br>scala&gt; ab<br>res27: scala.collection.<span class="hljs-keyword">mutable</span>.ArrayBuffer[Int] = ArrayBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt;<br><br><br><br></code></pre>
 
-</div><div id="wmd-preview-section-54792" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31356" class="wmd-preview-section preview-content">
 
 <h4 id="遍历数组">遍历数组</h4>
 
@@ -629,31 +660,31 @@ val 一般常用  for循环中i var 大部分够用 <br>
 <li rel="2">until [ )</li>
 </ol>
 
-</div><div id="wmd-preview-section-54793" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31357" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">ab (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>scala&gt; <span class="hljs-function"><span class="hljs-title">for</span><span class="hljs-params">(i &lt;- ab.reverse)</span></span> <span class="hljs-function"><span class="hljs-title">println</span><span class="hljs-params">(i)</span></span><br><span class="hljs-number">3</span><br><span class="hljs-number">2</span><br><span class="hljs-number">1</span><br><br>ab.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(print)</span></span><br>ab.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(println()</span></span>)<br>ab.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(println(_)</span></span>)<span class="hljs-comment">//map其实是把方法转成了函数</span><br>val <span class="hljs-tag">p</span> = println _  <span class="hljs-comment">//神奇的下划线也同样将println()方法转换成了函数</span><br><br></code></pre>
 
-</div><div id="wmd-preview-section-54794" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31358" class="wmd-preview-section preview-content">
 
 <h4 id="数组转化">数组转化</h4>
 
 <p>yield 关键字 h</p>
 
-</div><div id="wmd-preview-section-54795" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31359" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; arr<br>res35: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- arr) <span class="hljs-keyword">yield</span> i*<span class="hljs-number">10</span>  <span class="hljs-comment">//看上去真的很low啊</span><br>res36: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>)<br><br>scala&gt; arr<br>res37: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; arr.map((x:<span class="hljs-type">Int</span>) =&gt; x*<span class="hljs-number">10</span>)  <span class="hljs-comment">//也比较丑陋</span><br>res39: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>)<br>scala&gt; arr.map(x =&gt; x*<span class="hljs-number">10</span>)  <span class="hljs-comment">//匿名函数方式 还是不爽，但有时不得不这样写</span><br>res38: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>)<br><br><br>scala&gt; arr.map(_ * <span class="hljs-number">10</span>)  <span class="hljs-comment">//high </span><br>res40: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>, <span class="hljs-number">20</span>, <span class="hljs-number">30</span>)<br><br><br><span class="hljs-comment">// for low  替换 </span><br><span class="hljs-comment">// map filter</span><br>scala&gt; <span class="hljs-keyword">val</span> arr = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>)<br>arr: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>)<br><br>scala&gt; arr.filter((x:<span class="hljs-type">Int</span>) =&gt; x %<span class="hljs-number">2</span> ==<span class="hljs-number">0</span>)<br>res41: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>)<br><br>scala&gt; arr.filter(x =&gt; x %<span class="hljs-number">2</span> ==<span class="hljs-number">0</span>)<br>res42: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>)<br><br>scala&gt; arr.filter(_ %<span class="hljs-number">2</span> ==<span class="hljs-number">0</span>)<br>res43: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">8</span>)<br><br>scala&gt; arr.filter(_ %<span class="hljs-number">2</span> ==<span class="hljs-number">0</span>).map(_ * <span class="hljs-number">10</span>)<br>res44: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">20</span>, <span class="hljs-number">40</span>, <span class="hljs-number">60</span>, <span class="hljs-number">80</span>)<br><br></code></pre>
 
-</div><div id="wmd-preview-section-54796" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31360" class="wmd-preview-section preview-content">
 
 <h4 id="数组常用算法">数组常用算法</h4>
 
-</div><div id="wmd-preview-section-54797" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31361" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">//求和 最大 最小</span><br>scala&gt; arr.sum<br>res45: <span class="hljs-type">Int</span> = <span class="hljs-number">45</span><br><br>scala&gt; arr.max<br>res46: <span class="hljs-type">Int</span> = <span class="hljs-number">9</span><br><br>scala&gt; arr.min<br>res47: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br><span class="hljs-comment">//排序</span><br>scala&gt; arr.sorted<br>res48: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>)<br><br>scala&gt; arr.sorted.reverse<br>res49: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">9</span>, <span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br><br>scala&gt; <span class="hljs-keyword">var</span> arr = <span class="hljs-type">Array</span>(<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>)<br>arr: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">1</span>)<br><br><br>scala&gt; arr.sortBy(x =&gt; x)<br>res51: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>scala&gt; arr.sortBy(x =&gt; x)<br>res51: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>scala&gt; arr.sortWith(_&gt;_)<br>res52: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>scala&gt; arr.sortWith(_&lt;_)<br>res53: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>scala&gt; arr.sortWith((x,y) =&gt; x&gt;y)<br>res54: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>)<br><br>scala&gt; arr.sortWith((x,y) =&gt; x&lt;y)<br>res55: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br></code></pre>
 
 <p>记住常用的方法即可</p>
 
-</div><div id="wmd-preview-section-54798" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31362" class="wmd-preview-section preview-content">
 
 <h3 id="映射">映射</h3>
 
@@ -662,25 +693,25 @@ val 一般常用  for循环中i var 大部分够用 <br>
 <p>两种结构 不可改变的 和改变的 <br>
 考虑并发 不希望别人改，但可以访问</p>
 
-</div><div id="wmd-preview-section-54799" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31363" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> m = <span class="hljs-type">Map</span>(<span class="hljs-string">"a"</span> -&gt; <span class="hljs-number">1</span>, <span class="hljs-string">"b"</span> -&gt; <span class="hljs-number">2</span>)<br>m: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(a -&gt; <span class="hljs-number">1</span>, b -&gt; <span class="hljs-number">2</span>)<br><br>scala&gt; m(a)<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: not found: value a<br>              m(a)<br>                ^<br><br>scala&gt; m(<span class="hljs-string">"a"</span>)<br>res57: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; m(<span class="hljs-string">"a"</span>) = <span class="hljs-number">2</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value update is not a member of scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]<br>              m(<span class="hljs-string">"a"</span>) = <span class="hljs-number">2</span><br>              ^<br></code></pre>
 
-</div><div id="wmd-preview-section-54800" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31364" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">// mutable</span><br>scala&gt; <span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">Map</span><br><span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">Map</span><br><br>scala&gt; <span class="hljs-keyword">val</span> mm  = <span class="hljs-type">Map</span>(<span class="hljs-string">"a"</span> -&gt; <span class="hljs-number">1</span>, <span class="hljs-string">"b"</span>-&gt;<span class="hljs-number">2</span>)<br>mm: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">2</span>, a -&gt; <span class="hljs-number">1</span>)<br><br>scala&gt; mm(<span class="hljs-string">"b"</span>)=<span class="hljs-number">3</span><br><br><br>scala&gt; <span class="hljs-comment">//追加</span><br><br>scala&gt; mm(<span class="hljs-string">"c"</span>)=<span class="hljs-number">100</span><br><br>scala&gt; mm<br>res61: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">3</span>, a -&gt; <span class="hljs-number">1</span>, c -&gt; <span class="hljs-number">100</span>)<br><br>scala&gt; mm += (<span class="hljs-string">"d"</span>-&gt;<span class="hljs-number">20</span>)<br>res62: mm.<span class="hljs-keyword">type</span> = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">3</span>, d -&gt; <span class="hljs-number">20</span>, a -&gt; <span class="hljs-number">1</span>, c -&gt; <span class="hljs-number">100</span>)<br><br>scala&gt; mm += ((<span class="hljs-string">"d"</span>,<span class="hljs-number">20</span>))<br>res63: mm.<span class="hljs-keyword">type</span> = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">3</span>, d -&gt; <span class="hljs-number">20</span>, a -&gt; <span class="hljs-number">1</span>, c -&gt; <span class="hljs-number">100</span>)<br><br>scala&gt; mm += ((<span class="hljs-string">"f"</span>,<span class="hljs-number">20</span>))<br>res64: mm.<span class="hljs-keyword">type</span> = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">3</span>, d -&gt; <span class="hljs-number">20</span>, a -&gt; <span class="hljs-number">1</span>, c -&gt; <span class="hljs-number">100</span>, f -&gt; <span class="hljs-number">20</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> m = <span class="hljs-type">Map</span>((<span class="hljs-string">"a"</span>,<span class="hljs-number">1</span>),(<span class="hljs-string">"b"</span>,<span class="hljs-number">2</span>))<br>m: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(b -&gt; <span class="hljs-number">2</span>, a -&gt; <span class="hljs-number">1</span>)<br><br>scala&gt; <span class="hljs-keyword">import</span> java.util.<span class="hljs-type">HashMap</span><br><span class="hljs-keyword">import</span> java.util.<span class="hljs-type">HashMap</span><br><br>scala&gt; <span class="hljs-keyword">val</span> hm = <span class="hljs-keyword">new</span> <span class="hljs-type">HashMap</span>()<br>hm: java.util.<span class="hljs-type">HashMap</span>[<span class="hljs-type">Nothing</span>,<span class="hljs-type">Nothing</span>] = {}<br><br></code></pre>
 
 <p><strong>内核用scala ，小弟调用用Java调用我的scala接口</strong> </p>
 
-</div><div id="wmd-preview-section-54801" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31365" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus"><span class="hljs-function"><span class="hljs-title">m</span><span class="hljs-params">(<span class="hljs-string">"c"</span>)</span></span> scala&gt; <span class="hljs-function"><span class="hljs-title">m</span><span class="hljs-params">(<span class="hljs-string">"c"</span>)</span></span><br>java<span class="hljs-class">.util</span><span class="hljs-class">.NoSuchElementException</span>: key not found: c<br>    at scala<span class="hljs-class">.collection</span><span class="hljs-class">.MapLike</span><span class="hljs-variable">$class</span>.<span class="hljs-function"><span class="hljs-title">default</span><span class="hljs-params">(MapLike.scala:<span class="hljs-number">228</span>)</span></span><br>    at scala<span class="hljs-class">.collection</span><span class="hljs-class">.AbstractMap</span><span class="hljs-class">.default</span>(Map<span class="hljs-class">.scala</span>:<span class="hljs-number">58</span>)<br>    ......<br>scala&gt; m.<span class="hljs-function"><span class="hljs-title">getOrElse</span><span class="hljs-params">(<span class="hljs-string">"c"</span>,<span class="hljs-number">0</span>)</span></span><br>res66: Int = <span class="hljs-number">0</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54802" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31366" class="wmd-preview-section preview-content">
 
 <h3 id="元组tuple">元组tuple</h3>
 
-</div><div id="wmd-preview-section-54803" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31367" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stata"><span class="hljs-keyword">scala</span>&gt; val t = (1,<span class="hljs-string">"spark"</span>,2.0)<br>t: (Int, String, Double) = (1,spark,2.0)<br><br><span class="hljs-keyword">scala</span>&gt; t(2)<br>&lt;console&gt;:14: <span class="hljs-keyword">error</span>: (Int, String, Double) does not take parameters<br>              t(2)<br>               ^<br><br><span class="hljs-keyword">scala</span>&gt; t._2<br>res68: String = spark<br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-comment">//对偶元组 追加到map中</span><br><br><span class="hljs-keyword">scala</span>&gt; val pair = (<span class="hljs-string">"t"</span>,5)<br>pair: (String, Int) = (t,5)<br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-literal">m</span><br>res69: <span class="hljs-keyword">scala</span>.collection.mutable.Map[String,Int] = Map(b -&gt; 2, a -&gt; 1)<br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-keyword">m</span>+=pair<br>res70: <span class="hljs-keyword">m</span>.<span class="hljs-keyword">type</span> = Map(t -&gt; 5, b -&gt; 2, a -&gt; 1)<br><br><br><br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-keyword">m</span>+=(<span class="hljs-string">"a"</span>,5)<br>&lt;console&gt;:14: <span class="hljs-keyword">error</span>: <span class="hljs-keyword">type</span> mismatch;<br> found   : <span class="hljs-literal">String</span>(<span class="hljs-string">"a"</span>)<br> required: (String, Int)<br>              <span class="hljs-keyword">m</span>+=(<span class="hljs-string">"a"</span>,5)<br>                  ^<br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-keyword">m</span>+=((<span class="hljs-string">"b"</span>,3),(<span class="hljs-string">"a"</span>,2))<br>res72: <span class="hljs-keyword">m</span>.<span class="hljs-keyword">type</span> = Map(t -&gt; 5, b -&gt; 3, a -&gt; 2)<br></code></pre>
 
@@ -689,25 +720,25 @@ val 一般常用  for循环中i var 大部分够用 <br>
 
 <p>map中是对偶元组</p>
 
-</div><div id="wmd-preview-section-54804" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31368" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; m+=((<span class="hljs-string">"b"</span>,<span class="hljs-number">3</span>),(<span class="hljs-string">"a"</span>,<span class="hljs-number">2</span>))<br>res72: m.type = Map(t -&gt; <span class="hljs-number">5</span>, b -&gt; <span class="hljs-number">3</span>, a -&gt; <span class="hljs-number">2</span>)<br><br>scala&gt; t = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>&lt;console&gt;:<span class="hljs-number">13</span>: error: reassignment to val<br>       t = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>         ^<br><br>scala&gt; val t = (<span class="hljs-number">1</span>,<span class="hljs-number">23</span>,<span class="hljs-number">3</span>)<br>t: (Int, Int, Int) = (<span class="hljs-number">1</span>,<span class="hljs-number">23</span>,<span class="hljs-number">3</span>)<br><br>scala&gt; m += t<br>&lt;console&gt;:<span class="hljs-number">15</span>: error: type mismatch;<br> found   : (Int, Int, Int)<br> required: (String, Int)<br>              m += t<br>                   ^<br></code></pre>
 
-</div><div id="wmd-preview-section-54805" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31369" class="wmd-preview-section preview-content">
 
 <h4 id="多个对偶元组-转成map">多个对偶元组 转成map</h4>
 
-</div><div id="wmd-preview-section-54806" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31370" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">scala&gt; val arr = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">((<span class="hljs-string">"a"</span>,<span class="hljs-number">1</span>)</span></span>,(<span class="hljs-string">"b"</span>,<span class="hljs-number">2</span>))<br>arr: Array[(String, Int)] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">((a,<span class="hljs-number">1</span>)</span></span>, (<span class="hljs-tag">b</span>,<span class="hljs-number">2</span>))<br><br>scala&gt; arr<span class="hljs-class">.toMap</span><br>res74: scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span><span class="hljs-class">.Map</span>[String,Int] = <span class="hljs-function"><span class="hljs-title">Map</span><span class="hljs-params">(a -&gt; <span class="hljs-number">1</span>, b -&gt; <span class="hljs-number">2</span>)</span></span><br><br></code></pre>
 
-</div><div id="wmd-preview-section-54807" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31371" class="wmd-preview-section preview-content">
 
 <h4 id="拉链操作">拉链操作</h4>
 
 <p>zip</p>
 
-</div><div id="wmd-preview-section-54808" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31372" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> arr = <span class="hljs-type">Array</span>(<span class="hljs-string">"a"</span>,<span class="hljs-string">"b"</span>,<span class="hljs-string">"c"</span>)<br>arr: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(a, b, c)<br><br>scala&gt; <span class="hljs-keyword">val</span> brr = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>brr: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; arr.zip(brr)<br>res75: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((a,<span class="hljs-number">1</span>), (b,<span class="hljs-number">2</span>), (c,<span class="hljs-number">3</span>))<br><br>scala&gt; res7<br>res7    res70   res72   res74   res75<br><br>scala&gt; res75.toMap<br>res76: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(a -&gt; <span class="hljs-number">1</span>, b -&gt; <span class="hljs-number">2</span>, c -&gt; <span class="hljs-number">3</span>)<br><br><br>scala&gt; <span class="hljs-keyword">val</span> crr = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)<br>crr: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>scala&gt; arr.zip(crr)<br>res77: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((a,<span class="hljs-number">1</span>), (b,<span class="hljs-number">2</span>), (c,<span class="hljs-number">3</span>))<br><br></code></pre>
 
@@ -717,25 +748,25 @@ es 对lucence的</p>
 
 <p>数组 集合操作类似</p>
 
-</div><div id="wmd-preview-section-54809" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31373" class="wmd-preview-section preview-content">
 
 <h3 id="集合">集合</h3>
 
 <p>序列 seq  集合 set 映射 map</p>
 
-</div><div id="wmd-preview-section-54810" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31374" class="wmd-preview-section preview-content">
 
 <h4 id="list">List</h4>
 
-</div><div id="wmd-preview-section-54811" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31375" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp"><span class="hljs-comment">// immutable</span><br>scala&gt; val <span class="hljs-built_in">list</span> = List(<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br><span class="hljs-built_in">list</span>: List[Int] = List(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-built_in">list</span> =<span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">13</span>: error: reassignment to val<br>       <span class="hljs-built_in">list</span> =<span class="hljs-number">1</span><br>            ^<br><br>scala&gt; <span class="hljs-built_in">list</span>(<span class="hljs-number">0</span>) = <span class="hljs-number">10</span><br>&lt;console&gt;:<span class="hljs-number">14</span>: error: value update is not a member of List[Int]<br>              <span class="hljs-built_in">list</span>(<span class="hljs-number">0</span>) = <span class="hljs-number">10</span><br>              ^<br></code></pre>
 
-</div><div id="wmd-preview-section-54812" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31376" class="wmd-preview-section preview-content">
 
 <h4 id="listbuffer">ListBuffer</h4>
 
-</div><div id="wmd-preview-section-54813" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31377" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">scala&gt; import scala<span class="hljs-class">.collection</span><span class="hljs-class">.mutable</span><span class="hljs-class">.ListBuffer</span><br>import scala<span class="hljs-class">.collection</span><span class="hljs-class">.mutable</span><span class="hljs-class">.ListBuffer</span><br><br>scala&gt; val lb = <span class="hljs-function"><span class="hljs-title">ListBuffer</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)</span></span><br>lb: scala<span class="hljs-class">.collection</span><span class="hljs-class">.mutable</span><span class="hljs-class">.ListBuffer</span>[Int] = <span class="hljs-function"><span class="hljs-title">ListBuffer</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span></span><br><br>scala&gt; <span class="hljs-function"><span class="hljs-title">lb</span><span class="hljs-params">(<span class="hljs-number">1</span>)</span></span>=<span class="hljs-number">200</span><br><br>scala&gt; lb.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(_ * <span class="hljs-number">10</span>)</span></span><br>res80: scala<span class="hljs-class">.collection</span><span class="hljs-class">.mutable</span><span class="hljs-class">.ListBuffer</span>[Int] = <span class="hljs-function"><span class="hljs-title">ListBuffer</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-number">2000</span>, <span class="hljs-number">30</span>)</span></span><br><br></code></pre>
 
@@ -748,20 +779,20 @@ es 对lucence的</p>
 
 <p>可变的序列  mutable._</p>
 
-</div><div id="wmd-preview-section-54814" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31378" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">scala&gt; lb<br>res81: scala.collection.<span class="hljs-keyword">mutable</span>.ListBuffer[Int] = ListBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">200</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; val lb = ListBuffer(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br>lb: scala.collection.<span class="hljs-keyword">mutable</span>.ListBuffer[Int] = ListBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>)<br><br>scala&gt; lb+=(<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)<br>res82: lb.type = ListBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br><br>scala&gt; lb.append(<span class="hljs-number">5</span>,<span class="hljs-number">6</span>)<br><br>scala&gt; lb<br>res84: scala.collection.<span class="hljs-keyword">mutable</span>.ListBuffer[Int] = ListBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br><br><br><br>scala&gt; lb+=lb2<br>&lt;console&gt;:<span class="hljs-number">16</span>: error: type mismatch;<br> found   : Array[Int]<br> required: Int<br>              lb+=lb2<br>                  ^<br><br>scala&gt; lb++=lb2<br>res86: lb.type = ListBuffer(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">111</span>, <span class="hljs-number">222</span>)<br><br></code></pre>
 
 <p>集合中 ++=  元素 +=     实在不知 append  原可变集合 <br>
 ++ 是个啥 原来的俩没变 ，生成新的</p>
 
-</div><div id="wmd-preview-section-54815" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31379" class="wmd-preview-section preview-content">
 
 <h4 id="set">Set</h4>
 
 <p>不可变的set</p>
 
-</div><div id="wmd-preview-section-54816" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31380" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">scala&gt; import scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span>._<br>import scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span>._<br><br>scala&gt; val hs = new HashSet[Int]<br>hs: scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span><span class="hljs-class">.HashSet</span>[Int] = <span class="hljs-function"><span class="hljs-title">Set</span><span class="hljs-params">()</span></span><br><br>scala&gt; hs +=<span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">21</span>: error: value += is not <span class="hljs-tag">a</span> member of scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span><span class="hljs-class">.HashSet</span>[Int]<br>              hs +=<span class="hljs-number">1</span><br>                 ^<br><br>scala&gt; hs +<span class="hljs-number">1</span><br>res89: scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span><span class="hljs-class">.HashSet</span>[Int] = <span class="hljs-function"><span class="hljs-title">Set</span><span class="hljs-params">(<span class="hljs-number">1</span>)</span></span><br></code></pre>
 
@@ -770,7 +801,7 @@ es 对lucence的</p>
 
 <p>map的操作</p>
 
-</div><div id="wmd-preview-section-54817" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31381" class="wmd-preview-section preview-content">
 
 <h2 id="综合练习">综合练习</h2>
 
@@ -784,7 +815,7 @@ flatMap() <br>
 <p>map( <em>._1,</em>._2)  t=&gt; <br>
 map不支持排序</p>
 
-</div><div id="wmd-preview-section-54818" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31382" class="wmd-preview-section preview-content">
 
 <h3 id="scala-单机版本的wordcount">scala 单机版本的wordcount</h3>
 
@@ -797,7 +828,7 @@ map不支持排序</p>
   res41: Int = 15</p>
 </blockquote>
 
-</div><div id="wmd-preview-section-54819" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31383" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs">scala&gt; lst<br>res29: <span class="hljs-type">List</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">List</span>(hello world, hello tom, hello world)<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>))<br>res30: <span class="hljs-type">List</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">List</span>(hello, world, hello, tom, hello, world)<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>))<br>res31: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((hello,<span class="hljs-number">1</span>), (world,<span class="hljs-number">1</span>), (hello,<span class="hljs-number">1</span>), (tom,<span class="hljs-number">1</span>), (hello,<span class="hljs-number">1</span>), (world,<span class="hljs-number">1</span>))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1)<br>res32: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)]] = <span class="hljs-type">Map</span>(world -&gt; <span class="hljs-type">List</span>((world,<span class="hljs-number">1</span>), (world,<span class="hljs-number">1</span>)), tom -&gt; <span class="hljs-type">List</span>((tom,<span class="hljs-number">1</span>)), hello -&gt; <span class="hljs-type">List</span>((hello,<span class="hljs-number">1</span>), (hello,<span class="hljs-number">1</span>), (hello,<span class="hljs-number">1</span>)))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_._2)<br>&lt;console&gt;:<span class="hljs-number">9</span>: error: value _2 is not a member of <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)]<br>              lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_._2)<br>                                                                             ^<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(_2))<br>&lt;console&gt;:<span class="hljs-number">9</span>: error: not found: value _2<br>              lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(_2))<br><br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2))<br>res35: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(world -&gt; <span class="hljs-number">2</span>, tom -&gt; <span class="hljs-number">1</span>, hello -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2)).toList.reverse<br>res36: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((hello,<span class="hljs-number">3</span>), (tom,<span class="hljs-number">1</span>), (world,<span class="hljs-number">2</span>))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2)).toList<br>res37: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((world,<span class="hljs-number">2</span>), (tom,<span class="hljs-number">1</span>), (hello,<span class="hljs-number">3</span>))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2)).toList.sot&lt;console&gt;:<span class="hljs-number">1</span>: error: ';' expected but ')' found.<br><span class="hljs-number">1</span>))<br> ^<br>                  reverse<br>res38: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((hello,<span class="hljs-number">3</span>), (tom,<span class="hljs-number">1</span>), (world,<span class="hljs-number">2</span>))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2)).toList.sortBy(_._2)<br>res39: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((tom,<span class="hljs-number">1</span>), (world,<span class="hljs-number">2</span>), (hello,<span class="hljs-number">3</span>))<br><br>scala&gt; lst.flatMap(_.split(<span class="hljs-string">" "</span>)).map((_,<span class="hljs-number">1</span>)).groupBy(_._1).mapValues(_.foldLeft(<span class="hljs-number">0</span>)(_+_._2)).toList.sortBy(_._2).reverse<br>res40: <span class="hljs-type">List</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">List</span>((hello,<span class="hljs-number">3</span>), (world,<span class="hljs-number">2</span>), (tom,<span class="hljs-number">1</span>))<br></code></pre>
 
@@ -823,17 +854,17 @@ map方法</p>
 println方法返回值 <br>
 行末返回值</p>
 
-</div><div id="wmd-preview-section-54820" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31384" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs kotlin">scala&gt; <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = <span class="hljs-keyword">if</span> (<span class="hljs-number">100</span>&gt;<span class="hljs-number">101</span>) println(<span class="hljs-string">"yes"</span>) <span class="hljs-keyword">else</span> println(<span class="hljs-string">"no"</span>)<br>no<br>a: <span class="hljs-typename">Unit</span> = ()<br><br>scala&gt; <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = {<span class="hljs-keyword">if</span> (<span class="hljs-number">100</span>&gt;<span class="hljs-number">101</span>) println(<span class="hljs-string">"yes"</span>) <span class="hljs-keyword">else</span> println(<span class="hljs-string">"no"</span>)}<br>no<br>a: <span class="hljs-typename">Unit</span> = ()<br><br>scala&gt; <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = {<span class="hljs-keyword">if</span> (<span class="hljs-number">100</span>&gt;<span class="hljs-number">101</span>) <span class="hljs-string">"yes"</span> <span class="hljs-keyword">else</span> <span class="hljs-string">"no"</span>}<br>a: String = no<br></code></pre>
 
 <p>注意表达式的组合</p>
 
-</div><div id="wmd-preview-section-54821" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31385" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs kotlin">scala&gt; <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = <span class="hljs-variable"><span class="hljs-keyword">val</span> b</span> = <span class="hljs-number">2</span>; b+<span class="hljs-number">2</span><br><span class="hljs-type">&lt;console&gt;</span>:<span class="hljs-number">1</span>: error: illegal start of simple expression<br>       <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = <span class="hljs-variable"><span class="hljs-keyword">val</span> b</span> = <span class="hljs-number">2</span>; b+<span class="hljs-number">2</span><br>               ^<br><br>scala&gt; <span class="hljs-variable"><span class="hljs-keyword">val</span> a</span> = {<span class="hljs-variable"><span class="hljs-keyword">val</span> b</span> = <span class="hljs-number">2</span>; b+<span class="hljs-number">2</span>}<br>a: <span class="hljs-typename">Int</span> = <span class="hljs-number">4</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54822" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31386" class="wmd-preview-section preview-content">
 
 <h2 id="拓展">拓展</h2>
 
@@ -847,8 +878,8 @@ println方法返回值 <br>
 <li>reduce</li></ul></li>
 </ol>
 
-</div><div id="wmd-preview-section-54823" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-31387" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs cpp">lst3: List[Int] = List(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>)<br><br>scala&gt; lst3.reduce(_+_)<br>res13: Int = <span class="hljs-number">210</span><br><br>scala&gt; lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>&lt;console&gt;:<span class="hljs-number">1</span>: error: <span class="hljs-string">')'</span> expected but <span class="hljs-string">';'</span> found.<br>       lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>                                        ^<br>&lt;console&gt;:<span class="hljs-number">1</span>: error: <span class="hljs-string">';'</span> expected but <span class="hljs-string">')'</span> found.<br>       lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>                                            ^<br><br>scala&gt; lst3.reduce((x,y) =&gt; {println(x,y);x+y})<br>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br>(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>)<br>(<span class="hljs-number">6</span>,<span class="hljs-number">4</span>)<br>(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>)<br>(<span class="hljs-number">15</span>,<span class="hljs-number">6</span>)<br>(<span class="hljs-number">21</span>,<span class="hljs-number">7</span>)<br>(<span class="hljs-number">28</span>,<span class="hljs-number">8</span>)<br>(<span class="hljs-number">36</span>,<span class="hljs-number">9</span>)<br>(<span class="hljs-number">45</span>,<span class="hljs-number">10</span>)<br>(<span class="hljs-number">55</span>,<span class="hljs-number">11</span>)<br>(<span class="hljs-number">66</span>,<span class="hljs-number">12</span>)<br>(<span class="hljs-number">78</span>,<span class="hljs-number">13</span>)<br>(<span class="hljs-number">91</span>,<span class="hljs-number">14</span>)<br>(<span class="hljs-number">105</span>,<span class="hljs-number">15</span>)<br>(<span class="hljs-number">120</span>,<span class="hljs-number">16</span>)<br>(<span class="hljs-number">136</span>,<span class="hljs-number">17</span>)<br>(<span class="hljs-number">153</span>,<span class="hljs-number">18</span>)<br>(<span class="hljs-number">171</span>,<span class="hljs-number">19</span>)<br>(<span class="hljs-number">190</span>,<span class="hljs-number">20</span>)<br>res14: Int = <span class="hljs-number">210</span><br></code></pre>
 
-</div><div id="wmd-preview-section-54824" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-31388" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
