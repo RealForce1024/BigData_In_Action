@@ -1,8 +1,8 @@
 <!DOCTYPE html><html><head><title>day29_spark02</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-32015" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-849" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-32016" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-850" class="wmd-preview-section preview-content">
 
 <h1 id="day29spark02">day29_spark02</h1>
 
@@ -55,19 +55,19 @@
 </div>
 </div>
 
-</div><div id="wmd-preview-section-32017" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-851" class="wmd-preview-section preview-content">
 
 <h2 id="回顾">回顾</h2>
 
-</div><div id="wmd-preview-section-32018" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-852" class="wmd-preview-section preview-content">
 
 <h3 id="scala-泛型">Scala 泛型</h3>
 
-</div><div id="wmd-preview-section-32019" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-853" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs r">class Person[<span class="hljs-literal">T</span>]{<br>    def choose[<span class="hljs-literal">T</span> &lt;: Comparable[<span class="hljs-literal">T</span>]] (first: <span class="hljs-literal">T</span>, second: <span class="hljs-literal">T</span>): <span class="hljs-literal">T</span> ={ first}<br>}<br></code></pre>
 
-</div><div id="wmd-preview-section-32020" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-854" class="wmd-preview-section preview-content">
 
 <h3 id="viewbound">viewbound</h3>
 
@@ -76,15 +76,15 @@ object MyPredef{ <br>
     implicit() <br>
 }</p>
 
-</div><div id="wmd-preview-section-32021" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-855" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">//viebound 要求传入一个隐式转换参数</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[</span><span class="hljs-type">T</span> &lt;% <span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span>(</span>first: <span class="hljs-type">T</span>,seconde:<span class="hljs-type">T</span>) : <span class="hljs-type">T</span>={<br>        <span class="hljs-keyword">if</span>(first&gt; second) first <span class="hljs-keyword">else</span> second<br><br>    }<br>}<br><span class="hljs-comment">//柯里化方式</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[</span><span class="hljs-type">T</span> &lt;% <span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span>(</span>first: <span class="hljs-type">T</span>,seconde:<span class="hljs-type">T</span>) : （<span class="hljs-keyword">implicit</span> ord: <span class="hljs-type">T</span>=&gt;<span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]）:<span class="hljs-type">T</span>={<br>        <span class="hljs-keyword">if</span>(first&gt; second) first <span class="hljs-keyword">else</span> second<br><br>    }<br>}<br><br></code></pre>
 
-</div><div id="wmd-preview-section-32022" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-856" class="wmd-preview-section preview-content">
 
 <h3 id="contextbound">contextbound</h3>
 
-</div><div id="wmd-preview-section-32023" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-857" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[<span class="hljs-title">T</span>:</span>ordering]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span><span class="hljs-params">(first:T ,second:T)</span>:</span>T{<br>        val ord = implicity[Ordering[T]]<br>        <span class="hljs-keyword">if</span>(ord.gt(first,second)) first <span class="hljs-keyword">else</span> second<br>    }<br>}<br><br>//柯里化方式<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[<span class="hljs-title">T</span>:</span>ordering]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span><span class="hljs-params">(first:T ,second:T)</span><span class="hljs-params">(implicit ord:Ordering)</span>:</span>T{<br>        、、val ord = implicity[Ordering[T]]<br>        <span class="hljs-keyword">if</span>(ord.gt(first,second)) first <span class="hljs-keyword">else</span> second<br>    }<br>}<br></code></pre>
 
@@ -93,7 +93,7 @@ object MyPredef{ <br>
 平常代码写的很少 <br>
 spark in programing</p>
 
-</div><div id="wmd-preview-section-32024" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-858" class="wmd-preview-section preview-content">
 
 <h3 id="spark-简介">spark 简介</h3>
 
@@ -105,14 +105,14 @@ RDD Spark-Sql Spark-Streaming Graphx MLib <br>
 Master管理所有的worker，进而进行资源的调度 <br>
 Worker管理当前计算节点 （启动Java进程–executor） worker会启动一个Excutor来完成真正的计算</p>
 
-</div><div id="wmd-preview-section-32025" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-859" class="wmd-preview-section preview-content">
 
 <h3 id="安装">安装</h3>
 
 <p>spark-env.sh  //三变量  <br>
 slaves</p>
 
-</div><div id="wmd-preview-section-32026" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-860" class="wmd-preview-section preview-content">
 
 <h3 id="spark启动过程">spark启动过程</h3>
 
@@ -130,13 +130,13 @@ slaves  12 13</p>
 <li rel="3"><strong>注册 通信 是通过  Rpc（tcp ip）协议</strong></li>
 </ol>
 
-</div><div id="wmd-preview-section-32027" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-861" class="wmd-preview-section preview-content">
 
 <h3 id="spark-shell">spark-shell</h3>
 
 <p>bin/spark-shell –master spark://ip:7077 –executor-memory (每个worker所占内存大小) 2G –total-executor-cores 10 (集群总共的核数)  //个性化定制资源 非常便利</p>
 
-</div><div id="wmd-preview-section-32028" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-862" class="wmd-preview-section preview-content">
 
 <h3 id="spark-wordcount">spark wordCount</h3>
 
@@ -144,34 +144,34 @@ slaves  12 13</p>
 
 <p>建议reduceByKey  9：43分 在每个work中 conbiner 。 groupBy没做所以效率低</p>
 
-</div><div id="wmd-preview-section-32029" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-863" class="wmd-preview-section preview-content">
 
 <h3 id="rdd的5个特性">RDD的5个特性</h3>
 
 <p>9：45分 <br>
 移动计算而非移动数据 减少网络开销</p>
 
-</div><div id="wmd-preview-section-32030" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-864" class="wmd-preview-section preview-content">
 
 <h3 id="两种算子">两种算子</h3>
 
 <p>tranformation  延迟执行  记录转换元数据 从哪读 将要做哪些操作 <br>
 action  真正的执行操作</p>
 
-</div><div id="wmd-preview-section-32031" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-865" class="wmd-preview-section preview-content">
 
 <h3 id="idea-打包">idea  打包</h3>
 
 <p>maven pom.xml的一些配置 <br>
 打的两个包 建议大而全的jar</p>
 
-</div><div id="wmd-preview-section-32032" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-866" class="wmd-preview-section preview-content">
 
 <h3 id="transformation-action">Transformation &amp;&amp;Action</h3>
 
 <p>Transformation &amp;&amp;Action.txt 文件内容回顾</p>
 
-</div><div id="wmd-preview-section-32033" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-867" class="wmd-preview-section preview-content">
 
 <h4 id="实验说明延迟加载">实验说明延迟加载</h4>
 
@@ -185,7 +185,7 @@ action  真正的执行操作</p>
 <li><code>sc.textFile("hdfs://ip:9000/wc").flatMap(\_.split(" ")).map((\_,1)).count</code> //此时真正操作  延迟加载 通过迭代器一条条的处理 而非一次性加载  。 </li>
 </ul>
 
-</div><div id="wmd-preview-section-32034" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-868" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs stylus">rdd = sc.<span class="hljs-function"><span class="hljs-title">parallelize</span><span class="hljs-params">(Array(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>.....)</span></span>)<br>rdd<span class="hljs-class">.partition</span> <br></code></pre>
 
@@ -193,7 +193,7 @@ action  真正的执行操作</p>
 join基于  cogroup  <br>
 …各种算子</p>
 
-</div><div id="wmd-preview-section-32035" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-869" class="wmd-preview-section preview-content">
 
 <h2 id="maven编译spark源码">maven编译spark源码</h2>
 
@@ -206,7 +206,7 @@ c ,c++ 擅长 压缩 解压缩 <br>
 查看centos6.7 编译hadoop.txt  <br>
 spark 操作方法一样</p>
 
-</div><div id="wmd-preview-section-32036" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-870" class="wmd-preview-section preview-content">
 
 <h2 id="其他算子">其他算子</h2>
 
@@ -215,7 +215,7 @@ spark 操作方法一样</p>
 spark rdd api example <br>
 国内都在讲怎么用，可能都在学习这个牛..不做创新？</p>
 
-</div><div id="wmd-preview-section-32037" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-871" class="wmd-preview-section preview-content">
 
 <h3 id="mapparationtionswithindex">mapParationtionsWithIndex</h3>
 
@@ -226,7 +226,7 @@ val func = (index:Int , iter:Iterator[Int]) = &gt; {iter.toList.map(x=&gt;”…
 … <br>
 得到</p>
 
-</div><div id="wmd-preview-section-32038" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-872" class="wmd-preview-section preview-content">
 
 <h3 id="aggregate-聚合-更加灵活">aggregate 聚合 更加灵活</h3>
 
@@ -284,7 +284,7 @@ keyBy <br>
 
 <p>OrderedRDDFunctions</p>
 
-</div><div id="wmd-preview-section-32039" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-873" class="wmd-preview-section preview-content">
 
 <h2 id="案例-根据基站信息推算用户位置画像">案例 ：根据基站信息推算用户位置画像</h2>
 
@@ -312,7 +312,7 @@ keyBy <br>
 
 <p>俩版本写出</p>
 
-</div><div id="wmd-preview-section-32040" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-874" class="wmd-preview-section preview-content">
 
 <h2 id="url链接分析">url链接分析</h2>
 
@@ -324,4 +324,4 @@ rdd 大了 可以写磁盘  17：39 </p>
 
 <p>后天加深难度</p>
 
-</div><div id="wmd-preview-section-32041" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-875" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
