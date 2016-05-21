@@ -2,11 +2,11 @@
                         <div id="wmd-preview" class="preview-content"></div>
                     <div id="wmd-preview-section-11194" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-11195" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-11243" class="wmd-preview-section preview-content">
 
 <h1 id="5分钟入门elasticsearch">5分钟入门ElasticSearch</h1>
 
-<p>ElasticSearch可以很容易地da’ji运行一个全功能的搜索服务器。事实上，它很容易，给我分钟时间，让你体验到它的强大。</p>
+<p>ElasticSearch可以很容易地搭建运行一个全功能的搜索服务器。事实上，它很容易，给我分钟时间，让你体验到它的强大。</p>
 
 <div><div class="toc"><div class="toc">
 <ul>
@@ -25,9 +25,7 @@
 </ul>
 </div>
 </div>
-</div>
-
-</div><div id="wmd-preview-section-11196" class="wmd-preview-section preview-content">
+</div></div><div id="wmd-preview-section-11196" class="wmd-preview-section preview-content">
 
 <h2 id="步骤概览">步骤概览</h2>
 
@@ -70,17 +68,14 @@ ElasticSearch 已经运行起来了~ 你可以通过访问<a href="http://localh
 
 <pre class="prettyprint hljs-dark"><code class="hljs json">{<br>  "<span class="hljs-attribute">status</span>" : <span class="hljs-value"><span class="hljs-number">200</span></span>,<br>  "<span class="hljs-attribute">name</span>" : <span class="hljs-value"><span class="hljs-string">"Mister One"</span></span>,<br>  "<span class="hljs-attribute">cluster_name</span>" : <span class="hljs-value"><span class="hljs-string">"elasticsearch"</span></span>,<br>  "<span class="hljs-attribute">version</span>" : <span class="hljs-value">{<br>    "<span class="hljs-attribute">number</span>" : <span class="hljs-value"><span class="hljs-string">"1.7.2"</span></span>,<br>    "<span class="hljs-attribute">build_hash</span>" : <span class="hljs-value"><span class="hljs-string">"e43676b1385b8125d647f593f7202acbd816e8ec"</span></span>,<br>    "<span class="hljs-attribute">build_timestamp</span>" : <span class="hljs-value"><span class="hljs-string">"2015-09-14T09:49:53Z"</span></span>,<br>    "<span class="hljs-attribute">build_snapshot</span>" : <span class="hljs-value"><span class="hljs-literal">false</span></span>,<br>    "<span class="hljs-attribute">lucene_version</span>" : <span class="hljs-value"><span class="hljs-string">"4.10.4"</span><br>  </span>}</span>,<br>  "<span class="hljs-attribute">tagline</span>" : <span class="hljs-value"><span class="hljs-string">"You Know, for Search"</span><br></span>}<br></code></pre>
 
-</div><div id="wmd-preview-section-11203" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-11275" class="wmd-preview-section preview-content">
 
 <h3 id="2建立数据索引">2.建立数据索引</h3>
 
-<p>We’re now going to index some data to our ElasticSearch instance. We’ll use the example of a blog engine, which has some posts and comments. <br>
-现在我们要索引一些数据到ElasticSearch实例中。我们将使用一个博客引擎，其中有一些文章和评论的例子。</p>
+<p>现在我们要索引一些数据到ElasticSearch实例中。我们将使用一个博客引擎，其中有一些文章和评论的例子。</p>
 
 <p><code>curl -XPUT 'http://node01:9200/blog/user/dilbert' -d '{ "name" : "fengqc" }'</code> <br>
-操作执行返回如下</p>
-
-</div><div id="wmd-preview-section-11204" class="wmd-preview-section preview-content">
+操作执行返回如下</p></div><div id="wmd-preview-section-11204" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs livecodeserver">Last login: Sat May <span class="hljs-number">21</span> <span class="hljs-number">12</span>:<span class="hljs-number">51</span>:<span class="hljs-number">55</span> <span class="hljs-command"><span class="hljs-keyword">on</span> <span class="hljs-title">ttys001</span></span><br>☁  ~  curl -XPUT <span class="hljs-string">'http://node01:9200/blog/user/dilbert'</span> -d <span class="hljs-string">'{ "name" : "fengqc" }'</span><br><br>{<span class="hljs-string">"_index"</span>:<span class="hljs-string">"blog"</span>,<span class="hljs-string">"_type"</span>:<span class="hljs-string">"user"</span>,<span class="hljs-string">"_id"</span>:<span class="hljs-string">"dilbert"</span>,<span class="hljs-string">"_version"</span>:<span class="hljs-number">1</span>,<span class="hljs-string">"created"</span>:<span class="hljs-constant">true</span>}%<br></code></pre>
 
@@ -180,8 +175,8 @@ esxx.yaml 中配置 <br>
 
 <p>wget方式下载oracle jdk</p>
 
-</div><div id="wmd-preview-section-11216" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-11384" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-dark"><code class="hljs perl">[vagrant<span class="hljs-variable">@node01</span> elasticsearch-<span class="hljs-number">1.7</span>.<span class="hljs-number">2</span>]$ wget --<span class="hljs-keyword">no</span>-cookies --<span class="hljs-keyword">no</span>-check-certificate --header <span class="hljs-string">"Cookie: gpw_e24=http<span class="hljs-variable">%3A</span><span class="hljs-variable">%2F</span><span class="hljs-variable">%2Fwww</span>.oracle.com<span class="hljs-variable">%2F</span>; oraclelicense=accept-securebackup-cookie"</span> <span class="hljs-string">"http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.tar.gz"</span><br><br>--<span class="hljs-number">2016</span>-<span class="hljs-number">05</span>-<span class="hljs-number">20</span> <span class="hljs-number">23</span>:<span class="hljs-number">33</span>:<span class="hljs-number">24</span>--  http:<span class="hljs-regexp">//download</span>.oracle.com/otn-pub/java/jdk/<span class="hljs-number">7</span>u79-b15/jdk-<span class="hljs-number">7</span>u79-linux-x64.tar.gz<br>....<br>Saving to: <span class="hljs-string">`jdk-7u79-linux-x64.tar.gz'<br><br>100%[=====================================================================================&gt;] 153,512,879  448K/s   in 5m 36s<br><br>2016-05-20 23:39:05 (446 KB/s) - `</span>jdk-<span class="hljs-number">7</span>u79-linux-x64.tar.gz<span class="hljs-string">' saved [153512879/153512879]</span><br></code></pre>
 
-</div><div id="wmd-preview-section-11217" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-11409" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
