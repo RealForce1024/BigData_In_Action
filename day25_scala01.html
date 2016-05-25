@@ -1262,4 +1262,31 @@ es 对lucence的封装加强</p>
 
 <pre class="prettyprint hljs-light"><code class="hljs cpp">lst3: List[Int] = List(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>)<br><br>scala&gt; lst3.reduce(_+_)<br>res13: Int = <span class="hljs-number">210</span><br><br>scala&gt; lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>&lt;console&gt;:<span class="hljs-number">1</span>: error: <span class="hljs-string">')'</span> expected but <span class="hljs-string">';'</span> found.<br>       lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>                                        ^<br>&lt;console&gt;:<span class="hljs-number">1</span>: error: <span class="hljs-string">';'</span> expected but <span class="hljs-string">')'</span> found.<br>       lst3.reduce((x,y) =&gt; println(x,y);x+y)<br>                                            ^<br><br>scala&gt; lst3.reduce((x,y) =&gt; {println(x,y);x+y})<br>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br>(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>)<br>(<span class="hljs-number">6</span>,<span class="hljs-number">4</span>)<br>(<span class="hljs-number">10</span>,<span class="hljs-number">5</span>)<br>(<span class="hljs-number">15</span>,<span class="hljs-number">6</span>)<br>(<span class="hljs-number">21</span>,<span class="hljs-number">7</span>)<br>(<span class="hljs-number">28</span>,<span class="hljs-number">8</span>)<br>(<span class="hljs-number">36</span>,<span class="hljs-number">9</span>)<br>(<span class="hljs-number">45</span>,<span class="hljs-number">10</span>)<br>(<span class="hljs-number">55</span>,<span class="hljs-number">11</span>)<br>(<span class="hljs-number">66</span>,<span class="hljs-number">12</span>)<br>(<span class="hljs-number">78</span>,<span class="hljs-number">13</span>)<br>(<span class="hljs-number">91</span>,<span class="hljs-number">14</span>)<br>(<span class="hljs-number">105</span>,<span class="hljs-number">15</span>)<br>(<span class="hljs-number">120</span>,<span class="hljs-number">16</span>)<br>(<span class="hljs-number">136</span>,<span class="hljs-number">17</span>)<br>(<span class="hljs-number">153</span>,<span class="hljs-number">18</span>)<br>(<span class="hljs-number">171</span>,<span class="hljs-number">19</span>)<br>(<span class="hljs-number">190</span>,<span class="hljs-number">20</span>)<br>res14: Int = <span class="hljs-number">210</span><br></code></pre>
 
-</div><div id="wmd-preview-section-20579" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-20579" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div>
+
+
+
+<link rel="stylesheet" href="http://yandex.st/highlightjs/6.2/styles/googlecode.min.css">
+ 
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
+ 
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+ $(document).ready(function(){
+      $("h2,h3,h4,h5,h6").each(function(i,item){
+        var tag = $(item).get(0).localName;
+        $(item).attr("id","wow"+i);
+        $("#category").append('<a class="new'+tag+'" href="#wow'+i+'">'+$(this).text()+'</a></br>');
+        $(".newh2").css("margin-left",0);
+        $(".newh3").css("margin-left",20);
+        $(".newh4").css("margin-left",40);
+        $(".newh5").css("margin-left",60);
+        $(".newh6").css("margin-left",80);
+      });
+ });
+</script>
+<div id="category"></div>
+
+
+</body></html>
