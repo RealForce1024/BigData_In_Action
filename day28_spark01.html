@@ -1,0 +1,349 @@
+<!DOCTYPE html><html><head><title>day28_spark01</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-829" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-830" class="wmd-preview-section preview-content">
+
+<h1 id="day28spark01">day28_spark01</h1>
+
+<p></p>
+
+<p>声明： <br>
+该笔记为随堂笔记+课后整理拓展 老师讲解与自我思考的融合。 <br>
+有些错误总会修补的，只是早晚，最好以老师的文档为准，我整理为辅</p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day28spark01">day28_spark01</a><ul>
+<li><a href="#内容回顾">内容回顾</a></li>
+<li><a href="#高阶函数">高阶函数</a></li>
+<li><a href="#隐式转换">隐式转换</a><ul>
+<li><a href="#泛型">泛型</a></li>
+</ul>
+</li>
+<li><a href="#why-spark">why spark</a><ul>
+<li><a href="#目前最火的">目前最火的</a></li>
+<li><a href="#官网">官网</a></li>
+</ul>
+</li>
+<li><a href="#安装启动">安装启动</a></li>
+<li><a href="#spark-shell">spark shell</a></li>
+<li><a href="#程序-蒙特卡洛-求π">程序 蒙特卡洛 求π</a></li>
+<li><a href="#启动hdfs">启动hdfs</a></li>
+<li><a href="#spark算子分类">spark算子分类</a></li>
+<li><a href="#创建rdd的两种方式">创建RDD的两种方式</a><ul>
+<li><a href="#查看rdd的-transformation-action">查看rdd的  transformation  action</a></li>
+</ul>
+</li>
+<li><a href="#idea-工程-打包-上传-集群执行">idea 工程 打包 上传 集群执行</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-831" class="wmd-preview-section preview-content">
+
+<h2 id="内容回顾">内容回顾</h2>
+
+<p>akka 分布式通信框架  <br>
+编写 异步rpc框架</p>
+
+<p>akka 与 netty rpc的对比 <br>
+scala模式匹配与 Java反射调用  b <br>
+akka严格意义上非rpc，非反射调用方法，而是通过模式匹配的方式</p>
+
+<p>一定要手写完成,变成自己的东西</p>
+
+</div><div id="wmd-preview-section-832" class="wmd-preview-section preview-content">
+
+<h2 id="高阶函数">高阶函数</h2>
+
+<p>柯里化 方法可以传多个参数 后一个参数 有默认的 或自己再传递一个</p>
+
+<p>隐式转换 对对象自行增强 <br>
+继承  类    装饰 、代理 方法增强</p>
+
+<p>1 to 10  <br>
+new File().read() // read方法需要 import MyReadFile </p>
+
+<p>教学质量 不要屁事儿..</p>
+
+</div><div id="wmd-preview-section-833" class="wmd-preview-section preview-content">
+
+<h2 id="隐式转换">隐式转换</h2>
+
+</div><div id="wmd-preview-section-834" class="wmd-preview-section preview-content">
+
+<h3 id="泛型">泛型</h3>
+
+<p>scala的泛型， 写法与Java有区别 。 但本质类似</p>
+
+<p>逆变[+T].. <br>
+协变…</p>
+
+<p>&lt;:  类似extends  <br>
+Compareable</p>
+
+<p>&gt; :  下界</p>
+
+<p>Ordering 接口  <br>
+Ordered接口</p>
+
+<p>视图界定 <br>
+&lt;% 一定要传个隐式转换函数  10：00中  与Java的对比 定义规则更灵活</p>
+
+<p>回去多想想内容</p>
+
+<p>国外找的代码案例..</p>
+
+<p>隐式转换  <br>
+spark master …大量隐式转换  <br>
+回去反复操练</p>
+
+<p>Contextband   隐式转换的值  <br>
+为了更好的理解… <br>
+国外代码 + ordering ordered内部代码</p>
+
+<p>为了心中无码 ， 代码信手拈来  要看源码才能搞透彻..</p>
+
+<p>1/m <br>
+6 7 8 9</p>
+
+</div><div id="wmd-preview-section-835" class="wmd-preview-section preview-content">
+
+<h2 id="why-spark">why spark</h2>
+
+</div><div id="wmd-preview-section-836" class="wmd-preview-section preview-content">
+
+<h3 id="目前最火的">目前最火的</h3>
+
+<p>hadoop过时并不准确，mr 计算模型稍微过时了 ，hdfs s3 tfs  gfs 还是需要的 <br>
+yarn 资源调度管理系统 mr storm  spark都可以在上运行</p>
+
+<p>但是很多公司还是在跑mr ，稳定</p>
+
+<p>hive2不支持mr 预示着mr将会没落</p>
+
+<p>核心作者 辛湜  中国 伯克利 博士</p>
+
+</div><div id="wmd-preview-section-837" class="wmd-preview-section preview-content">
+
+<h3 id="官网">官网</h3>
+
+<p>tm注册.. <br>
+speed  100x faster than hadoop or 10x faster on disk . 弹性的 内存不够会放到磁盘上 <br>
+DAG有向无环图 <br>
+Ease Of Use  <br>
+Java scala python R  <br>
+excelet 、perfect   nice  agliy</p>
+
+<p>spark-shell <br>
+sparksubmit <br>
+sc.textFile(“/home/bigdata/words.txt”)  //RDD 延迟加载 以后我要到哪里读，但是目前未读 <br>
+.flatMap(_.split(“_”))  //功能scala一样，但是实现是不一样的 <br>
+.reduceBy(_+_).collect()  //多台机器汇总到一台机器上展示</p>
+
+<p><strong>Generality</strong> <br>
+spark sql（很多功能强大的实时数据库）  、spark streaming、 Mlib、  GraphX</p>
+
+<p>金字塔的塔尖  <br>
+线代 离散 统计 数学一定搞好</p>
+
+<p>one-Stack </p>
+
+<p><strong>runs everywhere</strong> <br>
+mesos 更加细粒度  上面可以跑docker  <br>
+cassandra  <br>
+hbase</p>
+
+<p>目前 最新 1.6.9 3.9.2016</p>
+
+<p>wusi 计划  jvm管理会出现内存溢出频繁的gc问题 <br>
+之后要自己管理内存  <br>
+想玩spark，一定要 github  关注spark动态</p>
+
+<p>github上 <br>
+辛湜</p>
+
+<p>腾讯spark最大的集群 12000台 预研2.0 请databricks商业版牛人来使用</p>
+
+<p>官网 github等</p>
+
+<p>lighting-fast culster computing  6.6-2016</p>
+
+<p>1.0  <br>
+1.3  <br>
+1.5  <br>
+一定要注意版本 时间</p>
+
+<p>版本 选择相应的  hadoop </p>
+
+<p>9台 server 64g 24核 <br>
+虚拟化提供服务 </p>
+
+<p>大数据与虚拟化的相悖</p>
+
+<p>金品 刀片机 1u 2u（可插更多的磁盘） 64g 12t硬盘 6*2T <br>
+至强E3  2cpu  12核  供24核  两万出头 <br>
+端口映射</p>
+
+</div><div id="wmd-preview-section-838" class="wmd-preview-section preview-content">
+
+<h2 id="安装启动">安装启动</h2>
+
+<p>laozhao  跳板 openstack  <br>
+spark 安装包将scala环境等依赖都打包了</p>
+
+<p>下载 解压缩 配置文件 spark-evn.sh <br>
+r:! echo /etc/…. <br>
+slaves文件 <br>
+3 <br>
+start-all.sh</p>
+
+<p>ui管理界面  通过外网 ip 映射到内网 <br>
+计算节点 都在内网中 <br>
+vncview 远程连接centos桌面</p>
+
+<ol><li rel="1">上传1.6.1</li>
+<li rel="2">安装jdk 1.7.45&gt;</li>
+<li rel="3">解压</li>
+<li rel="4">配置 spark-env slaves</li>
+<li rel="5">scp -r</li>
+<li rel="6">关闭防火墙</li>
+<li rel="7">配置密码</li>
+<li rel="8">启动 spark  start-all.sh</li>
+</ol>
+
+<p>hadoop  迭代  到磁盘 io 瓶颈 一个任务之后 都会落到磁盘 <br>
+spark  基于内存计算  不足时才放到磁盘</p>
+
+</div><div id="wmd-preview-section-839" class="wmd-preview-section preview-content">
+
+<h2 id="spark-shell">spark shell</h2>
+
+<p>spark-shell 启动 是单机版 <br>
+spark-shell –master spark://ip:7077 默认集群里的核都占用 内存各占用1G <br>
+–taotal-executor-cores 4 –executor-memory 4g <br>
+两类资源分配算法 <br>
+尽量打散 <br>
+尽量集中</p>
+
+</div><div id="wmd-preview-section-840" class="wmd-preview-section preview-content">
+
+<h2 id="程序-蒙特卡洛-求π">程序 蒙特卡洛 求π</h2>
+
+<p>多次采样  次数越多  越准确 <br>
+spark examples  直接跑案例</p>
+
+<p>spark-submit –class  claaname  –master  pathofjar  –executor-memory  </p>
+
+<p>集群的时间一定要同步  否则可能任务心跳超时 <br>
+date -s “2016-05-14 15:34:00”</p>
+
+<p>正常 时间服务器 <br>
+crotab  像个</p>
+
+</div><div id="wmd-preview-section-841" class="wmd-preview-section preview-content">
+
+<h2 id="启动hdfs">启动hdfs</h2>
+
+<p>sbin/start-dfs.sh <br>
+sudo chown -R bigdata:bigdata /usr/….</p>
+
+<p>放hdfs中些数据  <br>
+…</p>
+
+<p>start-all 启动 Spark master worker <br>
+… <br>
+hive mysql  <br>
+saveAsTextFile(“hdfs://…”) <br>
+cat part-* <br>
+reduceBykey(_+_,1) <br>
+hive-sql mr的执行引擎 <br>
+hive on spark   Spark的执行引擎</p>
+
+<ol><li rel="1">启动spark-shell</li>
+<li rel="2">上传文件到hdfs</li>
+<li rel="3">在spark中编写spark程序  sc.textFile(“”)……rdd 相对于 scala 数组 列表</li>
+<li rel="4">执行</li>
+</ol>
+
+</div><div id="wmd-preview-section-842" class="wmd-preview-section preview-content">
+
+<h2 id="spark算子分类">spark算子分类</h2>
+
+<p>算子 <br>
+官网 programming-guide <br>
+parallel  <br>
+rdd  resillent distributed dataset</p>
+
+<p>16：12分 创建 rdd </p>
+
+<p>Transformations   懒加载  记录着数据在哪里 <br>
+map(_,1)  <br>
+spark的算子分为两类：</p>
+
+<ol><li rel="1">Transformation（转换） lazy exec  延迟执行。会记录元数据信息 map flatmap  从哪里读 进行哪些操作 distinct reduceBykey…等等 </li>
+<li rel="2">Action （动作）    当计算任务出发Action时才会真正提交，开始执行计算 collect() count() first() take() reduce() takeOrdered()  saveAsTextFile 等等</li>
+</ol>
+
+</div><div id="wmd-preview-section-843" class="wmd-preview-section preview-content">
+
+<h2 id="创建rdd的两种方式">创建RDD的两种方式</h2>
+
+<p>创建RDD的两种方式 <br>
+外部介质 通过HDFS等支持的文件系统 创建RDD，RDD中没有真正要计算的数据，只记录了些元数据（从哪里读） <br>
+通过scala集合或数组以并行化的方式创建RDD</p>
+
+</div><div id="wmd-preview-section-844" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-keyword">val</span> rdd1 = sc.parallelize(<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5.</span>.<span class="hljs-number">.10</span>))<br>rdd1:org.apache.spark.rdd.<span class="hljs-type">RDD</span>[<span class="hljs-type">Int</span>]<br><br><span class="hljs-keyword">val</span> rdd2 = rdd1.map(_*<span class="hljs-number">10</span>)<br>rdd2:org.apache.spark.rdd.<span class="hljs-type">RDD</span>[<span class="hljs-type">Int</span>]<br><br><span class="hljs-keyword">val</span> rdd3 = rdd2.filter(_&lt;<span class="hljs-number">50</span>)<br>rdd3:org.apache.spark.rdd.<span class="hljs-type">RDD</span>[<span class="hljs-type">Int</span>]<br><br><span class="hljs-keyword">val</span> rdd4 = rdd3.collect <span class="hljs-comment">//action 计算执行</span><br>res3:<span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">10</span>,<span class="hljs-number">20</span>,<span class="hljs-number">30</span>,<span class="hljs-number">40</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-845" class="wmd-preview-section preview-content">
+
+<h3 id="查看rdd的-transformation-action">查看rdd的  transformation  action</h3>
+
+<p><code>rdd1.partitions.length</code> <br>
+val rdd1 = sc.parallelize(Array(1,2,3,4,5…10),5)</p>
+
+</div><div id="wmd-preview-section-846" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stylus">rdd1.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(_*<span class="hljs-number">10</span>)</span></span>.<span class="hljs-function"><span class="hljs-title">sortBy</span><span class="hljs-params">(x=&gt;x+<span class="hljs-string">""</span>,true)</span></span><span class="hljs-class">.collect</span><br>rdd1.<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">(_*<span class="hljs-number">10</span>)</span></span>.<span class="hljs-function"><span class="hljs-title">sortBy</span><span class="hljs-params">(x=&gt;x+<span class="hljs-string">""</span>,true)</span></span>.<span class="hljs-function"><span class="hljs-title">filter</span><span class="hljs-params">(_&gt;<span class="hljs-number">10</span>)</span></span>.collect<br></code></pre>
+
+<p>TranForation&amp;Action.txt practice</p>
+
+<p>查看Spark的源码 <br>
+看一手资料  <br>
+RDD.scala </p>
+
+<ol><li rel="1">a list of partitions     有很多分区 。  一个分区肯定在一台机器上，但是一台机器可以有多个分区。</li>
+<li rel="2">a function for computing each result   在每个分片上操作计算   </li>
+<li rel="3">a list of dependencies on other RDDs —- Dag stage   rdd依赖   数据从哪里来 可以从新恢复</li>
+<li rel="4">optionally , a Partiontioner for key-value RDDS.</li>
+<li rel="5">optionally, a list of preferred locations to compute each split on //hadoop 宁愿 移动计算  不远移动数据 。 把任务启到数据所在的机器上</li>
+</ol>
+
+<p>reduceByKey  局部汇聚 combiner的过程 推荐使用  <br>
+cogroup -&gt; 基于join方法，之后看源码实现</p>
+
+</div><div id="wmd-preview-section-847" class="wmd-preview-section preview-content">
+
+<h2 id="idea-工程-打包-上传-集群执行">idea 工程 打包 上传 集群执行</h2>
+
+<p><strong>建议大而全的包，否则怕集群中第三方依赖没有。</strong></p>
+
+<p>移动计算 而非移动数据</p>
+
+<p>sql 结构化数据方便 <br>
+未来 hadoop spark 都是工具  如何结合业务 产生生产力 才值钱</p>
+
+<p>课外拓展： <br>
+<a href="http://blog.madhukaraphatak.com/" target="_blank">http://blog.madhukaraphatak.com/</a> <br>
+<a href="http://www.kancloud.cn/cxfeel/spark160/111981" target="_blank">http://www.kancloud.cn/cxfeel/spark160/111981</a> <br>
+SparkHub</p>
+
+</div><div id="wmd-preview-section-848" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

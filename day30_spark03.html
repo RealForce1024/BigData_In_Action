@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head><title>day30_spark03</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-884" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-885" class="wmd-preview-section preview-content">
+
+<h1 id="day30spark03">day30_spark03</h1>
+
+<p></p>
+
+<p>声明： <br>
+该笔记为随堂笔记+课后整理拓展 <strong>老师讲解与自我思考的融合</strong>。 <br>
+有些错误总会修补的，只是早晚，<strong>最好以老师的文档为准，我整理拓展为辅</strong></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day30spark03">day30_spark03</a><ul>
+<li><a href="#回顾">回顾</a></li>
+<li><a href="#案例">案例</a><ul>
+<li><a href="#求每个学院的前几名">求每个学院的前几名</a><ul>
+<li><a href="#spark提交任务的简单认识">spark提交任务的简单认识</a></li>
+<li><a href="#重点">重点</a></li>
+</ul>
+</li>
+<li><a href="#自定义排序规则案例">自定义排序规则案例</a></li>
+<li><a href="#运营商ip信息分析用户方位">运营商ip信息分析用户方位</a></li>
+<li><a href="#插画算法数据结构">插画：算法+数据结构</a></li>
+<li><a href="#ip归属地规则的广播变量的分析">ip归属地规则的广播变量的分析</a></li>
+</ul>
+</li>
+<li><a href="#上午回顾">上午回顾</a></li>
+<li><a href="#继续运营商ip-用户省份信息的程序">继续运营商ip 用户省份信息的程序</a><ul>
+<li><a href="#2-持久化">2. 持久化</a></li>
+<li><a href="#spark-抽取历史数据">spark 抽取历史数据</a></li>
+</ul>
+</li>
+<li><a href="#深入rdd原理">深入rdd原理</a><ul>
+<li><a href="#rdd如何产生的">rdd如何产生的</a></li>
+<li><a href="#画图理解wordcount内部实现架构">画图理解wordcount内部实现架构</a></li>
+</ul>
+</li>
+<li><a href="#spark调试">spark调试</a><ul>
+<li><a href="#spark-word-count-提交任务执行的过程">spark word count 提交任务执行的过程</a></li>
+</ul>
+</li>
+<li><a href="#rdd的缓存">RDD的缓存</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-886" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+<ol><li rel="1"><ul>
+<li>dependency</li>
+<li>RDD   数据本地化 移动计算 非移动数据</li>
+<li>Transformation  </li>
+<li>Action</li>
+<li>Stage(优化成不同阶段，提交到集群，原理中讲解)</li>
+<li>spark rdd api 中内容回顾 <br>
+mapPartitionWithIndex  <br>
+….. <br>
+<strong>aggregateByKey</strong> 不太好理解的讲解 <br>
+<strong>combineByKey</strong> <br>
+案例讲解+源码解读</li></ul></li>
+<li rel="2"><p>关于手机基站 相关位置的计算 + 注意事项 拓展</p></li>
+<li rel="3">URLCount </li>
+</ol>
+
+<p>动手带动学习 ，一咬牙一跺脚 ，开始就会停不下来</p>
+
+</div><div id="wmd-preview-section-887" class="wmd-preview-section preview-content">
+
+<h2 id="案例">案例</h2>
+
+</div><div id="wmd-preview-section-888" class="wmd-preview-section preview-content">
+
+<h3 id="求每个学院的前几名">求每个学院的前几名</h3>
+
+<ol><li rel="1">哈希碰撞问题的讲解  </li>
+<li rel="2">hashPartitioner 可能会发生碰撞</li>
+<li rel="3">在URLCountPartition co</li>
+</ol>
+
+</div><div id="wmd-preview-section-889" class="wmd-preview-section preview-content">
+
+<h4 id="spark提交任务的简单认识">spark提交任务的简单认识</h4>
+
+<p>糊涂</p>
+
+</div><div id="wmd-preview-section-890" class="wmd-preview-section preview-content">
+
+<h4 id="重点">重点</h4>
+
+<p>如何进行分区 <br>
+如何对分区 局部排序 </p>
+
+</div><div id="wmd-preview-section-891" class="wmd-preview-section preview-content">
+
+<h3 id="自定义排序规则案例">自定义排序规则案例</h3>
+
+</div><div id="wmd-preview-section-892" class="wmd-preview-section preview-content">
+
+<h3 id="运营商ip信息分析用户方位">运营商ip信息分析用户方位</h3>
+
+<p>需求： 运行商 网关数据 <br>
+时间  用户的ip   访问域名 具体资源路径 UA <br>
+看用户来自哪个省市  用户分析   商用点：投放广告</p>
+
+<p>大项目 ：各种计算指标 </p>
+
+<p>ip地址库 淘宝  <br>
+实际中并非每次都在数据库中查询，太浪费 <br>
+但是实际操作中 已经排好序了加载内存中，可以使用经典的二分法查找</p>
+
+<p>注意效率 时间复杂度的考虑  <br>
+why not hashMap ?   what can be key?</p>
+
+</div><div id="wmd-preview-section-893" class="wmd-preview-section preview-content">
+
+<h3 id="插画算法数据结构">插画：算法+数据结构</h3>
+
+<p>有人面试百度  <br>
+快排 <br>
+二叉树 <br>
+红黑树 <br>
+冒泡 <br>
+8中排序  堆排序  选择排序 插入排序 ….</p>
+
+<p>算法+数据结构  <br>
+大公司 基本功 + 学习能力 为难也好 要求也罢 这是基本素养</p>
+
+</div><div id="wmd-preview-section-894" class="wmd-preview-section preview-content">
+
+<h3 id="ip归属地规则的广播变量的分析">ip归属地规则的广播变量的分析</h3>
+
+<p>程序</p>
+
+</div><div id="wmd-preview-section-895" class="wmd-preview-section preview-content">
+
+<h2 id="上午回顾">上午回顾</h2>
+
+<p>知识点</p>
+
+<ul><li>partitioner </li>
+<li>自定义排序</li>
+<li>广播变量 why  提高计算效率 <br>
+<ul>
+<li>数据量小的时候 map缓存起来 每台机器都有 hadoop直接map side join  。 spark 类似</li>
+<li>rdd从外部存储读取规则 val arr = rdd.collect</li>
+<li>val  bc = sc.broadcast(arr)</li>
+<li>bd.value</li></ul></li>
+</ul>
+
+</div><div id="wmd-preview-section-896" class="wmd-preview-section preview-content">
+
+<h2 id="继续运营商ip-用户省份信息的程序">继续运营商ip 用户省份信息的程序</h2>
+
+<ol start="1"><li rel="1">具体逻辑执行</li>
+</ol>
+
+</div><div id="wmd-preview-section-897" class="wmd-preview-section preview-content">
+
+<h3 id="2-持久化">2. 持久化</h3>
+
+<pre class="prettyprint hljs-dark"><code class="hljs cpp"><span class="hljs-number">3.</span> 供报表 其他应用系统调用<br><span class="hljs-number">4.</span> jdbc RDD  mysql Driver<br></code></pre>
+
+<ol start="3"><li rel="3">jdbc rdd 相当方便 不用sqoop </li>
+<li rel="4">一个分区建立一个链接</li>
+<li rel="5">15：08 简写 MySQL(_)  MYSQL</li>
+</ol>
+
+</div><div id="wmd-preview-section-898" class="wmd-preview-section preview-content">
+
+<h3 id="spark-抽取历史数据">spark 抽取历史数据</h3>
+
+<p>以前很多公司用oracle 用存储过程 数据分析 统计 <br>
+之前我们是用sqoop 从数据库中抽取出来 <br>
+而spark可以直接使用程序 抽取数据</p>
+
+<p>15：12分的匿名函数  （）=&gt; { }  输入 =&gt;返回</p>
+
+<p>15：13 分 <br>
+<code>select * from ...? ... ?</code> <br>
+1,4,2,   2代表分区并发处理数 <br>
+….</p>
+
+</div><div id="wmd-preview-section-899" class="wmd-preview-section preview-content">
+
+<h2 id="深入rdd原理">深入rdd原理</h2>
+
+<p>sc</p>
+
+</div><div id="wmd-preview-section-900" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stylus">sc.<span class="hljs-function"><span class="hljs-title">textFile</span><span class="hljs-params">(<span class="hljs-string">"hdfs://node-..:900/wc"</span>)</span></span>.<span class="hljs-function"><span class="hljs-title">flatMap</span><span class="hljs-params">(_.split(<span class="hljs-string">" "</span>)</span></span>).<span class="hljs-function"><span class="hljs-title">map</span><span class="hljs-params">((_,<span class="hljs-number">1</span>)</span></span>).<span class="hljs-function"><span class="hljs-title">reduceByKey</span><span class="hljs-params">(_+_)</span></span><br><br>rdd.<span class="hljs-function"><span class="hljs-title">svaeAsTextFile</span><span class="hljs-params">(<span class="hljs-string">"hdfs://..."</span>)</span></span><br></code></pre>
+
+<p>百度外卖 写的漂亮 适当加注释 <br>
+spark的wordcount</p>
+
+<p>rdd.toDebugString 查看rdd的依赖关系 粗粒度 <br>
+lineage血统  细粒度</p>
+
+<p>案例 <br>
+sc.textFile 2个rdd</p>
+
+</div><div id="wmd-preview-section-901" class="wmd-preview-section preview-content">
+
+<h3 id="rdd如何产生的">rdd如何产生的</h3>
+
+<p>分析wordcount内部实现 、跟踪下源代码</p>
+
+</div><div id="wmd-preview-section-902" class="wmd-preview-section preview-content">
+
+<h3 id="画图理解wordcount内部实现架构">画图理解wordcount内部实现架构</h3>
+
+<p>见图 <br>
+与hadoop的mr 对比 复习学习 效果更好</p>
+
+</div><div id="wmd-preview-section-903" class="wmd-preview-section preview-content">
+
+<h2 id="spark调试">spark调试</h2>
+
+<p>sparkSubmit  Coarse…ExecutorBackend 进程</p>
+
+<p>local 方式debug <br>
+远程调试 之一 最简单快速有效的方式 </p>
+
+<ul><li>maven package </li>
+<li>new SparkConf().setAppName().setJars(Array(“path”)).setMaster(“spark://..”)</li>
+</ul>
+
+</div><div id="wmd-preview-section-904" class="wmd-preview-section preview-content">
+
+<h3 id="spark-word-count-提交任务执行的过程">spark word count 提交任务执行的过程</h3>
+
+<p>通过提交jar包远程调试的方式 执行 画图理解</p>
+
+<p>类似mapreduce的过程</p>
+
+<p>动手能力与业务结合能力 创造生产力 <br>
+action 中 runJob  <br>
+hdfs 的权限问题</p>
+
+</div><div id="wmd-preview-section-905" class="wmd-preview-section preview-content">
+
+<h2 id="rdd的缓存">RDD的缓存</h2>
+
+<p>当遇到action的时候进行cache <br>
+速度提升很大 几十倍  <br>
+磁盘 中的 放入到内存中 大小数数值是不一样的 <br>
+SotrageLevel 查看存储类别</p>
+
+<p>unpersist</p>
+
+<p>性能提升不少</p>
+
+<p>面试 ： 一天的数据量  大概多少条 17：25</p>
+
+<p>一期  19岁 25k 金山  <br>
+好几个ibm的…</p>
+
+</div><div id="wmd-preview-section-906" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

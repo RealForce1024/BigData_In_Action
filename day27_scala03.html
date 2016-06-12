@@ -1,0 +1,341 @@
+<!DOCTYPE html><html><head><title>day27_scala03</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-799" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-800" class="wmd-preview-section preview-content">
+
+<h1 id="day27scala03">day27_scala03</h1>
+
+<p></p>
+
+<p>声明： <br>
+该笔记为随堂笔记+课后整理拓展 老师讲解与自我思考的融合。 <br>
+有些错误总会修补的，只是早晚，最好以老师的文档为准，我整理为辅</p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day27scala03">day27_scala03</a><ul>
+<li><a href="#课前回顾">课前回顾</a><ul>
+<li><a href="#类的定义">类的定义</a></li>
+<li><a href="#object">object</a></li>
+<li><a href="#继承-父类-接口">继承  父类 接口</a></li>
+<li><a href="#模式匹配">模式匹配</a></li>
+<li><a href="#actor-并发编程模型">Actor  并发编程模型</a></li>
+<li><a href="#基于actor的并发案例要写下来">基于actor的并发案例要写下来</a></li>
+</ul>
+</li>
+<li><a href="#scala-akka">Scala Akka</a><ul>
+<li><a href="#高并发-高吞吐量">高并发 高吞吐量</a></li>
+<li><a href="#actor-架构模型">actor 架构模型</a><ul>
+<li><a href="#需求">需求</a></li>
+<li><a href="#问题的提出">问题的提出</a></li>
+<li><a href="#version1">version1</a></li>
+<li><a href="#version2">version2</a></li>
+<li><a href="#version3">version3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#高级特性-高阶函数-隐式转换">高级特性 高阶函数 、隐式转换</a><ul>
+<li><a href="#高阶函数">高阶函数</a></li>
+<li><a href="#隐式转换">隐式转换</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-801" class="wmd-preview-section preview-content">
+
+<h2 id="课前回顾">课前回顾</h2>
+
+<p>前两天的内容并不是很难，因为没有学习高级的内容，今天学习高级特性。  <br>
+高阶函数、隐式转化</p>
+
+<p>复习：</p>
+
+</div><div id="wmd-preview-section-802" class="wmd-preview-section preview-content">
+
+<h3 id="类的定义">类的定义</h3>
+
+</div><div id="wmd-preview-section-803" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs gradle"><span class="hljs-keyword">private</span>  [<span class="hljs-keyword">this</span>]    <span class="hljs-keyword">class</span> Person（val id: <span class="hljs-keyword">Long</span>, var name: String） <span class="hljs-keyword">private</span> <span class="hljs-keyword">extends</span> Animal with Flyable {<br>            val age:<span class="hljs-keyword">Int</span> = <span class="hljs-number">0</span> <span class="hljs-comment">//主构造器中会被执行，但方法啥的会被加载而不是被执行</span><br>            <span class="hljs-keyword">def</span> <span class="hljs-keyword">this</span>(id: <span class="hljs-keyword">Long</span>,name:String,age:<span class="hljs-keyword">Int</span>)<br>            <span class="hljs-keyword">this</span>(id,name)<br>            <span class="hljs-keyword">this</span>.age = age<br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-804" class="wmd-preview-section preview-content">
+
+<h3 id="object">object</h3>
+
+<p>于类同名，半生对象 ，单例 ，静态方法 变量</p>
+
+</div><div id="wmd-preview-section-805" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Person</span>{</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">apply</span>(</span>) <span class="hljs-comment">//Person()隐式调用参数一致的apply方法</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]){<br>        <span class="hljs-keyword">val</span> p = <span class="hljs-type">Person</span>()<br>    }<br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-806" class="wmd-preview-section preview-content">
+
+<h3 id="继承-父类-接口">继承  父类 接口</h3>
+
+</div><div id="wmd-preview-section-807" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scala"><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span>{</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">run</span>(</span>)<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Flyable</span>{</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fly</span>(</span>) <span class="hljs-comment">//可抽象 可实现</span><br>}<br><br><br><span class="hljs-keyword">private</span>  [<span class="hljs-keyword">this</span>]    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person（val</span> <span class="hljs-title">id</span>:</span> <span class="hljs-type">Long</span>, <span class="hljs-keyword">var</span> name: <span class="hljs-type">String</span>） <span class="hljs-keyword">private</span> <span class="hljs-keyword">extends</span> <span class="hljs-type">Animal</span> <span class="hljs-keyword">with</span> <span class="hljs-type">Flyable</span> {<br>            <span class="hljs-keyword">val</span> age:<span class="hljs-type">Int</span> = <span class="hljs-number">0</span> <span class="hljs-comment">//主构造器中会被执行，但方法啥的会被加载而不是被执行</span><br>            <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">this</span>(</span>id: <span class="hljs-type">Long</span>,name:<span class="hljs-type">String</span>,age:<span class="hljs-type">Int</span>)<br>            <span class="hljs-keyword">this</span>(id,name)<br>            <span class="hljs-keyword">this</span>.age = age<br><br>            <span class="hljs-comment">//override run fly</span><br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-808" class="wmd-preview-section preview-content">
+
+<h3 id="模式匹配">模式匹配</h3>
+
+<p>match  case {}</p>
+
+</div><div id="wmd-preview-section-809" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scala"><span class="hljs-keyword">val</span> arr = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-string">"ab"</span>,<span class="hljs-number">2.0</span>)<br><br>e <span class="hljs-keyword">match</span> {<span class="hljs-comment">//根据类型或内容判断  数组 集合 元组 **样例类**</span><br><span class="hljs-keyword">case</span> <span class="hljs-type">Int</span> =&gt;{ }<br><br>}<br><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SubmitTask</span>(</span>name:<span class="hljs-type">String</span>,age:<span class="hljs-type">Int</span>) <span class="hljs-comment">//参数最好有参数，否则会被提示已过期. 特点 多例 封装数据  可new可不new  结合到 match  </span><br><span class="hljs-type">SubmitTask</span>(<span class="hljs-string">"fqc"</span>,<span class="hljs-number">1</span>) <span class="hljs-comment">//直接使用即可</span><br><span class="hljs-keyword">case</span>  <span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">//无参数</span>  <span class="hljs-title">None</span><br></span>没有<span class="hljs-keyword">match</span> 是偏函数<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">PartionalFun</span>[</span><span class="hljs-type">Any</span>,<span class="hljs-type">Int</span>]= {<br><span class="hljs-keyword">case</span> ....<br>}<br><br><span class="hljs-type">Option</span>  <span class="hljs-comment">//抽象类  两个实现类</span><br><span class="hljs-type">Some</span>  <span class="hljs-comment">//多实例</span><br><span class="hljs-type">None</span>  <span class="hljs-comment">//单例  case object</span><br></code></pre>
+
+</div><div id="wmd-preview-section-810" class="wmd-preview-section preview-content">
+
+<h3 id="actor-并发编程模型">Actor  并发编程模型</h3>
+
+<p>erlang -&gt; actor  <br>
+scala -&gt; actor <br>
+让并发编程变得简单</p>
+
+</div><div id="wmd-preview-section-811" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Actor</span>{</span><br>    ack() <span class="hljs-comment">//要重写该方法</span><br>    receive()<br>    loop(   react{}<span class="hljs-comment">//重复利用线程池)</span><br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Task</span>{</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>{</span><br>        <span class="hljs-keyword">val</span> t = <span class="hljs-keyword">new</span> <span class="hljs-type">Task</span><br>        t.start()<br>        t ! ? !!<br>    }<br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-812" class="wmd-preview-section preview-content">
+
+<h3 id="基于actor的并发案例要写下来">基于actor的并发案例要写下来</h3>
+
+</div><div id="wmd-preview-section-813" class="wmd-preview-section preview-content">
+
+<h2 id="scala-akka">Scala Akka</h2>
+
+<p>2.11.x 开始使用Akka actor</p>
+
+</div><div id="wmd-preview-section-814" class="wmd-preview-section preview-content">
+
+<h3 id="高并发-高吞吐量">高并发 高吞吐量</h3>
+
+<ol><li rel="1">自己写 <br>
+多线程 并发 底层通信 可以自己写 但不好把握</li>
+<li rel="2">Netty</li>
+<li rel="3">Mina  archive.apache.org/list</li>
+<li rel="4">Akka   akka.io   Build powerful concurrent distributed applications more easily.  high personmance  Elastic  extnesible  Resilient     cisco 暴雪 ebay amazon bbc … <br>
+咋听说的，有项目 要实现后端高并发服务 akka实现  用Java来调</li>
+</ol>
+
+<p>spark 1.6 rpc  akka  后面有两种  加入netty  与 akka 两种选择</p>
+
+</div><div id="wmd-preview-section-815" class="wmd-preview-section preview-content">
+
+<h3 id="actor-架构模型">actor 架构模型</h3>
+
+</div><div id="wmd-preview-section-816" class="wmd-preview-section preview-content">
+
+<h4 id="需求">需求</h4>
+
+<p>word 图片 <br>
+异步 分阻塞  基于时间驱动的编程模型 <br>
+超级轻量级时间处理 （并发 性能非常强）</p>
+
+<p>需求来了 基于akka 编写分布式的通信框架 <br>
+服务要部署在多台服务器上 <br>
+例如3台 ，3个进程  。  进程间通信 <br>
+不同进程间的方法调用  rpc  <br>
+同一个进程中 拿到方法的引用 就可以直接调用 <br>
+rpc 需要有网络才能通信</p>
+
+<p>画图理解 <br>
+hdfs  nameNode dataNode <br>
+yarn  resourceManager  childnode</p>
+
+<p>比如 ： 这里叫master  worker <br>
+主备  高可用  zk注册 <br>
+业务处理 一般worker  master进行节点管理</p>
+
+</div><div id="wmd-preview-section-817" class="wmd-preview-section preview-content">
+
+<h4 id="问题的提出">问题的提出</h4>
+
+<p>想用akka进行编写高并发 高可用的 分布式的 可拓展 的 rpc通信框架  <br>
+那么问题来了 ，使用akka ，首先得先明白几个概念</p>
+
+<ol><li rel="1">ActorSystem【总管、单例】  是这个进程中的Actor的老大，负责创建和监控所有的actor 【master】</li>
+<li rel="2">很重要 ActorSystem 是单例的（创建的花费是很高的） jps 查看Java进程的状态</li>
+<li rel="3">Actor负责通信    真正负责通信的是actor</li>
+</ol>
+
+<p>没学过c++么…指针移动 <br>
+green网络加速器</p>
+
+<p>先了解akka actor <br>
+打包 maven  、 sbt  <br>
+国内使用maven较多 <br>
+这里使用maven <br>
+即1.0 也要给2.0 经过了大版本的迭代……</p>
+
+<p>新建maven项目 <br>
+pom文件 引入 依赖 <br>
+ denpendencies  <br>
+ Properties //定义变量，利于版本升级 <br>
+ akka-actor -remote <br>
+scala 编译 chajian   net.achi… <br>
+打包 shade…maven…  exclude排除  <br>
+直接指定main方法</p>
+
+<p>pom文件粘贴很多 auto-import import changes</p>
+
+<p>sourceDirectory  src/main/java  scala <br>
+以后混写 <br>
+注意编译  sourceDirectory的对应修改</p>
+
+<p>新建scala class   Master <br>
+通信  发消息 rpc通信</p>
+
+</div><div id="wmd-preview-section-818" class="wmd-preview-section preview-content">
+
+<h4 id="version1">version1</h4>
+
+</div><div id="wmd-preview-section-819" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Master</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Actor</span>{</span>  <span class="hljs-type">Actor</span>-&gt;<span class="hljs-class"><span class="hljs-keyword">trait</span><br></span><br><br>    println(<span class="hljs-string">"constructor invokked"</span>)<br><br>    <span class="hljs-comment">//ctrl+i //相当于while循环，不停接收消息</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">receive</span> :</span> <span class="hljs-type">Receive</span> = {<br>            <span class="hljs-comment">//REceive ==》 partionalFun 偏函数</span><br>            <span class="hljs-keyword">case</span> <span class="hljs-string">"connected"</span> =&gt;{ println (<span class="hljs-string">" a client connected"</span>)}<br>            <span class="hljs-comment">//ctrl+o 查看生命周期方法 </span><br>            <span class="hljs-comment">//preStart()//构造方法之后 star之前</span><br>            <span class="hljs-comment">//preStop()//资源回收</span><br>            <span class="hljs-comment">//preRestart//..</span><br><br>            <span class="hljs-keyword">case</span> <span class="hljs-string">"hello"</span> =&gt;{println(<span class="hljs-string">"hello "</span>)}<br><br><br><br>    }<br><br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preStart</span>(</span>):<span class="hljs-type">Unit</span> = {println(<span class="hljs-string">"preStart invoked"</span>)}<br><br><br><br><br>}<br><br><br><br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Master</span>{</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args:<span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]){<br>        <span class="hljs-comment">//1.准备配置 </span><br>        <span class="hljs-keyword">val</span> host = args(<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">val</span> port = args(<span class="hljs-number">1</span>).toInt<br><br>        <span class="hljs-keyword">val</span> configStr = <br>        s<span class="hljs-string">"""<br>            |akka.actor.provider = "akka.remote.RemoteActorRefProvider"<br>            |akka.remote.netty.tcp.hostname = "$host"<br>            |akka.remote.netty.tcp.port = "$port"<br>        """</span>.stripMargin<br><br>        <span class="hljs-comment">//2.读取配置文件或解析字符串 \map</span><br>        <span class="hljs-keyword">val</span> config =  <span class="hljs-type">ConfigFactory</span>.parseFile(configStr)<br>        <span class="hljs-comment">//ActorSystem老大，辅助创建和监控下面的Actor,它是单例的</span><br>        <span class="hljs-keyword">val</span> actorSystem = <span class="hljs-type">ActorSystem</span>(<span class="hljs-string">"MasterSystem"</span>,config)<br><br>        <span class="hljs-comment">//创建actor</span><br>        <span class="hljs-comment">//actorSystem.actorOf(Props[Master])//10:34</span><br>        actorSystem.actorOf(<span class="hljs-type">Props</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">Maser</span>),<span class="hljs-string">"Master"</span>)<br><br>        master ! <span class="hljs-string">"hello"</span><br>        actorSystem.awaitTermination()<span class="hljs-comment">//等待信号结束，优雅退出（将用户发出的信息 kill） 与强制退出（kill -9）。  </span><br><br>    }<br><br>}<br><br><br>idea run<br>edit run configuration<br>program arguments : ip(虚拟网卡) <span class="hljs-number">8888</span><br><br><br><br></code></pre>
+
+</div><div id="wmd-preview-section-820" class="wmd-preview-section preview-content">
+
+<h4 id="version2">version2</h4>
+
+<p>version1 单机版本 自己发字节接 <br>
+现在需要集群方式 <br>
+actor间 如何进行通信 <br>
+ip port actorSystem <br>
+先找到actorSystem  然后找到actor</p>
+
+</div><div id="wmd-preview-section-821" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Master</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Actor</span>{</span>  <span class="hljs-type">Actor</span>-&gt;<span class="hljs-class"><span class="hljs-keyword">trait</span><br></span><br><br>    println(<span class="hljs-string">"constructor invokked"</span>)<br><br>    <span class="hljs-comment">//ctrl+i //相当于while循环，不停接收消息</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">receive</span> :</span> <span class="hljs-type">Receive</span> = {<br>            <span class="hljs-comment">//REceive ==》 partionalFun 偏函数</span><br>            <span class="hljs-keyword">case</span> <span class="hljs-string">"connected"</span> =&gt;{ println (<span class="hljs-string">" a client connected"</span>)<br>            sender ! <br>            }<br>            <span class="hljs-comment">//ctrl+o 查看生命周期方法 </span><br>            <span class="hljs-comment">//preStart()//构造方法之后 star之前</span><br>            <span class="hljs-comment">//preStop()//资源回收</span><br>            <span class="hljs-comment">//preRestart//..</span><br><br>            <span class="hljs-keyword">case</span> <span class="hljs-string">"hello"</span> =&gt;{println(<span class="hljs-string">"hello "</span>)}<br><br><br><br>    }<br><br><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preStart</span>(</span>):<span class="hljs-type">Unit</span> = {println(<span class="hljs-string">"preStart invoked"</span>)}<br><br><br><br><br>}<br><br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Master</span>{</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args:<span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]){<br>        <span class="hljs-comment">//1.准备配置 </span><br>        <span class="hljs-keyword">val</span> host = args(<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">val</span> port = args(<span class="hljs-number">1</span>).toInt<br><br>        <span class="hljs-keyword">val</span> configStr = <br>        s<span class="hljs-string">"""<br>            |akka.actor.provider = "akka.remote.RemoteActorRefProvider"<br>            |akka.remote.netty.tcp.hostname = "$host"<br>            |akka.remote.netty.tcp.port = "$port"<br>        """</span>.stripMargin<br><br>        <span class="hljs-comment">//2.读取配置文件或解析字符串 \map</span><br>        <span class="hljs-keyword">val</span> config =  <span class="hljs-type">ConfigFactory</span>.parseFile(configStr)<br>        <span class="hljs-comment">//ActorSystem老大，辅助创建和监控下面的Actor,它是单例的</span><br>        <span class="hljs-keyword">val</span> actorSystem = <span class="hljs-type">ActorSystem</span>(<span class="hljs-string">"MasterSystem"</span>,config)<br><br>        <span class="hljs-comment">//创建actor</span><br>        <span class="hljs-comment">//actorSystem.actorOf(Props[Master])//10:34</span><br>        actorSystem.actorOf(<span class="hljs-type">Props</span>(<span class="hljs-keyword">new</span> <span class="hljs-type">Maser</span>),<span class="hljs-string">"Master"</span>)<br><br>        master ! <span class="hljs-string">"hello"</span><br>        actorSystem.awaitTermination()<span class="hljs-comment">//等待信号结束，优雅退出（将用户发出的信息 kill） 与强制退出（kill -9）。  </span><br><br>    }<br><br>}<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Worker</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Actor</span>{</span> <span class="hljs-comment">//可发 可收消息</span><br><br>    <span class="hljs-comment">//ctrl+i</span><br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">recevie</span> :</span> <span class="hljs-type">Receive</span> = {<br>        <span class="hljs-keyword">case</span> <span class="hljs-string">"reply"</span> =&gt; {<br>            println(<span class="hljs-string">"a reply from master"</span>)<br>        }<br>    }<br><br>    <span class="hljs-keyword">var</span> master : <span class="hljs-type">ActorSelection</span> = _<br>    <span class="hljs-keyword">override</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preStart</span> :</span> <span class="hljs-type">Unit</span> ={<br>        <span class="hljs-comment">//1. 先建立连接 进行注册</span><br>        <span class="hljs-comment">//2. 拿到master代理对象（引用)，向master发送消息</span><br>        <span class="hljs-comment">//3. 向master发送消息（类似调用方法，但actor 发送消息更加地道）</span><br>        <span class="hljs-comment">//4. Master向worker反馈消息</span><br><br>        <span class="hljs-comment">//建立连接 获得master引用</span><br>        master = context.actorSelection(<span class="hljs-string">"akka.tcp://MasterSystem@ip:port/user/Master"</span>) <span class="hljs-comment">//user固定 Master自定义名称</span><br><br>    }<br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>..){<br>        <span class="hljs-comment">//类似master 粘过来</span><br>        ....<br>        <span class="hljs-keyword">val</span> actorSystem = <span class="hljs-type">ActorSystem</span>(<span class="hljs-string">"WorkerSystem"</span>,config)<br>        actorSystem.actorOf(<span class="hljs-type">Props</span>[<span class="hljs-type">Worker</span>],<span class="hljs-string">"Worker"</span>)<br>        actorSystem.awaitTermination()<br><br><br>    }<br><br>}<br><span class="hljs-comment">//verion2的代码 待补补</span><br><br>运行 woker  ip workerPort ip masterPort<br><br></code></pre>
+
+<p>rpc 通信 发送消息 传递数据  通过 caseClass  样例类 前提 样例类实现序列化 在网络之间传输  </p>
+
+<p>先解决 打包 运行  开发中肯定会放到服务器上执行</p>
+
+<p>修改pom文件中的mainclass <br>
+mvn package <br>
+打包   server放到 linux  worker 放到 windows  <br>
+演示调用</p>
+
+<p>虚拟化基础课程 1-5  <br>
+建议 以后工作中 用的话 再看 <br>
+涉及很广  linux内核   存储 网络 等虚拟化 <br>
+其实水很深的…. <br>
+从广州弄过来的老师….现在就业出口较少 <br>
+上期总共 3人 金山云 阿里云 新手云 <br>
+薪水确实比大数据高 <br>
+从23k 到了阿里云 60w <br>
+其实搞了很多年python c++  本来就很强 不是培训后就很强</p>
+
+<p>spark 1.6.1  源码实现 <br>
+Master  <br>
+ThreadSafeEndPoint….. <br>
+//两种实现 <br>
+AkkaRpcEndPoint <br>
+NettyRpcEndPointRef</p>
+
+<p>分析 复杂框架  从小积木开始  <br>
+一堆积木开始搭建  <br>
+思路 分布式的计算框架  老大（任务调度、资源分配  yarn类比 resourceManager 负责资源调度   AppMaster监控，给老大减负） 小弟（任务计算）</p>
+
+<p>画图理解</p>
+
+<p>以后机器提高处理能力</p>
+
+<p>通信 建立连接  向master注册（worker发送自身节点的信息状况） 将woker的信息保存下来  反馈（想woker通知 注册成功）  woker之后要发送心跳 （master以后发送有心跳的节点）</p>
+
+<ol><li rel="1">Rpc通信框架 （AKKA） hadoop rpc通信框架 clientprotol… </li>
+<li rel="2">定义两个类  Master  Worker 都要继承Actor   命名 ActorXXxSystem…</li>
+<li rel="3"><p>通信业务逻辑</p>
+
+<ol>
+<li rel="4">前提 <br>
+<ol>
+<li rel="4">首先启动Master</li>
+<li rel="5">然后启动所有的worker</li></ol></li>
+<li rel="6">Worker启动后，在preStart方法中与Master建立连接，向master发送注册，将Worker的信息通过case class 封装起来发动给Master</li>
+<li rel="7">Master接收到Woker的注册消息后，然后将woker的信息保存起来（zk，暂时保存到内存中）。最后向worker反馈注册成功消息</li>
+<li rel="8">worker定期向master发送心跳(心跳当然是有频率定期的），为了报活</li>
+<li rel="9">Master会定时清理超时的worker</li></ol>
+
+<p>//spark一定要看源码…1.0 1.3.1 1.5  1.6 都看了…..</p></li>
+</ol>
+
+</div><div id="wmd-preview-section-822" class="wmd-preview-section preview-content">
+
+<h4 id="version3">version3</h4>
+
+<p>代码 需要再定</p>
+
+</div><div id="wmd-preview-section-823" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">RemoteMeesage</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Serializable</span><br></span><br><span class="hljs-comment">// val workerId = UUID.randomUUID().toString [worker 中]</span><br><span class="hljs-comment">// val memory  = args(4).toInt  val cores = args(5).toInt</span><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegisterWorker</span>(</span>id: <span class="hljs-type">String</span>,memory：<span class="hljs-type">Int</span>,cores:<span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">RemoteMessage</span> <span class="hljs-comment">//内存、核数的分配 或读取默认配置</span><br><br><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RegistedMessage</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">RemoteMessage</span><br></span><br><br><br><br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Worker</span> (</span>)...{<br>...<br><br>master ! registerWorker(id,memory,cores)<br>}<br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Master</span> (</span>)..{<br>    <span class="hljs-keyword">val</span> idWorkers = <span class="hljs-keyword">new</span> mutable.<span class="hljs-type">HashMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">WorkerInfo</span>]()<br>    <span class="hljs-comment">//以后根据workInfo的生存状况 remove操作方便</span><br>    <span class="hljs-keyword">val</span> wokers = <span class="hljs-keyword">new</span> mutable.<span class="hljs-type">HashSet</span>[<span class="hljs-type">WorkerInfo</span>]()<br>    receive :{<br>        <span class="hljs-keyword">case</span> <span class="hljs-type">RegisterWorker</span>(id,memory,cores)=&gt;{<br>            <span class="hljs-keyword">if</span>(！idWorkers.contains(id))<span class="hljs-comment">//判断有无注册过</span><br>            {<br>                <span class="hljs-keyword">val</span> workerInfo = <span class="hljs-keyword">new</span> <span class="hljs-type">WorkerInfo</span>(...)<br>                idWorkers(id) = workerInfo<br>                workers += workerInfo<br>            }<br>        }<br>    }<br><br>}<br><br><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WorkerInfo</span>(</span>id memeory cores){<br>    <span class="hljs-comment">//最好有个 var 的心跳时间</span><br>}<br><br><span class="hljs-comment">//如何将超时的worker 移除  15：48分 超时时间 1.5-2倍？ 没听清</span><br><br>version3 的代码具体以 老赵为准<br><br>跪着也要写完<br>不要总看文档，自己写，才有感觉<br><br><br><br></code></pre>
+
+</div><div id="wmd-preview-section-824" class="wmd-preview-section preview-content">
+
+<h2 id="高级特性-高阶函数-隐式转换">高级特性 高阶函数 、隐式转换</h2>
+
+</div><div id="wmd-preview-section-825" class="wmd-preview-section preview-content">
+
+<h3 id="高阶函数">高阶函数</h3>
+
+<p>作为值的函数 <br>
+匿名函数 <br>
+闭包 <br>
+<strong>柯里化</strong>等等 柯里（数学家）</p>
+
+</div><div id="wmd-preview-section-826" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs kotlin">def multiply(x:<span class="hljs-typename">Int</span>) :<span class="hljs-typename">Int</span> = {<br>    x*x<br>}<br>arr.map(multiply _)<br>arr.map(multiply) <span class="hljs-comment">//隐式转化 </span><br><br>def fun1  = (x:<span class="hljs-typename">Int</span>) =&gt; {x*x}<br>fun1 <span class="hljs-function"><span class="hljs-keyword">fun</span></span><br>一个方法接收多个参数 不过是在多个括号里<br>以后我们的很多功能 ()(implict<span class="hljs-comment">//隐式值 很多东西不用传，很多强大的功能就这么用)</span><br><br><br><br>....<br></code></pre>
+
+</div><div id="wmd-preview-section-827" class="wmd-preview-section preview-content">
+
+<h3 id="隐式转换">隐式转换</h3>
+
+<p>继承 装饰 代理 的区别  <br>
+打破封装 对类的增强  <br>
+对对象的方法增强  =&gt; 隐式转换</p>
+
+<p>门面模式  <br>
+比如 电脑 电视 内部的器件 都是通过 各种按键 展示出来提供功能 <br>
+spark源码中 很多 隐式转换 适应后 会很爽的</p>
+
+<p>所有的隐式转换 隐式值 都要放到object中 <br>
+导入了门面后 会找上下文中类型一样的进行 替换 <br>
+就近原则 </p>
+
+<dl>
+<dt>1 to 10   //将1 转为richInt  默认导入 PreDef   implicit</dt>
+<dt>lowPiorty…</dt>
+<dd>implicit -v <br>
+//快学scala</dd>
+</dl>
+
+<p>大数据 大小公司都做 <br>
+虚拟化 公司实力大 财力人力物力 <br>
+为中小企业提供付费的虚拟机  <br>
+08年 买机架 带宽高 网络稳定 硬防 软防 攻击一般攻击不了  但结果服务器 居然被攻破….</p>
+
+<p>自己的基本会被攻击…</p>
+
+<p>现在阿里云等上 租虚拟机  相比以前 便宜了很多很多  <br>
+虚拟机 需要 综合 能力 要强  网络 存储 linux内核 等 水很深 <br>
+三星  广东那老师  虚拟化 就业不是很好….  <br>
+传智圈钱…不赚钱就不搞了…. <br>
+vcentor 付费…</p>
+
+<p>成千上万台的 集群虚拟化… <br>
+金山云</p>
+
+</div><div id="wmd-preview-section-828" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

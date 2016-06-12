@@ -1,0 +1,203 @@
+<!DOCTYPE html><html><head><title>day31_spark04</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-907" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-919" class="wmd-preview-section preview-content">
+
+<h2 id="day31spark04">day31_spark04</h2>
+
+<p> <br>
+声明： <br>
+该笔记为随堂笔记+课后整理拓展 <strong>老师讲解与自我思考的融合</strong>。 <br>
+有些错误总会修补的，只是早晚，<strong>最好以老师的文档为准，我整理拓展为辅</strong></p>
+
+<hr>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><ul>
+<li><a href="#day31spark04">day31_spark04</a></li>
+<li><a href="#回顾">回顾</a></li>
+<li><a href="#checkpoint">checkpoint</a></li>
+<li><a href="#spark-任务执行流程">spark 任务执行流程</a></li>
+<li><a href="#spark-sql">spark sql</a><ul>
+<li><a href="#dataframes">DataFrames</a></li>
+</ul>
+</li>
+<li><a href="#编译spark源码">编译spark源码</a></li>
+<li><a href="#远程debug">远程debug</a></li>
+<li><a href="#拓展">拓展</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div></div><div id="wmd-preview-section-909" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+<p>partitioner <br>
+sort <br>
+Girl <br>
+sortBy() <br>
+ip归属地 <br>
+why ? 广播变量 数据缓存到 任务所在的Executor中（内存中）</p>
+
+<p>新浪 机器学习 200g的内容 变量 广播出去… <br>
+以后 可以走redis缓存服务器（多节点） <br>
+空间《=》时间</p>
+
+<p>疑难解答 <br>
+ip归属地的启动执行过程</p>
+
+<p>wordcount 过程中的rdd  口头讲解  + 源码分析</p>
+
+<p>reduceBykey（类似reducer的功能）  =&gt; shuffle read的概念 </p>
+
+<p>粗粒度的spark任务提交流程回顾 <br>
+master  worker</p>
+
+<p>jdbc  wordCount driver  Executor（建议jdbc在Executor中写，减少网络通信等）</p>
+
+<p>512m内存，数据有1g或更大 <br>
+来个实验</p>
+
+</div><div id="wmd-preview-section-910" class="wmd-preview-section preview-content">
+
+<h2 id="checkpoint">checkpoint</h2>
+
+<p>磁盘 内存 间的转换 <br>
+why ？ <br>
+还原点</p>
+
+<p>画图理解9：53</p>
+
+<p>how?</p>
+
+<p>RDD 代码 <br>
+def checkpoint()</p>
+
+<p>数据丢了而非重新计算，而是从checkpoint中恢复计算。 其代码注释一定要再看几遍！</p>
+
+<p>面试点：  <br>
+动手能力  <br>
+mr rdd 等</p>
+
+</div><div id="wmd-preview-section-911" class="wmd-preview-section preview-content">
+
+<h2 id="spark-任务执行流程">spark 任务执行流程</h2>
+
+<p>spark 任务执行流程.png 60%~80 内核执行流程</p>
+
+<ul><li>RDD DAG 有向无环图（有方向，无闭环），代表数据的流向</li>
+<li>DAGSchedule 将DAG划分为stage  (task set)</li>
+<li>TaskScheduler </li>
+<li>worker</li>
+</ul>
+
+<p>之后还会有更细粒度的讲解  各环节内部的细节</p>
+
+<p>RDD的 宽、窄依赖 </p>
+
+<p>Stage 的划分讲解</p>
+
+<p>之后 <br>
+ spark sql <br>
+ spark streaming  <br>
+ 两天项目 <br>
+ 两天源码</p>
+
+</div><div id="wmd-preview-section-912" class="wmd-preview-section preview-content">
+
+<h2 id="spark-sql">spark sql</h2>
+
+<p>spark rdd的实现方式有多种，没有统一的方式，但是效率又高有低。 <br>
+rdd虽然已经很高效，但还有更高级的实现 <br>
+spark-sql  <br>
+<a href="http://spark.apache.org/docs/latest/sql-programming-guide.html" target="_blank">spark sql 官方文档</a> <br>
+用来处理结构化数据的一个模块</p>
+
+<p>基于图形化界面 拖动 字段 整合 处理 数据 </p>
+
+</div><div id="wmd-preview-section-913" class="wmd-preview-section preview-content">
+
+<h3 id="dataframes">DataFrames</h3>
+
+<p>类似 传统数据二维表 <br>
+spark shell 中即可创建  <br>
+启动的时候 sqlContext 已经创建了</p>
+
+<p>dataFrame 两种创建方式 <br>
+val rdd = sc.textFile(“hdfs:/…..file”).map(_.split(“,”)) <br>
+case calss Person(id:Long,name:String,age:Int) <br>
+DSL风格  感觉不爽 类似R语言</p>
+
+<p>SQL风格 <br>
+类似 myslq语法  hive语法 </p>
+
+<p>IDEA中编写spark sql</p>
+
+<p>15:12 sql 写车该配置成文件 <br>
+spark sql会解释并帮助优化 rdd</p>
+
+<p>structType</p>
+
+<p>json </p>
+
+<p>PPT</p>
+
+<p>Parquet File </p>
+
+<p>Orc file</p>
+
+<p>spark sql 对 Hive 兼容  <br>
+版本是有要求的 1.6.1 1.2.1 <br>
+修改hive-site.xml </p>
+
+<p>windows 上 linux 选择了utf-8  <br>
+hive 比较挫latin1  <br>
+alter database dbName character set latin1 <br>
+<a href="https://github.com/leotse90/SparkNotes/blob/master/Hadoop%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.md" target="_blank">注意mysql的字符集问题！</a></p>
+
+<p>spark sql api</p>
+
+<p>hive tables 查看</p>
+
+<p>字符集问题 <br>
+hive  <br>
+load data </p>
+
+</div><div id="wmd-preview-section-914" class="wmd-preview-section preview-content">
+
+<h2 id="编译spark源码">编译spark源码</h2>
+
+<p>在执行第一行  . unable to load native-had。。。 native 库 </p>
+
+<p>多留点资源 编译 <br>
+maven准备好 <br>
+编译前要安装本地库的内容</p>
+
+</div><div id="wmd-preview-section-915" class="wmd-preview-section preview-content">
+
+<h2 id="远程debug">远程debug</h2>
+
+<p>服务器环境变量加些参数 <br>
+远程调试 master <br>
+IDEA rpc 默认netty 1.6</p>
+
+<p>远程调试 worker</p>
+
+<p>后天要结合es ，最好熟悉下luence <br>
+luence <br>
+compars <br>
+elastic search <br>
+语义分析 分词  —&gt;</p>
+
+</div><div id="wmd-preview-section-916" class="wmd-preview-section preview-content">
+
+<h2 id="拓展">拓展</h2>
+
+<p><a href="https://www.gitbook.com/book/fuxiaopang/learnelasticsearch/details" target="_blank">Elasticsearch 权威指南</a> <br>
+<a href="http://www.elasticsearchtutorial.com/elasticsearch-in-5-minutes.html#Install" target="_blank">ElasticSearch in 5 minutes</a></p>
+
+</div><div id="wmd-preview-section-917" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

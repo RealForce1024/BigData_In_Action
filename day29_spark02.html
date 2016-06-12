@@ -1,0 +1,327 @@
+<!DOCTYPE html><html><head><title>day29_spark02</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style></style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-849" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-850" class="wmd-preview-section preview-content">
+
+<h1 id="day29spark02">day29_spark02</h1>
+
+<p></p>
+
+<p>声明： <br>
+该笔记为随堂笔记+课后整理拓展 老师讲解与自我思考的融合。 <br>
+有些错误总会修补的，只是早晚，最好以老师的文档为准，我整理为辅</p>
+
+<hr>
+
+<ol><li rel="1">未来 hadoop spark 都是工具 越来越简单化  如何结合业务 产生生产力 才值钱</li>
+<li rel="2">技术控，不是哪些搞api应用的人，懂得更高深层次的，才是最值钱的。..国内 项目总监 产品总监 建议 <br>
+技术控搞高层次的，不是那些api应用层的，而是底层核心，大公司技术支持</li>
+</ol>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#day29spark02">day29_spark02</a><ul>
+<li><a href="#回顾">回顾</a><ul>
+<li><a href="#scala-泛型">Scala 泛型</a></li>
+<li><a href="#viewbound">viewbound</a></li>
+<li><a href="#contextbound">contextbound</a></li>
+<li><a href="#spark-简介">spark 简介</a></li>
+<li><a href="#安装">安装</a></li>
+<li><a href="#spark启动过程">spark启动过程</a></li>
+<li><a href="#spark-shell">spark-shell</a></li>
+<li><a href="#spark-wordcount">spark wordCount</a></li>
+<li><a href="#rdd的5个特性">RDD的5个特性</a></li>
+<li><a href="#两种算子">两种算子</a></li>
+<li><a href="#idea-打包">idea  打包</a></li>
+<li><a href="#transformation-action">Transformation &amp;&amp;Action</a><ul>
+<li><a href="#实验说明延迟加载">实验说明延迟加载</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#maven编译spark源码">maven编译spark源码</a></li>
+<li><a href="#其他算子">其他算子</a><ul>
+<li><a href="#mapparationtionswithindex">mapParationtionsWithIndex</a></li>
+<li><a href="#aggregate-聚合-更加灵活">aggregate 聚合 更加灵活</a></li>
+</ul>
+</li>
+<li><a href="#案例-根据基站信息推算用户位置画像">案例 ：根据基站信息推算用户位置画像</a></li>
+<li><a href="#url链接分析">url链接分析</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-851" class="wmd-preview-section preview-content">
+
+<h2 id="回顾">回顾</h2>
+
+</div><div id="wmd-preview-section-852" class="wmd-preview-section preview-content">
+
+<h3 id="scala-泛型">Scala 泛型</h3>
+
+</div><div id="wmd-preview-section-853" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs r">class Person[<span class="hljs-literal">T</span>]{<br>    def choose[<span class="hljs-literal">T</span> &lt;: Comparable[<span class="hljs-literal">T</span>]] (first: <span class="hljs-literal">T</span>, second: <span class="hljs-literal">T</span>): <span class="hljs-literal">T</span> ={ first}<br>}<br></code></pre>
+
+</div><div id="wmd-preview-section-854" class="wmd-preview-section preview-content">
+
+<h3 id="viewbound">viewbound</h3>
+
+<p>Viewbound   orderring ordered 隐式转换: 自己的隐式上下文 <br>
+object MyPredef{ <br>
+    implicit() <br>
+}</p>
+
+</div><div id="wmd-preview-section-855" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="language-scala hljs"><span class="hljs-comment">//viebound 要求传入一个隐式转换参数</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[</span><span class="hljs-type">T</span> &lt;% <span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span>(</span>first: <span class="hljs-type">T</span>,seconde:<span class="hljs-type">T</span>) : <span class="hljs-type">T</span>={<br>        <span class="hljs-keyword">if</span>(first&gt; second) first <span class="hljs-keyword">else</span> second<br><br>    }<br>}<br><span class="hljs-comment">//柯里化方式</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[</span><span class="hljs-type">T</span> &lt;% <span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span>(</span>first: <span class="hljs-type">T</span>,seconde:<span class="hljs-type">T</span>) : （<span class="hljs-keyword">implicit</span> ord: <span class="hljs-type">T</span>=&gt;<span class="hljs-type">Ordered</span>[<span class="hljs-type">T</span>]）:<span class="hljs-type">T</span>={<br>        <span class="hljs-keyword">if</span>(first&gt; second) first <span class="hljs-keyword">else</span> second<br><br>    }<br>}<br><br></code></pre>
+
+</div><div id="wmd-preview-section-856" class="wmd-preview-section preview-content">
+
+<h3 id="contextbound">contextbound</h3>
+
+</div><div id="wmd-preview-section-857" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs python"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[<span class="hljs-title">T</span>:</span>ordering]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span><span class="hljs-params">(first:T ,second:T)</span>:</span>T{<br>        val ord = implicity[Ordering[T]]<br>        <span class="hljs-keyword">if</span>(ord.gt(first,second)) first <span class="hljs-keyword">else</span> second<br>    }<br>}<br><br>//柯里化方式<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Chooser</span>[<span class="hljs-title">T</span>:</span>ordering]{<br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bigger</span><span class="hljs-params">(first:T ,second:T)</span><span class="hljs-params">(implicit ord:Ordering)</span>:</span>T{<br>        、、val ord = implicity[Ordering[T]]<br>        <span class="hljs-keyword">if</span>(ord.gt(first,second)) first <span class="hljs-keyword">else</span> second<br>    }<br>}<br></code></pre>
+
+<p>[+T] <br>
+[-T] <br>
+平常代码写的很少 <br>
+spark in programing</p>
+
+</div><div id="wmd-preview-section-858" class="wmd-preview-section preview-content">
+
+<h3 id="spark-简介">spark 简介</h3>
+
+<p>one statck to rules them all <br>
+RDD Spark-Sql Spark-Streaming Graphx MLib <br>
+强大的内核支撑</p>
+
+<p>Master Worker <br>
+Master管理所有的worker，进而进行资源的调度 <br>
+Worker管理当前计算节点 （启动Java进程–executor） worker会启动一个Excutor来完成真正的计算</p>
+
+</div><div id="wmd-preview-section-859" class="wmd-preview-section preview-content">
+
+<h3 id="安装">安装</h3>
+
+<p>spark-env.sh  //三变量  <br>
+slaves</p>
+
+</div><div id="wmd-preview-section-860" class="wmd-preview-section preview-content">
+
+<h3 id="spark启动过程">spark启动过程</h3>
+
+<p>核心理念在于 <br>
+spark—env.sh  masterIp 11 <br>
+slaves  12 13</p>
+
+<p>sbin/start-all.sh  <br>
+会在启动master 进程  </p>
+
+<p>注意：</p>
+
+<ol><li rel="1"><strong>在worker节点启动 master会失败，脚本并未ssh协议</strong></li>
+<li rel="2"><strong>启动worker进程是通过ssh协议工作的</strong></li>
+<li rel="3"><strong>注册 通信 是通过  Rpc（tcp ip）协议</strong></li>
+</ol>
+
+</div><div id="wmd-preview-section-861" class="wmd-preview-section preview-content">
+
+<h3 id="spark-shell">spark-shell</h3>
+
+<p>bin/spark-shell –master spark://ip:7077 –executor-memory (每个worker所占内存大小) 2G –total-executor-cores 10 (集群总共的核数)  //个性化定制资源 非常便利</p>
+
+</div><div id="wmd-preview-section-862" class="wmd-preview-section preview-content">
+
+<h3 id="spark-wordcount">spark wordCount</h3>
+
+<p>textFile  类似 textInputForamt实现机制</p>
+
+<p>建议reduceByKey  9：43分 在每个work中 conbiner 。 groupBy没做所以效率低</p>
+
+</div><div id="wmd-preview-section-863" class="wmd-preview-section preview-content">
+
+<h3 id="rdd的5个特性">RDD的5个特性</h3>
+
+<p>9：45分 <br>
+移动计算而非移动数据 减少网络开销</p>
+
+</div><div id="wmd-preview-section-864" class="wmd-preview-section preview-content">
+
+<h3 id="两种算子">两种算子</h3>
+
+<p>tranformation  延迟执行  记录转换元数据 从哪读 将要做哪些操作 <br>
+action  真正的执行操作</p>
+
+</div><div id="wmd-preview-section-865" class="wmd-preview-section preview-content">
+
+<h3 id="idea-打包">idea  打包</h3>
+
+<p>maven pom.xml的一些配置 <br>
+打的两个包 建议大而全的jar</p>
+
+</div><div id="wmd-preview-section-866" class="wmd-preview-section preview-content">
+
+<h3 id="transformation-action">Transformation &amp;&amp;Action</h3>
+
+<p>Transformation &amp;&amp;Action.txt 文件内容回顾</p>
+
+</div><div id="wmd-preview-section-867" class="wmd-preview-section preview-content">
+
+<h4 id="实验说明延迟加载">实验说明延迟加载</h4>
+
+<p>9：50</p>
+
+<ul><li>spark启动  sbin/start-all.sh</li>
+<li><code>spark-shell --master spark://ip:7077</code>    #集群启动方式 默认配置</li>
+<li><code>sc.textFile("hdfs://ip:9000/wc")</code></li>
+<li><code>sc.textFile("hdfs://ip:9000/wc").flatMap(\_.split(" ")).map((\_,1))</code></li>
+<li><code>sc.textFile("hdfs://ip:9000/wc").flatMap(\_.split(" ")).map((\_,1)).reduceByKey(\_+\_)</code>//新版本 拉取数据 checkpoint 先把数据计算保存在checkpoint 这里新版本进行了优化 做了checkpoint 。 这个例子特别，之后再讲</li>
+<li><code>sc.textFile("hdfs://ip:9000/wc").flatMap(\_.split(" ")).map((\_,1)).count</code> //此时真正操作  延迟加载 通过迭代器一条条的处理 而非一次性加载  。 </li>
+</ul>
+
+</div><div id="wmd-preview-section-868" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-dark"><code class="hljs stylus">rdd = sc.<span class="hljs-function"><span class="hljs-title">parallelize</span><span class="hljs-params">(Array(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>.....)</span></span>)<br>rdd<span class="hljs-class">.partition</span> <br></code></pre>
+
+<p>//可能在一台或多台worker上。 <br>
+join基于  cogroup  <br>
+…各种算子</p>
+
+</div><div id="wmd-preview-section-869" class="wmd-preview-section preview-content">
+
+<h2 id="maven编译spark源码">maven编译spark源码</h2>
+
+<p>unable to load navive-hadoop library …  using java … <br>
+c ,c++ 擅长 压缩 解压缩 <br>
+官网 下载的没有打包进去 <br>
+机器上 安装 <br>
+然后重新编译spark <br>
+<a href="http://blog.csdn.net/scgaliguodong123_/article/details/46358679" target="_blank">hadoop 压缩算法</a>  <br>
+查看centos6.7 编译hadoop.txt  <br>
+spark 操作方法一样</p>
+
+</div><div id="wmd-preview-section-870" class="wmd-preview-section preview-content">
+
+<h2 id="其他算子">其他算子</h2>
+
+<p>其他不好理解的，以后可能会遇到的算子。 <br>
+材料选自 <br>
+spark rdd api example <br>
+国内都在讲怎么用，可能都在学习这个牛..不做创新？</p>
+
+</div><div id="wmd-preview-section-871" class="wmd-preview-section preview-content">
+
+<h3 id="mapparationtionswithindex">mapParationtionsWithIndex</h3>
+
+<p>val rdd = sc.parallelize(List(1,2,3,4,5),2) <br>
+rdd.map <br>
+rdd.mapParationtionsWithIndex  10:16  //分区可能在一台机器上 其实数据放到迭代器中  可以看到每个分区中的数据 <br>
+val func = (index:Int , iter:Iterator[Int]) = &gt; {iter.toList.map(x=&gt;”….”).iterator} <br>
+… <br>
+得到</p>
+
+</div><div id="wmd-preview-section-872" class="wmd-preview-section preview-content">
+
+<h3 id="aggregate-聚合-更加灵活">aggregate 聚合 更加灵活</h3>
+
+<p>rdd.aggregate(0)(_++,_++) //action </p>
+
+<p>把每个分区的最大值取出来  <br>
+rdd.aggregate(0)(_.max,_++) //  但是目前需要 <br>
+reduce(math.max(_,_))  reduce //reduce  <br>
+rdd.aggregate(0)(math.max(_,_),_+_)   传递分区中的元素（分区中的最大值相加） 注意max sum… <br>
+相对局部操作 （自定义函数 自己需求来定），然后进行全局操作，相当灵活。初始值会对每个分区操作 <br>
+sum  aggregate 底层都是 reduce</p>
+
+<p>各种例子  爽…. 注意并行化计算</p>
+
+<p>aggregate  局部按key操作 <br>
+局部操作，然后全局操作 <br>
+aggregateByKey(0)(_+_,_+_) <br>
+reduceByKey(_+_).collect() <br>
+不同参数</p>
+
+<p>高可用 zk 先连zk 后master <br>
+combineByKey  reduceByKey aggregateByKey <br>
+groupBy …效率低，全局汇总 shuffle 效率低 网络消耗</p>
+
+<p>11：36 <br>
+默认读 hdfs  几个block 就是几个分区 <br>
+还是使用inputFormat的实现 规则</p>
+
+<p>技能点 要刨根问底 不能因为难少用就算了</p>
+
+<p>repatatition  //重新分区  可能会发生shuffle  网络间传输 <br>
+ coalesce(3) <br>
+看下代码实现</p>
+
+<p>rdd.collectAsMap   Map(b-&gt; 2, a-&gt;1)     </p>
+
+<p>countByKey <br>
+countByValue <br>
+filterByRange <br>
+flatMapVaules  <br>
+foldBykey <br>
+foreachPartition</p>
+
+<p>有些数据 <br>
+map   // 15：06  会生成一个新的rdd，消耗资源 <br>
+foreach <br>
+mapPartitions <br>
+foeachPartitions</p>
+
+<p>FoeachDemo  本地运行 设置 线程 local[n]</p>
+
+<p>存入数据库  按分区来存  之后有详细案例 <br>
+keyBy <br>
+..各种小方法</p>
+
+<p>OrderedRDDFunctions</p>
+
+</div><div id="wmd-preview-section-873" class="wmd-preview-section preview-content">
+
+<h2 id="案例-根据基站信息推算用户位置画像">案例 ：根据基站信息推算用户位置画像</h2>
+
+<p>运营商 基站  身份证  天眼 各种信息 无处藏匿</p>
+
+<p>插画： <br>
+国家 互联网监控  …各种聊天 信息   运行商 推送到中心 <br>
+分词 核心语义分析（是否危害国家安全） 四个数据中心   当时storm+mr分析</p>
+
+<p>个人想法： 大数据寻亲 </p>
+
+<p>分析问题 解决问题的能力 加强锻炼</p>
+
+<p>LAC location area code  <br>
+186 1113 2889 zhaoxing老师</p>
+
+<p>建立连接  断开 状态 设置 </p>
+
+<p>手机号_基站  在哪个基站的时间最长</p>
+
+<p>groupBy 性能较低 网络之间shuffle   mapValues  实现方式较挫</p>
+
+<p>局部操作  <br>
+不要试图一行搞定……真的很酸爽，结果给出事例 ，便于自己和大家维护</p>
+
+<p>俩版本写出</p>
+
+</div><div id="wmd-preview-section-874" class="wmd-preview-section preview-content">
+
+<h2 id="url链接分析">url链接分析</h2>
+
+<ol start="1"><li rel="1">urlCount</li>
+</ol>
+
+<p>scala 集合  数据量大的时候 可能会溢出 <br>
+rdd 大了 可以写磁盘  17：39 </p>
+
+<p>后天加深难度</p>
+
+</div><div id="wmd-preview-section-875" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
