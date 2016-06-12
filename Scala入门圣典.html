@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-190" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-6390" class="wmd-preview-section preview-content">
+
+<h1 id="scala入门圣典">Scala入门圣典</h1>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#scala入门圣典">Scala入门圣典</a><ul>
+<li><a href="#快速体验">快速体验</a><ul>
+<li><a href="#将字符串转为数组">将字符串转为数组</a></li>
+<li><a href="#字符数组转为字符串">字符数组转为字符串</a></li>
+<li><a href="#repl">REPL</a></li>
+</ul>
+</li>
+<li><a href="#scala基础">Scala基础</a><ul>
+<li><a href="#1-声明值和变量">1. 声明值和变量</a><ul>
+<li><a href="#声明的两种方式">声明的两种方式</a></li>
+<li><a href="#类型自动推断">类型自动推断</a><ul>
+<li><a href="#不带类型声明">不带类型声明</a></li>
+<li><a href="#加上类型声明">加上类型声明</a></li>
+</ul>
+</li>
+<li><a href="#类型总是写在变量或函数的后面">类型总是写在变量或函数的后面</a></li>
+<li><a href="#同时声明多个值或变量">同时声明多个值或变量</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div></div><div id="wmd-preview-section-217" class="wmd-preview-section preview-content">
+
+<h2 id="快速体验">快速体验</h2>
+
+</div><div id="wmd-preview-section-533" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">8</span>*<span class="hljs-number">4</span>+<span class="hljs-number">2</span><br>res1: <span class="hljs-type">Int</span> = <span class="hljs-number">34</span><br><br>scala&gt; res1+<span class="hljs-number">2.1</span><br>res2: <span class="hljs-type">Double</span> = <span class="hljs-number">36.1</span><br><br>scala&gt; <span class="hljs-string">"hello, "</span> + res2<br>res4: <span class="hljs-type">String</span> = hello, <span class="hljs-number">36.1</span><br><br>scala&gt; res<br>res1   res2   res3   res4   <br><br>scala&gt; res4<br>res5: <span class="hljs-type">String</span> = hello, <span class="hljs-number">36.1</span><br><br>scala&gt; res4.to<br>toCharArray   toLowerCase   toString      toUpperCase   <br><br>scala&gt; res4.toUpperCase<br>res6: <span class="hljs-type">String</span> = <span class="hljs-type">HELLO</span>, <span class="hljs-number">36.1</span><br></code></pre>
+
+</div><div id="wmd-preview-section-581" class="wmd-preview-section preview-content">
+
+<h3 id="将字符串转为数组">将字符串转为数组</h3></div><div id="wmd-preview-section-542" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; res4.toString<br>res8: <span class="hljs-type">String</span> = hello, <span class="hljs-number">36.1</span><br><br>scala&gt; res4.toArray<br>res9: <span class="hljs-type">Array</span>[<span class="hljs-type">Char</span>] = <span class="hljs-type">Array</span>(h, e, l, l, o, ,,  , <span class="hljs-number">3</span>, <span class="hljs-number">6</span>, ., <span class="hljs-number">1</span>)<br><br>scala&gt; res9<br>res10: <span class="hljs-type">Array</span>[<span class="hljs-type">Char</span>] = <span class="hljs-type">Array</span>(h, e, l, l, o, ,,  , <span class="hljs-number">3</span>, <span class="hljs-number">6</span>, ., <span class="hljs-number">1</span>)<br><br>scala&gt; res9.map(_+<span class="hljs-string">"**"</span>)<br>res11: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(h**, e**, l**, l**, o**, ,**, <span class="hljs-string">" **"</span>, <span class="hljs-number">3</span>**, <span class="hljs-number">6</span>**, .**, <span class="hljs-number">1</span>**)<br><br>scala&gt; res9.map(_+<span class="hljs-string">"**"</span>).toString<br>res12: <span class="hljs-type">String</span> = [<span class="hljs-type">Ljava</span>.lang.<span class="hljs-type">String</span>;@<span class="hljs-number">25</span>c616e7<br><br>scala&gt; res13<br>res14: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(h**, e**, l**, l**, o**, ,**, <span class="hljs-string">" **"</span>, <span class="hljs-number">3</span>**, <span class="hljs-number">6</span>**, .**, <span class="hljs-number">1</span>**)<br><br>scala&gt; res13.<br>apply          asInstanceOf   clone          isInstanceOf   length         toString       update         <br><br>scala&gt; res13.toString<br>res16: <span class="hljs-type">String</span> = [<span class="hljs-type">Ljava</span>.lang.<span class="hljs-type">String</span>;@<span class="hljs-number">4</span>ff5a5fd<br></code></pre>
+
+</div><div id="wmd-preview-section-575" class="wmd-preview-section preview-content">
+
+<h3 id="字符数组转为字符串">字符数组转为字符串</h3></div><div id="wmd-preview-section-872" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; res13<br>res14: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(h**, e**, l**, l**, o**, ,**, <span class="hljs-string">" **"</span>, <span class="hljs-number">3</span>**, <span class="hljs-number">6</span>**, .**, <span class="hljs-number">1</span>**)<br><br>scala&gt; res13.<br>apply          asInstanceOf   clone          isInstanceOf   length         toString       update         <br><br>scala&gt; res13.toString<br>res16: <span class="hljs-type">String</span> = [<span class="hljs-type">Ljava</span>.lang.<span class="hljs-type">String</span>;@<span class="hljs-number">4</span>ff5a5fd<br><br>scala&gt; res13.map(_.contact()) <span class="hljs-comment">//没有该方法</span><br>&lt;console&gt;:<span class="hljs-number">13</span>: error: value contact is not a member of <span class="hljs-type">String</span><br>              res13.map(_.contact())<br>                          ^<br>scala&gt; res13<br>res20: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(h**, e**, l**, l**, o**, ,**, <span class="hljs-string">" **"</span>, <span class="hljs-number">3</span>**, <span class="hljs-number">6</span>**, .**, <span class="hljs-number">1</span>**)<br><br>scala&gt; res13.mkString<br>res21: <span class="hljs-type">String</span> = h**e**l**l**o**,** **<span class="hljs-number">3</span>**<span class="hljs-number">6</span>**.**<span class="hljs-number">1</span>**<br></code></pre>
+
+<p>参考 <a href="http://alvinalexander.com/scala/scala-convert-array-to-string-mkstring" target="_blank"> How to convert a Scala array (sequence) to string with mkString 《scala cookbook》</a></p>
+
+</div><div id="wmd-preview-section-1521" class="wmd-preview-section preview-content">
+
+<h3 id="repl">REPL</h3>
+
+<p>Read Evaluate Print Loop <br>
+scala的命令窗口并不是真正的解释器，而是快速的编译为java字节码，由jvm执行。能够很快的将执行结果返回到命令行窗口，REPL的叫法对于scala程序员更为亲切。 同时，当程序更为复杂的时候，文本编辑器将会是另一种选择。当涉及到产品工程时，IDE将会有大用场。</p>
+
+</div><div id="wmd-preview-section-1582" class="wmd-preview-section preview-content">
+
+<h2 id="scala基础">Scala基础</h2>
+
+</div><div id="wmd-preview-section-2417" class="wmd-preview-section preview-content">
+
+<h3 id="1-声明值和变量">1. 声明值和变量</h3>
+
+</div><div id="wmd-preview-section-4447" class="wmd-preview-section preview-content">
+
+<h4 id="声明的两种方式">声明的两种方式</h4></div><div id="wmd-preview-section-2458" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">val</span> a = <span class="hljs-number">1</span> <span class="hljs-comment">//值不可改变       **值 val**ue</span><br><span class="hljs-keyword">var</span> b = <span class="hljs-number">2</span> <span class="hljs-comment">//值可以修改   **变量 var**iable</span><br></code></pre>
+
+<p>推荐使用val的方式，大多数程序并不需要那么多的var变量。</p>
+
+</div><div id="wmd-preview-section-4467" class="wmd-preview-section preview-content">
+
+<h4 id="类型自动推断">类型自动推断</h4></div><div id="wmd-preview-section-4010" class="wmd-preview-section preview-content">
+
+<h5 id="不带类型声明">不带类型声明</h5>
+
+<p>看这段代码</p></div><div id="wmd-preview-section-4027" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a = <span class="hljs-number">1</span><br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-keyword">var</span> b = <span class="hljs-string">"hello scala"</span><br>b: <span class="hljs-type">String</span> = hello scala<br></code></pre>
+
+<p>可以清晰的看到变量或值的类型声明为Int和String</p>
+
+<p>scala的类型推断为我们写程序带来了很多遍历，但有时为了更加清晰明了，方便阅读（似乎矛盾），可以加上。</p>
+
+</div><div id="wmd-preview-section-4164" class="wmd-preview-section preview-content">
+
+<h5 id="加上类型声明">加上类型声明</h5>
+
+</div><div id="wmd-preview-section-5245" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">a: <span class="hljs-type">String</span> = hello world<br><br>scala&gt; <span class="hljs-keyword">var</span> b: <span class="hljs-type">Int</span> = <span class="hljs-string">"1"</span>  <span class="hljs-comment">//如果声明了类型，需要对应上，否则error</span><br>&lt;console&gt;:<span class="hljs-number">7</span>: error: <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">mismatch</span>;</span><br> found   : <span class="hljs-type">String</span>(<span class="hljs-string">"1"</span>)<br> required: <span class="hljs-type">Int</span><br>       <span class="hljs-keyword">var</span> b: <span class="hljs-type">Int</span> = <span class="hljs-string">"1"</span><br>                    ^<br></code></pre>
+
+</div><div id="wmd-preview-section-6197" class="wmd-preview-section preview-content">
+
+<h4 id="类型总是写在变量或函数的后面">类型总是写在变量或函数的后面</h4>
+
+<p>Note: scala的变量或函数的<strong>类型总是写在变量或函数的后面</strong>，是为了方便阅读更加复杂的类型声明。</p>
+
+<p>String greeting   //C风格 <br>
+greeting: String  //更加人性化的风格</p></div><div id="wmd-preview-section-5631" class="wmd-preview-section preview-content">
+
+<h4 id="同时声明多个值或变量">同时声明多个值或变量</h4></div><div id="wmd-preview-section-5674" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a,b = <span class="hljs-number">100</span><br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br>b: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br><br>scala&gt; <span class="hljs-keyword">var</span> x,y: <span class="hljs-type">String</span> = <span class="hljs-literal">null</span><br>x: <span class="hljs-type">String</span> = <span class="hljs-literal">null</span><br>y: <span class="hljs-type">String</span> = <span class="hljs-literal">null</span><br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
