@@ -49,6 +49,18 @@
 <li><a href="#3-算数与操作符重载">3. 算数与操作符重载</a><ul>
 <li><a href="#操作符都是方法">操作符都是方法</a></li>
 <li><a href="#bigint的特殊方法">BigInt的特殊方法 /%</a></li>
+<li><a href="#方法写法风格">方法写法风格</a></li>
+<li><a href="#无-能用1-1">无++ – ，能用+=1,-=1</a></li>
+<li><a href="#操作符重载">操作符重载</a></li>
+<li><a href="#调用函数">调用函数</a><ul>
+<li><a href="#数学函数">数学函数</a></li>
+<li><a href="#scala中无静态方法伴生对象的存在">Scala中无静态方法—伴生对象的存在</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-使用伴生对象的apply方法">4. 使用伴生对象的apply方法</a><ul>
+<li><a href="#5-函数作为参数">5. 函数作为参数</a></li>
 </ul>
 </li>
 </ul>
@@ -103,13 +115,16 @@ scala的命令窗口并不是真正的解释器，而是快速的编译为java�
 
 <h4 id="声明的两种方式">声明的两种方式</h4>
 
-</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-57306" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">val</span> a = <span class="hljs-number">1</span> <span class="hljs-comment">//值不可改变       **值 val**ue</span><br><span class="hljs-keyword">var</span> b = <span class="hljs-number">2</span> <span class="hljs-comment">//值可以修改   **变量 var**iable</span><br></code></pre>
 
 <p>推荐使用val的方式，大多数程序并不需要那么多的var变量。</p>
 
-</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
+<p>在REPL中的res变量是val还是var的呢？ <br>
+下面代码证明为val</p></div><div id="wmd-preview-section-56827" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">3</span><br>res33: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br><br>scala&gt; res33=<span class="hljs-number">5</span><br>&lt;console&gt;:<span class="hljs-number">8</span>: error: reassignment to <span class="hljs-keyword">val</span><br>       res33=<span class="hljs-number">5</span><br>            ^<br></code></pre></div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
 
 <h4 id="类型自动推断">类型自动推断</h4>
 
@@ -160,70 +175,195 @@ greeting: String  //更加人性化的风格</p>
 
 </div><div id="wmd-preview-section-2651" class="wmd-preview-section preview-content">
 
-<h4 id="scala数据类型都是类">Scala数据类型都是类</h4></div><div id="wmd-preview-section-5027" class="wmd-preview-section preview-content">
+<h4 id="scala数据类型都是类">Scala数据类型都是类</h4></div><div id="wmd-preview-section-41631" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">1</span><br>res3: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-number">1.</span>toString<br>res4: <span class="hljs-type">String</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-number">1.</span>toString()<br>res5: <span class="hljs-type">String</span> = <span class="hljs-number">1</span><br></code></pre>
 
-<p>注意:1.toString 省略了 “()” Scala语言中方法无参时可以省略 “()”。</p></div><div id="wmd-preview-section-5105" class="wmd-preview-section preview-content">
+<p>注意:1.toString 省略了 “()” Scala语言中方法无参时可以省略 “()”。 <br>
+例如： </p>
+
+</div><div id="wmd-preview-section-42152" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"Hello"</span>.distinct  <span class="hljs-comment">//获取字符串中不重复的字符</span><br>res6: <span class="hljs-type">String</span> = <span class="hljs-type">Helo</span><br></code></pre></div><div id="wmd-preview-section-41633" class="wmd-preview-section preview-content">
 
 <h4 id="类型增强">类型增强</h4>
 
 <p>类型增强是针对Java数据类型的增强，<strong>Scala通过隐式转换方式对Java常用的数据类型增加了其不具有的方法</strong>，使其使用起来更加灵活多变。</p>
 
-</div><div id="wmd-preview-section-7549" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41634" class="wmd-preview-section preview-content">
 
-<h5 id="1-richint-对int的隐式转换">1. RichInt -&gt;对Int的隐式转换</h5></div><div id="wmd-preview-section-9860" class="wmd-preview-section preview-content">
+<h5 id="1-richint-对int的隐式转换">1. RichInt -&gt;对Int的隐式转换</h5>
+
+</div><div id="wmd-preview-section-41635" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">1.</span>to<br>toByte     toChar     toDouble   toFloat    toInt      toLong     toShort    toString   <br><br>scala&gt; <span class="hljs-number">1.</span>to(<span class="hljs-number">10</span>)<br>res6: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; <span class="hljs-number">1</span> to <span class="hljs-number">10</span><br>res7: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br></code></pre>
 
 <ol><li rel="1"><code>1.to</code>后敲击tab键，并不会显示出该类型的所有方法，但通常情况下常用的都会有。没有的可以查api文档。 </li>
 <li rel="2"><code>1</code> 先被转换成了RichInt类，再应用to方法，这正体现了对Int隐式转换，使用了其没有的方法。</li>
 <li rel="3"><strong>严重注意第一条，没有显示的真正原因是真的没有该方法，能够使用看似是本类有的方法，实则无的是因为Scala的隐式转换</strong></li>
-</ol></div><div id="wmd-preview-section-8005" class="wmd-preview-section preview-content">
+</ol>
+
+</div><div id="wmd-preview-section-41636" class="wmd-preview-section preview-content">
 
 <h5 id="2-stringops-对string的隐式转换">2. StringOps -&gt;对String的隐式转换</h5>
 
-</div><div id="wmd-preview-section-10413" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-50160" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"hello"</span>.in<br>indexOf   intern    <br><br>scala&gt; <span class="hljs-string">"hello"</span>.intersect(<span class="hljs-string">"world"</span>)<br>res11: <span class="hljs-type">String</span> = lo<br><br>scala&gt; <span class="hljs-string">"world"</span>.intersect(<span class="hljs-string">"hello"</span>)<br>res12: <span class="hljs-type">String</span> = ol<br></code></pre>
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"hello"</span>.in<br>indexOf   intern    <br><br>scala&gt; <span class="hljs-string">"hello"</span>.intersect(<span class="hljs-string">"world"</span>) <span class="hljs-comment">//两单词中都出现过的字符</span><br>res11: <span class="hljs-type">String</span> = lo<br><br>scala&gt; <span class="hljs-string">"world"</span>.intersect(<span class="hljs-string">"hello"</span>) <br>res12: <span class="hljs-type">String</span> = ol<br></code></pre>
 
-<p>对于其他类型，Scala都有相应的增强，可以细看下。</p>
-
-</div><div id="wmd-preview-section-12826" class="wmd-preview-section preview-content">
+<p>对于其他类型，Scala都有相应的增强，可以细看下。</p></div><div id="wmd-preview-section-41638" class="wmd-preview-section preview-content">
 
 <h4 id="类型转换">类型转换</h4>
 
-</div><div id="wmd-preview-section-12827" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41639" class="wmd-preview-section preview-content">
 
 <h5 id="1-方法转换">1. 方法转换</h5>
 
-<p>Scala的类型转换<strong>都是使用方法转换</strong>的，而<strong>非Java的强制类型转换</strong>。</p></div><div id="wmd-preview-section-13225" class="wmd-preview-section preview-content">
+<p>Scala的类型转换<strong>都是使用方法转换</strong>的，而<strong>非Java的强制类型转换</strong>。</p>
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">100.00</span>.toInt<br>res13: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br><br>scala&gt; <span class="hljs-number">100.00</span>.toString<br>res14: <span class="hljs-type">String</span> = <span class="hljs-number">100.0</span><br><br>scala&gt; <span class="hljs-number">100.32</span>.toInt<br>res15: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br><br>scala&gt; <span class="hljs-number">100.32</span>.toChar<br>res16: <span class="hljs-type">Char</span> = d<br><br>scala&gt; <span class="hljs-number">100.</span>toDouble<br>res18: <span class="hljs-type">Double</span> = <span class="hljs-number">100.0</span><br></code></pre></div><div id="wmd-preview-section-13294" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41640" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">100.00</span>.toInt<br>res13: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br><br>scala&gt; <span class="hljs-number">100.00</span>.toString<br>res14: <span class="hljs-type">String</span> = <span class="hljs-number">100.0</span><br><br>scala&gt; <span class="hljs-number">100.32</span>.toInt<br>res15: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br><br>scala&gt; <span class="hljs-number">100.32</span>.toChar<br>res16: <span class="hljs-type">Char</span> = d<br><br>scala&gt; <span class="hljs-number">100.</span>toDouble<br>res18: <span class="hljs-type">Double</span> = <span class="hljs-number">100.0</span><br></code></pre>
+
+</div><div id="wmd-preview-section-41641" class="wmd-preview-section preview-content">
 
 <h5 id="2-字符串转换数值时的注意">2. 字符串转换数值时的注意</h5>
 
-<p>注意下面内容 ： 将<strong>包含数字的字符串转换为数值</strong>，要遵守字面值的类型是什么类型，就<strong>要转换为相应的类型，否则将转换出错</strong>。</p></div><div id="wmd-preview-section-17230" class="wmd-preview-section preview-content">
+<p>注意下面内容 ： 将<strong>包含数字的字符串转换为数值</strong>，要遵守字面值的类型是什么类型，就<strong>要转换为相应的类型，否则将转换出错</strong>。</p>
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"99.99"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.99"</span><br>        at java.lang.<span class="hljs-type">NumberFormatException</span>.forInputString(<span class="hljs-type">NumberFormatException</span>.java:<span class="hljs-number">65</span>)<br>        at java.lang.<span class="hljs-type">Integer</span>.parseInt(<span class="hljs-type">Integer</span>.java:<span class="hljs-number">492</span>)<br>        at java.lang.<span class="hljs-type">Integer</span>.parseInt(<span class="hljs-type">Integer</span>.java:<span class="hljs-number">527</span>)<br>        at scala.collection.immutable.<span class="hljs-type">StringLike</span>$<span class="hljs-class"><span class="hljs-keyword">class</span>.<span class="hljs-title">toInt</span>(</span><span class="hljs-type">StringLike</span>.scala:<span class="hljs-number">229</span>)<br><br><br>scala&gt; <span class="hljs-string">"99.99"</span>.toDouble<br>res20: <span class="hljs-type">Double</span> = <span class="hljs-number">99.99</span><br><br>scala&gt; <span class="hljs-string">"99.9"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.9"</span><br>        at <br>scala&gt; <br><br>scala&gt; <span class="hljs-string">"99"</span>.toInt<br>res22: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-number">99.99</span>.toInt<br>res23: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-string">"99.9"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.9"</span><br>        at <br><br>scala&gt; <span class="hljs-string">"99.0"</span>.toFloat<br>res26: <span class="hljs-type">Float</span> = <span class="hljs-number">99.0</span><br><br></code></pre></div><div id="wmd-preview-section-16607" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41642" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"99.99"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.99"</span><br>        at java.lang.<span class="hljs-type">NumberFormatException</span>.forInputString(<span class="hljs-type">NumberFormatException</span>.java:<span class="hljs-number">65</span>)<br>        at java.lang.<span class="hljs-type">Integer</span>.parseInt(<span class="hljs-type">Integer</span>.java:<span class="hljs-number">492</span>)<br>        at java.lang.<span class="hljs-type">Integer</span>.parseInt(<span class="hljs-type">Integer</span>.java:<span class="hljs-number">527</span>)<br>        at scala.collection.immutable.<span class="hljs-type">StringLike</span>$<span class="hljs-class"><span class="hljs-keyword">class</span>.<span class="hljs-title">toInt</span>(</span><span class="hljs-type">StringLike</span>.scala:<span class="hljs-number">229</span>)<br><br><br>scala&gt; <span class="hljs-string">"99.99"</span>.toDouble<br>res20: <span class="hljs-type">Double</span> = <span class="hljs-number">99.99</span><br><br>scala&gt; <span class="hljs-string">"99.9"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.9"</span><br>        at <br>scala&gt; <br><br>scala&gt; <span class="hljs-string">"99"</span>.toInt<br>res22: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-number">99.99</span>.toInt<br>res23: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-string">"99.9"</span>.toInt<br>java.lang.<span class="hljs-type">NumberFormatException</span>: <span class="hljs-type">For</span> input string: <span class="hljs-string">"99.9"</span><br>        at <br><br>scala&gt; <span class="hljs-string">"99.0"</span>.toFloat<br>res26: <span class="hljs-type">Float</span> = <span class="hljs-number">99.0</span><br><br></code></pre>
+
+</div><div id="wmd-preview-section-41643" class="wmd-preview-section preview-content">
 
 <h3 id="3-算数与操作符重载">3. 算数与操作符重载</h3>
 
 <p>与其他语言的用法及效果是一样的。 <br>
 一点特别的是：</p>
 
-</div><div id="wmd-preview-section-16608" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41644" class="wmd-preview-section preview-content">
 
-<h4 id="操作符都是方法">操作符都是方法</h4></div><div id="wmd-preview-section-16570" class="wmd-preview-section preview-content">
+<h4 id="操作符都是方法">操作符都是方法</h4>
+
+</div><div id="wmd-preview-section-41645" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> a = <span class="hljs-number">1</span>+<span class="hljs-number">2</span><br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br><br>scala&gt; <span class="hljs-keyword">var</span> a = <span class="hljs-number">1.</span>+(<span class="hljs-number">2</span>)<br>warning: there were <span class="hljs-number">1</span> deprecation warning(s); re-run <span class="hljs-keyword">with</span> -deprecation <span class="hljs-keyword">for</span> details<br>a: <span class="hljs-type">Double</span> = <span class="hljs-number">3.0</span><br></code></pre>
 
-</div><div id="wmd-preview-section-17039" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-41646" class="wmd-preview-section preview-content">
 
 <h4 id="bigint的特殊方法">BigInt的特殊方法 /%</h4>
 
-<p>BigInt中的<code>/%</code> 方法的结果为<code>(商，余数)</code>的对偶</p></div><div id="wmd-preview-section-17742" class="wmd-preview-section preview-content">
+<p>BigInt中的<code>/%</code> 方法的结果为<code>(商，余数)</code>的对偶</p>
+
+</div><div id="wmd-preview-section-41647" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">5</span>/<span class="hljs-number">3</span><br>res27: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-number">5</span>%<span class="hljs-number">3</span><br>res29: <span class="hljs-type">Int</span> = <span class="hljs-number">2</span><br><br><br>scala&gt; <span class="hljs-number">5.</span>/%(<span class="hljs-number">3</span>)<br>&lt;console&gt;:<span class="hljs-number">8</span>: error: value /% is not a member of <span class="hljs-type">Double</span><br>              <span class="hljs-number">5.</span>/%(<span class="hljs-number">3</span>)<br>                ^<br><br>scala&gt; <span class="hljs-number">5.</span>toBigInt  <span class="hljs-comment">//注意不要和隐式转换混淆</span><br>&lt;console&gt;:<span class="hljs-number">8</span>: error: value toBigInt is not a member of <span class="hljs-type">Int</span><br>              <span class="hljs-number">5.</span>toBigInt<br>                ^<br><br>scala&gt; <span class="hljs-keyword">val</span> a: <span class="hljs-type">BigInt</span> = <span class="hljs-number">5</span><br>a: <span class="hljs-type">BigInt</span> = <span class="hljs-number">5</span><br><br>scala&gt; a.<br>%                 &amp;                 &amp;~                *                 +                 -                 /                 /%                &gt;                 &gt;=                            <br>.....                <br><br>scala&gt; a./%(<span class="hljs-number">3</span>)<br>res37: (scala.math.<span class="hljs-type">BigInt</span>, scala.math.<span class="hljs-type">BigInt</span>) = (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>)<br></code></pre>
 
-<p><a href="http://www.scala-lang.org/api/2.7.4/scala/BigInt.html" target="_blank">官网BigInt API参考</a></p></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+<p><a href="http://www.scala-lang.org/api/2.7.4/scala/BigInt.html" target="_blank">官网BigInt API参考</a></p>
+
+</div><div id="wmd-preview-section-41648" class="wmd-preview-section preview-content">
+
+<h4 id="方法写法风格">方法写法风格</h4>
+
+</div><div id="wmd-preview-section-41649" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">1.</span>to(<span class="hljs-number">10</span>)<br>res41: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br>scala&gt; <span class="hljs-number">1</span> to <span class="hljs-number">10</span><br>res42: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)<br><br><br>scala&gt; <span class="hljs-number">1.</span>+(<span class="hljs-number">2</span>)<br>warning: there were <span class="hljs-number">1</span> deprecation warning(s); re-run <span class="hljs-keyword">with</span> -deprecation <span class="hljs-keyword">for</span> details<br>res39: <span class="hljs-type">Double</span> = <span class="hljs-number">3.0</span><br><br>scala&gt; <span class="hljs-number">1</span>+<span class="hljs-number">2</span><br>res40: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br></code></pre>
+
+<p>.+方法名C的风格与DSL风格那种都可以，但<code>1.+(2)</code> 与<code>1+2</code>你会采取哪种写法呢？</p>
+
+</div><div id="wmd-preview-section-41650" class="wmd-preview-section preview-content">
+
+<h4 id="无-能用1-1">无++ – ，能用+=1,-=1</h4>
+
+</div><div id="wmd-preview-section-41651" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> a = <span class="hljs-number">2</span><br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">2</span><br><br>scala&gt; a++<br>&lt;console&gt;:<span class="hljs-number">9</span>: error: value ++ is not a member of <span class="hljs-type">Int</span><br>              a++<br>               ^<br><br>scala&gt; a+=<span class="hljs-number">1</span><br><br>scala&gt; a<br>res52: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br></code></pre>
+
+<p>Scala没有<code>++,--</code>,<strong>因为Int类是不可变的</strong>，实现++不那么简单，并且Scala设计者也认为<strong>不应该为了少按一个键而额外的增加一个特例</strong>。</p>
+
+</div><div id="wmd-preview-section-41652" class="wmd-preview-section preview-content">
+
+<h4 id="操作符重载">操作符重载</h4>
+
+<p>Scala写法</p>
+
+</div><div id="wmd-preview-section-41653" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> x =<span class="hljs-number">2</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">2</span><br><br>scala&gt; x*x*x<br>res1: <span class="hljs-type">Int</span> = <span class="hljs-number">8</span><br></code></pre>
+
+<p>Java写法</p>
+
+</div><div id="wmd-preview-section-41654" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-java hljs"><span class="hljs-keyword">import</span> java.math.BigInteger;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Test</span></span>{<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span></span>{<br>        BigInteger x = <span class="hljs-keyword">new</span> BigInteger(<span class="hljs-string">"3"</span>);<br>        BigInteger result = <span class="hljs-keyword">new</span> BigInteger(<span class="hljs-string">"0"</span>);<br>        result = x.multiply(x).multiply(x);  <span class="hljs-comment">//且不说声明的麻烦，就这里的调用方式就相当的不优雅。</span><br>        System.out.println(result);<br>    }<br>}<br></code></pre>
+
+<p><strong>Java中不能对操作符进行重载</strong>。理由是防止出现%^&amp;..奇特操作符，不利于阅读。Scala的设计者认为Java对操作符的重载理念很糟糕，理由是按照Java设计者的逻辑，qwxes这类的方法名同样难以阅读。 <br>
+<strong>Scala允许程序员自定义操作符，当然程序员获得自由的同时，也需要把握好分寸。</strong></p>
+
+</div><div id="wmd-preview-section-41655" class="wmd-preview-section preview-content">
+
+<h4 id="调用函数">调用函数</h4>
+
+<p>方法的调用，之前的案例已经演示很多次了。 <br>
+这次说下函数的调用。 Scala是多范式的一门编程语言，函数更是其一等公民。 <br>
+函数在Scala语言扮演者举足轻重的角色。 <br>
+比如：</p>
+
+</div><div id="wmd-preview-section-41656" class="wmd-preview-section preview-content">
+
+<h5 id="数学函数">数学函数</h5>
+
+<p>在Scala中使用数学函数比在Java中方便地多—不需要从某个类中调用它的静态方法。 <br>
+<strong>使用数学函数时，注意先导包</strong></p>
+
+</div><div id="wmd-preview-section-41657" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; pow(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>&lt;console&gt;:<span class="hljs-number">8</span>: error: not found: value pow<br>              pow(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>              ^<br><br>scala&gt; <span class="hljs-keyword">import</span> math._  <span class="hljs-comment">//注意导包</span><br><span class="hljs-keyword">import</span> math._<br><br>scala&gt; pow(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>res1: <span class="hljs-type">Double</span> = <span class="hljs-number">8.0</span><br><br>scala&gt; min(<span class="hljs-number">2</span>,<span class="hljs-type">Pi</span>)<br>res2: <span class="hljs-type">Double</span> = <span class="hljs-number">2.0</span><br><br>scala&gt; max(<span class="hljs-number">3.15</span>,<span class="hljs-type">Pi</span>)<br>res3: <span class="hljs-type">Double</span> = <span class="hljs-number">3.15</span><br><br>scala&gt; sqrt(<span class="hljs-number">9</span>)<br>res4: <span class="hljs-type">Double</span> = <span class="hljs-number">3.0</span><br></code></pre>
+
+</div><div id="wmd-preview-section-41658" class="wmd-preview-section preview-content">
+
+<h5 id="scala中无静态方法伴生对象的存在">Scala中无静态方法—伴生对象的存在</h5>
+
+<p>Scala中不像Java中调用Math包中的数学静态工具类去调用一堆静态方法，<strong>Scala中没有静态方法</strong>，但其有单例对象，通常Scala的类都有一个伴生对象，该对象中的方法都是静态的。 <br>
+例如：BigInt的伴生对象BigInt有个生成指定位数的随机素数的方法probablePrime.</p>
+
+</div><div id="wmd-preview-section-42647" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-type">BigInt</span>.probablePrime<br>       <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">probablePrime</span>(</span>bitLength: <span class="hljs-type">Int</span>, rnd: scala.util.<span class="hljs-type">Random</span>): <span class="hljs-type">BigInt</span>   <br><br>scala&gt; <span class="hljs-type">BigInt</span>.probablePrime<br>       <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">probablePrime</span>(</span>bitLength: <span class="hljs-type">Int</span>, rnd: scala.util.<span class="hljs-type">Random</span>): <span class="hljs-type">BigInt</span>   <br><br>scala&gt; <span class="hljs-type">BigInt</span>.probablePrime(<span class="hljs-number">100</span>,scala.util.<span class="hljs-type">Random</span>)<br>res5: scala.math.<span class="hljs-type">BigInt</span> = <span class="hljs-number">1039784749608415333365855987893</span><br></code></pre>
+
+</div><div id="wmd-preview-section-43390" class="wmd-preview-section preview-content">
+
+<h3 id="4-使用伴生对象的apply方法">4. 使用伴生对象的apply方法</h3>
+
+<p>Scala中使用函数调用的方式非常常见。例如：</p>
+
+</div><div id="wmd-preview-section-47298" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"hello"</span>(<span class="hljs-number">0</span>)<br>res2: <span class="hljs-type">Char</span> = h<br><br>scala&gt; <span class="hljs-string">"hello"</span>(<span class="hljs-number">5</span>)  <span class="hljs-comment">//同样不能够下标越界</span><br>java.lang.<span class="hljs-type">StringIndexOutOfBoundsException</span>: <span class="hljs-type">String</span> index out of range: <span class="hljs-number">5</span><br>        at java.lang.<span class="hljs-type">String</span>.charAt(<span class="hljs-type">String</span>.java:<span class="hljs-number">658</span>)<br>        .......<br></code></pre>
+
+<p>助记：()方法重载为(n: Int) <br>
+实际上背后的实现原理为apply()方法</p></div><div id="wmd-preview-section-49065" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"hello"</span>.apply(<span class="hljs-number">1</span>)  <span class="hljs-comment">//简写为 "hello"(1)</span><br>res5: <span class="hljs-type">Char</span> = e<br></code></pre>
+
+<p><strong>使用伴生对象apply方法生成对象是Scala中常用的手法。</strong> <br>
+以后会经常用到的<strong>数组生成方式</strong></p></div><div id="wmd-preview-section-50578" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs stylus">scala&gt; <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>)</span></span><br>res9: Array[Int] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)</span></span><br><br>scala&gt; <span class="hljs-function"><span class="hljs-title">res9</span><span class="hljs-params">(<span class="hljs-number">10</span>)</span></span><br>java<span class="hljs-class">.lang</span><span class="hljs-class">.ArrayIndexOutOfBoundsException</span>: <span class="hljs-number">10</span><br>    ......<br><br>scala&gt; <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">1</span> to <span class="hljs-number">10</span>)</span></span><br>res12: Array[scala<span class="hljs-class">.collection</span><span class="hljs-class">.immutable</span><span class="hljs-class">.Range</span><span class="hljs-class">.Inclusive</span>] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(Range(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>)</span></span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-54113" class="wmd-preview-section preview-content">
+
+<h4 id="5-函数作为参数">5. 函数作为参数</h4>
+
+<p>Scala中函数作为参数传入方法相当普遍。 <br>
+在StringOps方法中count方法接收单个Char并可以返回Boolean类型结果的函数 <br>
+<code>def count(p: (Char) =&gt; Boolean): Int</code></p></div><div id="wmd-preview-section-55332" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"heLLo"</span>.count(_.isUpper)<br>res28: <span class="hljs-type">Int</span> = <span class="hljs-number">2</span><br><br>scala&gt; <span class="hljs-string">"heLLLo"</span>.count(_.isUpper)<br>res29: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br></code></pre>
+
+<p>注意<code>_</code>是Scala语法中的精妙用法，其完整写法为</p>
+
+</div><div id="wmd-preview-section-55805" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"heXXXo"</span>.count(x=&gt;x.isUpper)<br>res31: <span class="hljs-type">Int</span> = <span class="hljs-number">3</span><br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
