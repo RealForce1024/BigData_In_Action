@@ -1,0 +1,231 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典 第三章 函数初级使用与异常</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-47319" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-47320" class="wmd-preview-section preview-content">
+
+<h1 id="scala入门圣典-第三章-函数初级使用与异常">Scala入门圣典 第三章 函数初级使用与异常</h1>
+
+<p>作者：冯琪超 <br>
+微信 : 152 010 98976</p>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#scala入门圣典-第三章-函数初级使用与异常">Scala入门圣典 第三章 函数初级使用与异常</a><ul>
+<li><ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#函数的定义">函数的定义</a></li>
+<li><a href="#函数的简单用法">函数的简单用法</a></li>
+<li><a href="#默认参数和命名参数">默认参数和命名参数</a><ul>
+<li><a href="#默认参数使用">默认参数使用</a></li>
+<li><a href="#覆盖默认参数">覆盖默认参数</a></li>
+</ul>
+</li>
+<li><a href="#变长参数">变长参数</a></li>
+<li><a href="#过程">过程</a></li>
+<li><a href="#值的懒加载">值的懒加载</a></li>
+</ul>
+</li>
+<li><a href="#异常">异常</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-47321" class="wmd-preview-section preview-content">
+
+<h3 id="前言">前言</h3>
+
+<p>Scala作为一门经典的函数式编程语言（也支持面向对象式的混合编程），函数是Scala语言中的一等公民。我们前两章中使用了很多对象的方法，很多Java程序员对此很熟悉，但是谈到今天的主角函数时，可能会觉得它和方法没什么不同，其实差别很大。在知道差别之前，让我们先来学习下函数的定义与函数的用法</p>
+
+</div><div id="wmd-preview-section-47322" class="wmd-preview-section preview-content">
+
+<h3 id="函数的定义">函数的定义</h3>
+
+</div><div id="wmd-preview-section-47323" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">abs</span>(</span>x: <span class="hljs-type">Double</span>): <span class="hljs-type">Double</span> = <span class="hljs-keyword">if</span>(x &gt; <span class="hljs-number">0</span>) x <span class="hljs-keyword">else</span> -x<br>abs: (x: <span class="hljs-type">Double</span>)<span class="hljs-type">Double</span><br></code></pre>
+
+<p>说明：</p>
+
+<ol><li rel="1">参数类型一定要指定</li>
+<li rel="2">返回值类型除非是递归调用，否则可以省略 <br>
+<strong>递归中必须声明返回值类型，因为Scala编译器无法校验出n*fac(n-1)的返回类型</strong></li>
+</ol>
+
+</div><div id="wmd-preview-section-47324" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fac</span>(</span>n: <span class="hljs-type">Int</span>): <span class="hljs-type">Int</span> = {<br>     | <span class="hljs-keyword">if</span>(n &lt;=<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>     | <span class="hljs-keyword">else</span><br>     | n*fac(n-<span class="hljs-number">1</span>)<br>     | }<br>fac: (n: <span class="hljs-type">Int</span>)<span class="hljs-type">Int</span><br><br>scala&gt; fac(<span class="hljs-number">5</span>)<br>res28: <span class="hljs-type">Int</span> = <span class="hljs-number">120</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47325" class="wmd-preview-section preview-content">
+
+<h3 id="函数的简单用法">函数的简单用法</h3>
+
+<p>案例1</p>
+
+</div><div id="wmd-preview-section-47326" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">abs</span>(</span>x: <span class="hljs-type">Double</span>) = <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">0</span>) x <span class="hljs-keyword">else</span> -x<br>abs: (x: <span class="hljs-type">Double</span>)<span class="hljs-type">Double</span><br><br>scala&gt; abs(<span class="hljs-number">3</span>) <span class="hljs-comment">//直接调用</span><br>res20: <span class="hljs-type">Double</span> = <span class="hljs-number">3.0</span><br><br>scala&gt; abs(-<span class="hljs-number">9.9</span>)<br></code></pre>
+
+<p>案例2</p>
+
+</div><div id="wmd-preview-section-47327" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fac</span>(</span>n: <span class="hljs-type">Int</span>) = {<br>     | <span class="hljs-keyword">var</span> r = <span class="hljs-number">1</span><br>     | <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to n) r = r*i<br>     | r<br>     | }<br>fac: (n: <span class="hljs-type">Int</span>)<span class="hljs-type">Int</span><br><br>scala&gt; fac(<span class="hljs-number">5</span>)<br>res27: <span class="hljs-type">Int</span> = <span class="hljs-number">120</span><br></code></pre>
+
+<p>return在Scala中尽量避免使用，如果使用也是break的的含义，而非Java语言中的return返回到调用者处。在今后的Scala编程中，大量的匿名函数的return，并不是返回调用处，而是跳出其外层函数。</p>
+
+</div><div id="wmd-preview-section-47328" class="wmd-preview-section preview-content">
+
+<h3 id="默认参数和命名参数">默认参数和命名参数</h3>
+
+</div><div id="wmd-preview-section-47329" class="wmd-preview-section preview-content">
+
+<h4 id="默认参数使用">默认参数使用</h4>
+
+</div><div id="wmd-preview-section-47330" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decorateStr</span>(</span>str: <span class="hljs-type">String</span>, left: <span class="hljs-type">String</span>=<span class="hljs-string">"{"</span>, right: <span class="hljs-type">String</span>=<span class="hljs-string">"}"</span>) = left + str + right<br>decorateStr: (str: <span class="hljs-type">String</span>, left: <span class="hljs-type">String</span>, right: <span class="hljs-type">String</span>)<span class="hljs-type">String</span><br><br>scala&gt; decorateStr(<span class="hljs-string">"hello"</span>)<br>res29: <span class="hljs-type">String</span> = {hello}<br></code></pre>
+
+</div><div id="wmd-preview-section-47331" class="wmd-preview-section preview-content">
+
+<h4 id="覆盖默认参数">覆盖默认参数</h4>
+
+<p>不喜欢默认参数，也可以自定义填充覆盖</p>
+
+</div><div id="wmd-preview-section-47332" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; decorateStr(<span class="hljs-string">"hello"</span>,<span class="hljs-string">"["</span>,<span class="hljs-string">"]"</span>)<br>res30: <span class="hljs-type">String</span> = [hello]<br><br>scala&gt; decorateStr(<span class="hljs-string">"hello"</span>,<span class="hljs-string">"&lt;&lt;&lt;"</span>,<span class="hljs-string">"&gt;&gt;&gt;"</span>)<br>res31: <span class="hljs-type">String</span> = &lt;&lt;&lt;hello&gt;&gt;&gt;<br></code></pre>
+
+<p>注意：默认情况下，参数的覆盖是从左向右的，也就是说如果填充的默认参数数量不够，则还会使用未被填充到的默认参数。</p>
+
+<p>因此decorateStr(“hello”,”&lt;&lt;&lt;”) 执行结果将是如下： </p>
+
+</div><div id="wmd-preview-section-47333" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; decorateStr(<span class="hljs-string">"hello"</span>,<span class="hljs-string">"&lt;&lt;&lt;"</span>)<br>res32: <span class="hljs-type">String</span> = &lt;&lt;&lt;hello}<br></code></pre>
+
+<p>相信聪明的你会想到另一种特殊情况，想要打破顺序，自己按照参数的名称来指定。</p>
+
+</div><div id="wmd-preview-section-47334" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; decorateStr(str=<span class="hljs-string">"world"</span>,right=<span class="hljs-string">"}}"</span>,left=<span class="hljs-string">"{{"</span>)<br>res33: <span class="hljs-type">String</span> = {{world}}<br></code></pre>
+
+<p>如果混用的话，命名与默认参数，需要将未命名的参数值放到前面。</p>
+
+</div><div id="wmd-preview-section-47335" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; decorateStr(str=<span class="hljs-string">"world"</span>,right=<span class="hljs-string">"&gt;&gt;&gt;"</span>) <br>res35: <span class="hljs-type">String</span> = {world&gt;&gt;&gt;<br></code></pre>
+
+</div><div id="wmd-preview-section-47336" class="wmd-preview-section preview-content">
+
+<h3 id="变长参数">变长参数</h3>
+
+</div><div id="wmd-preview-section-47337" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sum</span>(</span>args: <span class="hljs-type">Int</span>*) = {<br>     | <span class="hljs-keyword">var</span> sum = <span class="hljs-number">0</span><br>     | <span class="hljs-keyword">for</span>(i &lt;- args) sum += i<br>     | sum}<br>sum: (args: <span class="hljs-type">Int</span>*)<span class="hljs-type">Int</span><br><br>scala&gt; sum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br>res0: <span class="hljs-type">Int</span> = <span class="hljs-number">15</span><br><br>scala&gt; sum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>)<br>res1: <span class="hljs-type">Int</span> = <span class="hljs-number">21</span><br></code></pre>
+
+<p>注意：args: Int* 得到的是一个序列 Seq ，我们使用过 1 to 10这样的Range区间类型。当sum(n)只传入一个参数的时候，需要是Int型，而Range类型作为一个参数传入必定会报错。</p>
+
+</div><div id="wmd-preview-section-47338" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs stata"><span class="hljs-keyword">scala</span>&gt; <span class="hljs-literal">sum</span>(1 to 6)<br>&lt;console&gt;:9: <span class="hljs-keyword">error</span>: <span class="hljs-keyword">type</span> mismatch;<br> found   : <span class="hljs-keyword">scala</span>.collection.immutable.<span class="hljs-keyword">Range</span>.Inclusive<br> required: Int<br>              <span class="hljs-literal">sum</span>(1 to 6)<br>                    ^<br><br><span class="hljs-keyword">scala</span>&gt; <span class="hljs-literal">sum</span>((1 to 6).toArray)<br>&lt;console&gt;:9: <span class="hljs-keyword">error</span>: polymorphic expression cannot be instantiated to expected <span class="hljs-keyword">type</span>;<br> found   : [B &gt;: Int]Array[B]<br> required: Int<br>              <span class="hljs-literal">sum</span>((1 to 6).toArray)<br></code></pre>
+
+<p>我们可以使用以下方式追加 <code>: _*</code>，告诉编译器参数按照序列的方式处理</p>
+
+</div><div id="wmd-preview-section-47339" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; sum(<span class="hljs-number">1</span> to <span class="hljs-number">5</span>: _*)<br>res3: <span class="hljs-type">Int</span> = <span class="hljs-number">15</span><br></code></pre>
+
+<p><code>: _*</code> 在递归方法中会有使用到</p>
+
+</div><div id="wmd-preview-section-47340" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">recursiveSum</span>(</span>args: <span class="hljs-type">Int</span>*): <span class="hljs-type">Int</span> = {<br>     | <span class="hljs-keyword">if</span> (args.length == <span class="hljs-number">0</span>) <span class="hljs-number">0</span><br>     | <span class="hljs-keyword">else</span><br>     | args.head + recursiveSum(args.tail: _*)<br>     | }<br>recursiveSum: (args: <span class="hljs-type">Int</span>*)<span class="hljs-type">Int</span><br><br>scala&gt; recursiveSum(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br>res4: <span class="hljs-type">Int</span> = <span class="hljs-number">15</span><br></code></pre>
+
+<p>其中head是序列的首个元素，tail是剩余的其他元素序列，变长参数又是个序列，所以此时还是需要将其使用<code>: _*</code>转换一下</p>
+
+</div><div id="wmd-preview-section-47341" class="wmd-preview-section preview-content">
+
+<h3 id="过程">过程</h3>
+
+<p>在函数定义中，花括号没有<code>=</code> 且没有返回值的(Unit)，称之为<code>过程</code>。之所以有过程的存在，是为了其产生的副作用。就像我们调用一个无返回值的方法一样，这个方法做了些事情，但无返回值而已。</p>
+
+<p>比如将字符串打印在box中</p>
+
+</div><div id="wmd-preview-section-47342" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">box</span>(</span>s: <span class="hljs-type">String</span>){  <span class="hljs-comment">//这里是没有 = 号的</span><br>     | <span class="hljs-keyword">val</span> border = <span class="hljs-string">"-"</span>*s.length+<span class="hljs-string">"--\n"</span><br>     | println(border + <span class="hljs-string">"|"</span> +s +<span class="hljs-string">"|\n"</span> + border)<br>     | }<br>box: (s: <span class="hljs-type">String</span>)<span class="hljs-type">Unit</span><br><br>scala&gt; box(<span class="hljs-string">"fengqc"</span>)<br>--------<br>|fengqc|<br>--------<br><br>scala&gt; box(<span class="hljs-string">"hello world"</span>)<br>-------------<br>|hello world|<br>-------------<br></code></pre>
+
+<p><code>def box(s: String): Unit = {...}</code>是上面的全写法，但是我个人推荐上面的写法。<strong>Scala有个哲学是在保证清晰可读的前提下，尽量的简写代码。</strong></p>
+
+</div><div id="wmd-preview-section-47343" class="wmd-preview-section preview-content">
+
+<h3 id="值的懒加载">值的懒加载</h3>
+
+<p>在Scala入门圣典中 我将值和变量清晰的区分出来，和大家约定俗成</p>
+
+<table>
+<thead>
+<tr>
+  <th align="left">Col1</th>
+  <th align="right">Col2</th>
+  <th align="center">Col3</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td align="left">值</td>
+  <td align="right">valule</td>
+  <td align="center">val</td>
+</tr>
+<tr>
+  <td align="left">变量</td>
+  <td align="right">varibale</td>
+  <td align="center">var</td>
+</tr>
+</tbody></table>
+
+
+<p><code>lazy</code> val x = 1  // 值x在被第一次取值使用到的时候才会初始化。 <br>
+案例 <br>
+读取文件中的文字拼接为字符串，故意写错文件名称，运行并不会出错，当使用了读取的内容时，程序报错。</p>
+
+</div><div id="wmd-preview-section-47344" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">lazy</span> <span class="hljs-keyword">val</span> content = scala.io.<span class="hljs-type">Source</span>.fromFile(<span class="hljs-string">"/home/hadoop/a.txt"</span>).mkString  <span class="hljs-comment">//懒加载，此时并未初始化content的值</span><br>content: <span class="hljs-type">String</span> = &lt;<span class="hljs-keyword">lazy</span>&gt;<br><br>scala&gt; println(content) <span class="hljs-comment">//此时开始初始化content的值</span><br>java.io.<span class="hljs-type">FileNotFoundException</span>: /home/hadoop/a.txt (<span class="hljs-type">No</span> such file or directory)<br>        at java.io.<span class="hljs-type">FileInputStream</span>.open(<span class="hljs-type">Native</span> <span class="hljs-type">Method</span>)<br>        at java.io.<span class="hljs-type">FileInputStream</span>.&lt;init&gt;(<span class="hljs-type">FileInputStream</span>.java:<span class="hljs-number">146</span>)<br>        at scala.io.<span class="hljs-type">Source</span>$.fromFile(<span class="hljs-type">Source</span>.scala:<span class="hljs-number">90</span>)<br>        at scala.io.<span class="hljs-type">Source</span>$.fromFile(<span class="hljs-type">Source</span>.scala:<span class="hljs-number">75</span>)<br></code></pre>
+
+<p>读取存在的文件</p>
+
+</div><div id="wmd-preview-section-47345" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">lazy</span> <span class="hljs-keyword">val</span> content = scala.io.<span class="hljs-type">Source</span>.fromFile(<span class="hljs-string">"/home/fqc/a.txt"</span>).mkString<br>content: <span class="hljs-type">String</span> = &lt;<span class="hljs-keyword">lazy</span>&gt;<br><br>scala&gt; println(content)<br>hello world<br>hello fengqc<br>hello fengqc<br>hello kobe<br></code></pre>
+
+<p>总结：我们看到文件的加载初始化开销是非常大的，lazy懒加载对于这类问题相当有用。对于之后的循环依赖、懒数据结构是相当重要的。</p>
+
+<p>对于Scala的lazy加载还可以被看成 val与def之间的一种状态</p>
+
+</div><div id="wmd-preview-section-47346" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-comment">//content定时被初始化赋值</span><br><span class="hljs-keyword">val</span> content = scala.io.<span class="hljs-type">Source</span>.fromFile(<span class="hljs-string">"/home/fqc/a.txt"</span>).mkString<br><span class="hljs-comment">//在content首次使用时初始化赋值</span><br><span class="hljs-keyword">lazy</span> <span class="hljs-keyword">val</span> content = scala.io.<span class="hljs-type">Source</span>.fromFile(<span class="hljs-string">"/home/fqc/a.txt"</span>).mkString<br><span class="hljs-comment">//在content每次使用时都会初始化赋值</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">content</span> =</span> scala.io.<span class="hljs-type">Source</span>.fromFile(<span class="hljs-string">"/home/fqc/a.txt"</span>).mkString<br></code></pre>
+
+<p>值的懒加载，是有开销的，这个开销是调用一个线程安全的方法检查该值是否被初始化。</p>
+
+</div><div id="wmd-preview-section-47347" class="wmd-preview-section preview-content">
+
+<h2 id="异常">异常</h2>
+
+<p>Scala中的异常与Java的使用方式<strong>大致是一样的</strong>。抛出的对象都是java.lang.Throwable的子类。 <br>
+但有个特别明显的区别，<strong>Scala没有”受检”异常</strong>–即方法或函数中不需要声明可能会抛出的某种异常。   </p>
+
+<p>“受检”异常的目标是让程序员必须去想那些异常应该在哪里被处理掉，所以Jvm编译时就会检查这些可能会发生的异常。</p>
+
+<p>以下是Scala处理异常并回收清理资源的模板代码。其中在catch块中使用了模式匹配，之后会再xijiang</p>
+
+</div><div id="wmd-preview-section-47348" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">try</span>{<br><br>}<span class="hljs-keyword">catch</span>{<br>    <span class="hljs-keyword">case</span> _: ...<br>    <span class="hljs-keyword">case</span> ex:...<br>}<span class="hljs-keyword">finally</span>{<br><br>}<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

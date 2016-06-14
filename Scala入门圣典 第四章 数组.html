@@ -1,0 +1,86 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典 第四章 数组</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-43052" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-43607" class="wmd-preview-section preview-content">
+
+<h1 id="scala入门圣典-第四章-数组">Scala入门圣典 第四章 数组</h1>
+
+<p>作者：冯琪超 <br>
+微信 : 152 010 98976</p>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#scala入门圣典-第四章-数组">Scala入门圣典 第四章 数组</a><ul>
+<li><a href="#数组的声明方式">数组的声明方式</a></li>
+<li><a href="#数组的分类">数组的分类</a><ul>
+<li><a href="#1-定长数组">1. 定长数组</a></li>
+<li><a href="#2-可变数组数组缓存">2. 可变数组：数组缓存</a><ul>
+<li><a href="#末尾添加或移除操作">末尾添加或移除操作</a></li>
+<li><a href="#任意位置的插入或移除">任意位置的插入或移除</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-43752" class="wmd-preview-section preview-content">
+
+<h2 id="数组的声明方式">数组的声明方式</h2>
+
+<p>伴生对象方式 apply方法  //在第一章中有简单说明</p></div><div id="wmd-preview-section-43744" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">val</span> arrs = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br></code></pre>
+
+<p>new的方式</p></div><div id="wmd-preview-section-43628" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> arrs = <span class="hljs-keyword">new</span> <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>](<span class="hljs-number">5</span>) <span class="hljs-comment">//初始化指定长度指定类型的数组</span><br>arrs: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> arrs = <span class="hljs-keyword">new</span> <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>](<span class="hljs-number">5</span>)<br>arrs: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(<span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>, <span class="hljs-literal">null</span>)<br></code></pre></div><div id="wmd-preview-section-44052" class="wmd-preview-section preview-content">
+
+<h2 id="数组的分类">数组的分类</h2></div><div id="wmd-preview-section-43765" class="wmd-preview-section preview-content">
+
+<h3 id="1-定长数组">1. 定长数组</h3></div><div id="wmd-preview-section-44500" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> arrs = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>)<br>arrs: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> arrs = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span> to <span class="hljs-number">5</span>) <span class="hljs-comment">//注意这里的1 to 5 产生的Range对象是一个元素。需要变成序列类型才可以。 解决方案: : _*</span><br>arrs: <span class="hljs-type">Array</span>[scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span>] = <span class="hljs-type">Array</span>(<span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>))<br><br>scala&gt; <span class="hljs-keyword">val</span> arrs = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span> to <span class="hljs-number">5</span>: _*)<br>arrs: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br></code></pre>
+
+<p>val型的定长数组，修改其中的元素，对元素操作是没有问题的。但是追加 删除操作都是对val数组的操作，肯定不行。</p></div><div id="wmd-preview-section-44791" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> strs = <span class="hljs-type">Array</span>(<span class="hljs-string">"hello"</span>,<span class="hljs-string">"world"</span>)<br>strs: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(hello, world)<br><br>scala&gt; strs(<span class="hljs-number">1</span>)<br>res2: <span class="hljs-type">String</span> = world<br><br>scala&gt; strs(<span class="hljs-number">1</span>) = <span class="hljs-string">"scala"</span><br><br>scala&gt; strs<br>res4: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(hello, scala)<br></code></pre>
+
+<p>再次注意下 Scala中的数组下标访问是 <code>arrs(index)</code>的形式的，非Java <code>(arrs[index])</code>形式</p></div><div id="wmd-preview-section-46454" class="wmd-preview-section preview-content">
+
+<h3 id="2-可变数组数组缓存">2. 可变数组：数组缓存</h3>
+
+<p>Java中的数组是固定长度的，不可变的。但是有ArrayList形式的可变数组。 <br>
+而Scala肯定有等效的数据结构，那就是ArrayBuffer。</p>
+
+<p>案例 <br>
+我们采取声明一个空的ArrayBuffer，然后添加元素，数组，删减，更新，索引等一系列操作</p>
+
+</div><div id="wmd-preview-section-46527" class="wmd-preview-section preview-content">
+
+<h4 id="末尾添加或移除操作">末尾添加或移除操作</h4>
+
+<p><strong>高效</strong>的数组缓冲的末尾添加或移除操作</p></div><div id="wmd-preview-section-46600" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span><br><span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span><br><br>scala&gt; <span class="hljs-keyword">val</span> ab = <span class="hljs-keyword">new</span> <span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>]()<span class="hljs-comment">//声明一个空的数组缓冲</span><br>ab: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>()<br><br>scala&gt; ab += <span class="hljs-number">1</span>   <span class="hljs-comment">//追加一个元素</span><br>res9: ab.<span class="hljs-keyword">type</span> = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>)<br><br>scala&gt; ab += (<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)  <span class="hljs-comment">//追加多个元素</span><br>res10: ab.<span class="hljs-keyword">type</span> = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; ab ++= <span class="hljs-type">Array</span>(<span class="hljs-number">11</span>,<span class="hljs-number">12</span>,<span class="hljs-number">13</span>) <span class="hljs-comment">//++= 追加任意的集合</span><br>res11: ab.<span class="hljs-keyword">type</span> = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>)<br><br>scala&gt; ab.trimEnd<br>                            <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trimEnd</span>(</span>n: <span class="hljs-type">Int</span>): <span class="hljs-type">Unit</span>   <br><br>scala&gt; ab.trimEnd(<span class="hljs-number">3</span>)  <span class="hljs-comment">//移除末尾三个元素</span><br><br>scala&gt; ab<br>res13: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-47196" class="wmd-preview-section preview-content">
+
+<h4 id="任意位置的插入或移除">任意位置的插入或移除</h4>
+
+<ol start="1"><li rel="1">元素准备工作，可忽略 <br>
+但有点注意 += 与 ++=的区别</li>
+</ol></div><div id="wmd-preview-section-47302" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span><br><span class="hljs-keyword">import</span> scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span><br><br>scala&gt; <span class="hljs-keyword">val</span> ab = <span class="hljs-keyword">new</span> <span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>]()<br>ab: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>()<br><br>scala&gt; ab ++= (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>)<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: too many arguments <span class="hljs-keyword">for</span> method ++=: (xs: scala.collection.<span class="hljs-type">TraversableOnce</span>[<span class="hljs-type">Int</span>])ab.<span class="hljs-keyword">type</span><br>              ab ++= (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>,<span class="hljs-number">7</span>)<br>                 ^<br><br>scala&gt; ab ++= (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: too many arguments <span class="hljs-keyword">for</span> method ++=: (xs: scala.collection.<span class="hljs-type">TraversableOnce</span>[<span class="hljs-type">Int</span>])ab.<span class="hljs-keyword">type</span><br>              ab ++= (<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>                 ^<br><br>scala&gt; ab ++= <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)<br>res2: ab.<span class="hljs-keyword">type</span> = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; ab += (<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>)<br>res3: ab.<span class="hljs-keyword">type</span> = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br></code></pre>
+
+<ol start="2"><li rel="2">添加、删除任意位置的元素</li>
+</ol></div><div id="wmd-preview-section-47318" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; ab<br>res5: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br><br>scala&gt; ab.insert(<span class="hljs-number">2</span>,<span class="hljs-number">91</span>,<span class="hljs-number">92</span>,<span class="hljs-number">93</span>,<span class="hljs-number">94</span>)<br><br>scala&gt; ab<br>res7: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">91</span>, <span class="hljs-number">92</span>, <span class="hljs-number">93</span>, <span class="hljs-number">94</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br><br>scala&gt; ab.remove<br>                                       <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove</span>(</span>n: <span class="hljs-type">Int</span>): <span class="hljs-type">A</span>                  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove</span>(</span>n: <span class="hljs-type">Int</span>, count: <span class="hljs-type">Int</span>): <span class="hljs-type">Unit</span>   <br><br>scala&gt; ab.remove(<span class="hljs-number">2</span>) <span class="hljs-comment">//index=2 91</span><br>res8: <span class="hljs-type">Int</span> = <span class="hljs-number">91</span><br><br>scala&gt; ab<br>res9: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">92</span>, <span class="hljs-number">93</span>, <span class="hljs-number">94</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br><br>scala&gt; ab.remove(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) <span class="hljs-comment">//index=1  delete[1,1+2) 2 92 </span><br><br>scala&gt; ab<br>res11: scala.collection.mutable.<span class="hljs-type">ArrayBuffer</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">ArrayBuffer</span>(<span class="hljs-number">1</span>, <span class="hljs-number">93</span>, <span class="hljs-number">94</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>)<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>

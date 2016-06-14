@@ -1,0 +1,396 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典 第二章 表达式、语句、控制结构</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-47349" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-47350" class="wmd-preview-section preview-content">
+
+<h2 id="scala入门圣典-第二章-表达式语句控制结构">Scala入门圣典 第二章 表达式、语句、控制结构</h2>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><ul>
+<li><a href="#scala入门圣典-第二章-表达式语句控制结构">Scala入门圣典 第二章 表达式、语句、控制结构</a></li>
+<li><a href="#表达式与语句">表达式与语句</a><ul>
+<li><a href="#1-if表达式的值">1. if表达式的值</a><ul>
+<li><a href="#两种形式">两种形式</a></li>
+<li><a href="#与三目运算符的对比">与三目运算符的对比</a></li>
+<li><a href="#返回值类型">返回值类型</a></li>
+<li><a href="#unit">Unit ()</a></li>
+</ul>
+</li>
+<li><a href="#2-repl的近视问题">2. REPL的“近视问题”</a><ul>
+<li><a href="#两种方案解决repl的近视问题">两种方案解决REPL的”近视问题”</a><ul>
+<li><a href="#1">1. {}</a></li>
+<li><a href="#2-pase指令">2. :pase指令</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#3-scala语句的终止">3. Scala语句的终止</a><ul>
+<li><a href="#1-无需">1. 无需;</a></li>
+<li><a href="#2-单行多语句采用">2. 单行多语句采用;</a></li>
+<li><a href="#3-较长的语句选择适当的标识符表示未结束">3. 较长的语句，选择适当的标识符表示未结束</a></li>
+<li><a href="#4-左花括号结尾的风格">4. 左花括号结尾的风格</a></li>
+</ul>
+</li>
+<li><a href="#4-块表达式">4. 块表达式</a></li>
+<li><a href="#5-赋值语句的返回值-unit">5. 赋值语句的返回值 Unit</a></li>
+</ul>
+</li>
+<li><a href="#循环结构语句">循环结构语句</a><ul>
+<li><a href="#while结构">While结构</a></li>
+<li><a href="#for结构">for结构</a><ul>
+<li><a href="#1-使用下标的方式">1. 使用下标的方式</a><ul>
+<li><a href="#0-to-n的用法">0 to n的用法</a></li>
+<li><a href="#0-until-n">0 until n</a></li>
+</ul>
+</li>
+<li><a href="#2-直接遍历集合元素">2. 直接遍历集合元素</a></li>
+</ul>
+</li>
+<li><a href="#高级for循环和for推导式">高级for循环和for推导式</a><ul>
+<li><a href="#高级for循环">高级for循环</a></li>
+<li><a href="#for推导式-yield">for推导式 yield</a></li>
+</ul>
+</li>
+<li><a href="#谈谈对scala循环的认识">谈谈对Scala循环的认识</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+</div><div id="wmd-preview-section-47351" class="wmd-preview-section preview-content">
+
+<h2 id="表达式与语句">表达式与语句</h2>
+
+<p>在Java或其他语言中，表达式和语句是本质区别的。表达式有值(例如1+1)，语句执行动作(例如if语句)。  <br>
+Scala语言则有很大的不同，<strong>几乎任何被构造出来的语法结构都有值</strong>。正是因为有了该特性，Scala程序才会更加精简易读。</p>
+
+</div><div id="wmd-preview-section-47352" class="wmd-preview-section preview-content">
+
+<h3 id="1-if表达式的值">1. if表达式的值</h3>
+
+<p>更确切的说是if表达式执行后的结果返回值。</p>
+
+</div><div id="wmd-preview-section-47353" class="wmd-preview-section preview-content">
+
+<h4 id="两种形式">两种形式</h4>
+
+<p><strong>第一种形式</strong></p>
+
+</div><div id="wmd-preview-section-47354" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">val</span> x = <span class="hljs-number">101</span><br>scala&gt; <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>) <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>res34: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-keyword">if</span> x&gt;<span class="hljs-number">100</span> <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span>   <span class="hljs-comment">//注意不要写嗨了连if后的（）后省略了。这里真不能省</span><br>&lt;console&gt;:<span class="hljs-number">1</span>: error: '(' expected but identifier found.<br>       <span class="hljs-keyword">if</span> x&gt;<span class="hljs-number">100</span> <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>          ^<br></code></pre>
+
+<p>在Scala中是避免使用return的。 <br>
+上面的写法是原汁原味的，尽量不要写出类似Java的用法了</p>
+
+<p>注意下面的程序，有以下几点需要注意</p>
+
+<ol><li rel="1">var类型的定义场景。第一种写法更好是因为可以直接定义val值，而第二种写法则是必须定义为var</li>
+<li rel="2">代码格式化</li>
+<li rel="3">尽量不要在最后的语句中赋值变量，否则语句的值就变得没什么意义了，最好将语句赋值给变量或值。</li>
+</ol>
+
+<p><strong>第二种形式</strong></p>
+
+</div><div id="wmd-preview-section-47355" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs cpp">scala&gt; val y = <span class="hljs-number">0</span><br>y: Int = <span class="hljs-number">0</span><br><br>scala&gt; <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>) y=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y=-<span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: <span class="hljs-function">reassignment to val<br>              <span class="hljs-title">if</span><span class="hljs-params">(x&gt;<span class="hljs-number">100</span>)</span> y</span>=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y=-<span class="hljs-number">1</span><br>                         ^<br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value =- <span class="hljs-function">is not a member of Int<br>              <span class="hljs-title">if</span><span class="hljs-params">(x&gt;<span class="hljs-number">100</span>)</span> y</span>=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y=-<span class="hljs-number">1</span><br>                                  ^<br><br>scala&gt; var y = <span class="hljs-number">0</span><br>y: Int = <span class="hljs-number">0</span><br><br>scala&gt; <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>) y=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y=-<span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value =- <span class="hljs-function">is not a member of Int<br>              <span class="hljs-title">if</span><span class="hljs-params">(x&gt;<span class="hljs-number">100</span>)</span> y</span>=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y=-<span class="hljs-number">1</span><br>                                  ^<br><br>scala&gt; <span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>) y=<span class="hljs-number">1</span> <span class="hljs-keyword">else</span> y= -<span class="hljs-number">1</span><br><br>scala&gt; y<br>res42: Int = <span class="hljs-number">1</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47356" class="wmd-preview-section preview-content">
+
+<h4 id="与三目运算符的对比">与三目运算符的对比</h4>
+
+<p><code>int m = 0; m = m&gt;1? 1:-1;</code> Java中三目运算符<code>?:</code>，与上面的代码效果是一样的，反而更加精简，但是<code>?:</code>不能再插入语句。</p>
+
+<p>可以说是Scala中将if else与三目运算结合起来了。并且威力更加强大了，例如可以混合类型的表达式</p>
+
+</div><div id="wmd-preview-section-47357" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> x = <span class="hljs-number">1</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">0</span>) <span class="hljs-string">"positive"</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>res43: <span class="hljs-type">Any</span> = positive<br></code></pre>
+
+</div><div id="wmd-preview-section-47358" class="wmd-preview-section preview-content">
+
+<h4 id="返回值类型">返回值类型</h4>
+
+<p>注意</p>
+
+</div><div id="wmd-preview-section-47359" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">0</span>) <span class="hljs-string">"positive"</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>res43: <span class="hljs-type">Any</span> = positive<br></code></pre>
+
+<p>“positive” -&gt;java.lang.String <br>
+   -1-&gt; Int <br>
+   <strong>if语句的返回值类型是String与Int类型的公共超类型Any</strong></p>
+
+</div><div id="wmd-preview-section-47360" class="wmd-preview-section preview-content">
+
+<h4 id="unit">Unit ()</h4>
+
+<p>如果else缺失，而if条件又不满足 <br>
+语句的返回值类型将是Unit, 写作: ()，相当于Java中的void。但是本质上还是有些区别，Unit代表“无有用值”，而void是空的，类比：空的钱包与一张写有“没钱”的无面值的钞票。</p>
+
+</div><div id="wmd-preview-section-47361" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> x = <span class="hljs-number">99</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">100</span>) <span class="hljs-number">1</span> <br>res0: <span class="hljs-type">AnyVal</span> = ()<br></code></pre>
+
+<p>其实相当于</p>
+
+</div><div id="wmd-preview-section-47362" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span> (x&gt;<span class="hljs-number">100</span>) <span class="hljs-number">1</span> <span class="hljs-keyword">else</span> () <br>res0: <span class="hljs-type">AnyVal</span> = ()<br></code></pre>
+
+</div><div id="wmd-preview-section-47363" class="wmd-preview-section preview-content">
+
+<h3 id="2-repl的近视问题">2. REPL的“近视问题”</h3>
+
+<p>在REPL中，执行以下形式代码的时候</p>
+
+</div><div id="wmd-preview-section-47364" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> x = <span class="hljs-number">99</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">100</span>) <span class="hljs-number">1</span><br>res3: <span class="hljs-type">AnyVal</span> = ()<br><br>scala&gt; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x == <span class="hljs-number">100</span>) <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">1</span>: error: illegal start of definition<br>       <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x == <span class="hljs-number">100</span>) <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>       ^<br></code></pre>
+
+<p>由于REPL解释器的“近视问题”导致</p>
+
+</div><div id="wmd-preview-section-47365" class="wmd-preview-section preview-content">
+
+<h4 id="两种方案解决repl的近视问题">两种方案解决REPL的”近视问题”</h4>
+
+</div><div id="wmd-preview-section-47366" class="wmd-preview-section preview-content">
+
+<h5 id="1">1. {}</h5>
+
+</div><div id="wmd-preview-section-47367" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> x =<span class="hljs-number">99</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">100</span>) {<span class="hljs-number">1</span><br>     | } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x ==<span class="hljs-number">100</span>) <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br>res1: <span class="hljs-type">Int</span> = -<span class="hljs-number">1</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47368" class="wmd-preview-section preview-content">
+
+<h5 id="2-pase指令">2. :pase指令</h5>
+
+<p>该指令可以允许你粘贴或编写一段代码执行，非常方便。ctrl+d后执行</p>
+
+</div><div id="wmd-preview-section-47369" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; :paste<br><span class="hljs-comment">// Entering paste mode (ctrl-D to finish)</span><br><br><span class="hljs-keyword">if</span>(x &gt; <span class="hljs-number">100</span>) <span class="hljs-number">1</span><br><span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (x ==<span class="hljs-number">100</span>) <span class="hljs-number">1</span><br><span class="hljs-keyword">else</span> -<span class="hljs-number">1</span><br><br><span class="hljs-comment">// Exiting paste mode, now interpreting.</span><br><br>res2: <span class="hljs-type">Int</span> = -<span class="hljs-number">1</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47370" class="wmd-preview-section preview-content">
+
+<h3 id="3-scala语句的终止">3. Scala语句的终止</h3>
+
+</div><div id="wmd-preview-section-47371" class="wmd-preview-section preview-content">
+
+<h4 id="1-无需">1. 无需<code>;</code></h4>
+
+<p>在Java中一行语句的结尾是以<code>;</code>结束的。Scala则像大多数的脚本语言一样无需<code>;</code>直接结束。</p>
+
+</div><div id="wmd-preview-section-47372" class="wmd-preview-section preview-content">
+
+<h4 id="2-单行多语句采用">2. 单行多语句采用<code>;</code></h4>
+
+</div><div id="wmd-preview-section-47373" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> x = <span class="hljs-number">99</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">99</span><br><br>scala&gt; <span class="hljs-keyword">if</span> (x &gt; <span class="hljs-number">100</span>) x*<span class="hljs-number">100</span>; x += <span class="hljs-number">1</span><br><br>scala&gt; x<br>res8: <span class="hljs-type">Int</span> = <span class="hljs-number">100</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47374" class="wmd-preview-section preview-content">
+
+<h4 id="3-较长的语句选择适当的标识符表示未结束">3. 较长的语句，选择适当的标识符表示未结束</h4>
+
+<p>较长语句，一行不想写完，较好的选择是采用操作符表示该行未结束 <br>
+注意：REPL的”近视问题”</p>
+
+</div><div id="wmd-preview-section-47375" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> y = <span class="hljs-number">0</span> <br>y: <span class="hljs-type">Int</span> = <span class="hljs-number">0</span><br><br>scala&gt; y = y*<span class="hljs-number">100</span>-<span class="hljs-number">10</span>+<span class="hljs-number">99</span> +<br>&lt;console&gt;:<span class="hljs-number">8</span>: error: <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">mismatch</span>;</span><br> found   : (x: <span class="hljs-type">Double</span>)<span class="hljs-type">Double</span> &lt;and&gt; (x: <span class="hljs-type">Float</span>)<span class="hljs-type">Float</span> &lt;and&gt; (x: <span class="hljs-type">Long</span>)<span class="hljs-type">Long</span> &lt;and&gt; (x: <span class="hljs-type">Int</span>)<span class="hljs-type">Int</span> &lt;and&gt; (x: <span class="hljs-type">Char</span>)<span class="hljs-type">Int</span> &lt;and&gt; (x: <span class="hljs-type">Short</span>)<span class="hljs-type">Int</span> &lt;and&gt; (x: <span class="hljs-type">Byte</span>)<span class="hljs-type">Int</span> &lt;and&gt; (x: <span class="hljs-type">String</span>)<span class="hljs-type">String</span><br> required: <span class="hljs-type">Int</span><br>       y = y*<span class="hljs-number">100</span>-<span class="hljs-number">10</span>+<span class="hljs-number">99</span> +<br>                       ^<br><br>scala&gt; :paste<br><span class="hljs-comment">// Entering paste mode (ctrl-D to finish)</span><br><br>y = y*<span class="hljs-number">100</span>-<span class="hljs-number">10</span>+<span class="hljs-number">0</span> +<br><span class="hljs-number">100</span><br><br><span class="hljs-comment">// Exiting paste mode, now interpreting.</span><br><br>y: <span class="hljs-type">Int</span> = <span class="hljs-number">90</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47376" class="wmd-preview-section preview-content">
+
+<h4 id="4-左花括号结尾的风格">4. 左花括号结尾的风格</h4>
+
+<p>在实际编码中，有两种花括号的使用风格</p>
+
+</div><div id="wmd-preview-section-47377" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>){<br>    println(<span class="hljs-string">"&gt;100"</span>)<br>}<br></code></pre>
+
+<p>另一种在C#中推荐</p>
+
+</div><div id="wmd-preview-section-47378" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-keyword">if</span>(x&gt;<span class="hljs-number">100</span>)<br>{<br>    println(<span class="hljs-string">"&gt;100"</span>)<br>}<br></code></pre>
+
+<p>而Scala和Java程序员为了解决较长语句时一行写不完或长表达式涉及函数或方法调用时过长的问题，Scala程序员更倾向于第一种风格写法。其有个学名：Kernighan&amp;Ritchie风格的花括号。 <br>
+以<code>{</code>结尾的语句表明了后面还有更多的内容。</p>
+
+</div><div id="wmd-preview-section-47379" class="wmd-preview-section preview-content">
+
+<h3 id="4-块表达式">4. 块表达式</h3>
+
+<p>被<code>{}</code>包围的称之为块表达式，在逻辑分支或循环中放置很多个动作的时候，都可以使用语句块。</p>
+
+<p>块表达式 顾名思义，有很多个表达式组成的语句段落，包含一系列的表达式。<strong>其结果也是个表达式，最后一个表达式的值就是块表达式的值。</strong></p>
+
+<p>对于初始化一个值时需要很多中间变量的时候，块表达式可以很好的胜任。 <br>
+<code>val distance = {val dx = x - x0; val dy = y - y0; sqrt(dx*dx + dy*dy)}</code> <br>
+其中dx,dy只是作为中间计算值，使用完就抛弃了，这里稍许可以联想到优化的部分，对象的生命周期相当短暂。</p>
+
+<p><strong>在实际工作中，尽量避免太长的复杂的单行语句，不利于维护。</strong></p>
+
+</div><div id="wmd-preview-section-47380" class="wmd-preview-section preview-content">
+
+<h3 id="5-赋值语句的返回值-unit">5. 赋值语句的返回值 Unit</h3>
+
+<p>Scala赋值语句返回值是Unit的 () <br>
+所以尽量不要 x = y = 1,很容易导致错误，因为x大多数情况非Unit类型</p>
+
+</div><div id="wmd-preview-section-47381" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> x,y = <span class="hljs-number">0</span><br>x: <span class="hljs-type">Int</span> = <span class="hljs-number">0</span><br>y: <span class="hljs-type">Int</span> = <span class="hljs-number">0</span><br><br>scala&gt; x = y = <span class="hljs-number">1</span><br>&lt;console&gt;:<span class="hljs-number">9</span>: error: <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">mismatch</span>;</span><br> found   : <span class="hljs-type">Unit</span><br> required: <span class="hljs-type">Int</span><br>       x = y = <span class="hljs-number">1</span><br>             ^<br></code></pre>
+
+<p>然而在Java或C++中赋值语句的值是被赋的那个值。所以在这些语言中赋值语句串联是有意义的。 <br>
+<strong>注意：刚才说的是赋值语句，在Scala中<code>var x,y = 0</code> 初始化语句串联是没有问题的</strong></p>
+
+</div><div id="wmd-preview-section-47382" class="wmd-preview-section preview-content">
+
+<h2 id="循环结构语句">循环结构语句</h2>
+
+</div><div id="wmd-preview-section-47383" class="wmd-preview-section preview-content">
+
+<h3 id="while结构">While结构</h3>
+
+<p>Scala的While循环与Java结构一样</p>
+
+</div><div id="wmd-preview-section-47384" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> n = <span class="hljs-number">10</span><br>n: <span class="hljs-type">Int</span> = <span class="hljs-number">10</span><br><br>scala&gt; <span class="hljs-keyword">var</span> r = <span class="hljs-number">10</span><br>r: <span class="hljs-type">Int</span> = <span class="hljs-number">10</span><br><br>scala&gt; <span class="hljs-keyword">while</span>(n&gt;<span class="hljs-number">0</span>){<br>     | r = r*n<br>     | n -= <span class="hljs-number">1</span><br>     | }<br><br>scala&gt; r<br>res5: <span class="hljs-type">Int</span> = <span class="hljs-number">36288000</span><br><br>scala&gt; n<br>res6: <span class="hljs-type">Int</span> = <span class="hljs-number">0</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47385" class="wmd-preview-section preview-content">
+
+<h3 id="for结构">for结构</h3>
+
+<p>Scala for 语法结构 <br>
+<code>for (i &lt;- 表达式)</code> //无var或val的指定。该变量的类型是集合的元素类型。局部变量。 <br>
+重点在于<strong>表达式的使用方法</strong>和<strong>元素i代表的含义</strong></p>
+
+</div><div id="wmd-preview-section-47386" class="wmd-preview-section preview-content">
+
+<h4 id="1-使用下标的方式">1. 使用下标的方式</h4>
+
+</div><div id="wmd-preview-section-47387" class="wmd-preview-section preview-content">
+
+<h5 id="0-to-n的用法">0 to n的用法</h5>
+
+<p>Scala中没有for(int i = 0; i&lt;100; i++)这种Java for形式，可以使用for或while的形式替代。</p>
+
+</div><div id="wmd-preview-section-47388" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; :paste   <span class="hljs-comment">//为了粘贴一段代码，防止REPL的"近视问题"</span><br><span class="hljs-comment">// Entering paste mode (ctrl-D to finish)</span><br><br><span class="hljs-keyword">var</span> r,n=<span class="hljs-number">10</span><br><span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">1</span> to n){         <br>    r = r*i<br>}<br><br><span class="hljs-comment">// Exiting paste mode, now interpreting.</span><br><br>r: <span class="hljs-type">Int</span> = <span class="hljs-number">36288000</span><br>n: <span class="hljs-type">Int</span> = <span class="hljs-number">10</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47389" class="wmd-preview-section preview-content">
+
+<h5 id="0-until-n">0 until n</h5>
+
+<p>如何遍历，取决于表达式的类型。 <br>
+在表达式的值为数组或字符串的时候，<strong>遍历长度的时候</strong>使用until最为合适。否则0 to n-1 也就是[0,n-1]。 <br>
+注意：</p>
+
+<ol><li rel="1">这里为了讲解until，通常情况直接遍历元素即可，遍历长度的方式有时候显得又臭又长。</li>
+<li rel="2">遍历长度时，i 元素代表的是集合下标。</li>
+</ol>
+
+</div><div id="wmd-preview-section-47390" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-number">1</span> to <span class="hljs-number">5</span><br>res9: scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-number">1</span> until <span class="hljs-number">5</span><br>res10: scala.collection.immutable.<span class="hljs-type">Range</span> = <span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)<br></code></pre>
+
+<p>所以 0 until n 的区间为  [0,n)或 [0,n-1]</p>
+
+<p>这里我们的重点关注遍历数组或字符串</p>
+
+</div><div id="wmd-preview-section-47391" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> arrs = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span> to <span class="hljs-number">5</span>) <span class="hljs-comment">//注意这里数组只有一个Range元素，而非5个元素</span><br>arrs: <span class="hljs-type">Array</span>[scala.collection.immutable.<span class="hljs-type">Range</span>.<span class="hljs-type">Inclusive</span>] = <span class="hljs-type">Array</span>(<span class="hljs-type">Range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>))<br><br>scala&gt; <span class="hljs-keyword">var</span> arrs2 = (<span class="hljs-number">1</span> to <span class="hljs-number">5</span>).toArray<br>arrs2: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- arrs2) println(i) <span class="hljs-comment">//请注意这里这里并未使用下标</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br><span class="hljs-number">3</span><br><span class="hljs-number">4</span><br><span class="hljs-number">5</span><br></code></pre>
+
+<p>按照长度遍历的时候，使用until最为方便</p>
+
+</div><div id="wmd-preview-section-47392" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> arrs2 = (<span class="hljs-number">1</span> to <span class="hljs-number">5</span>).toArray<br>arrs2: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">0</span> until arrs2.length) print(arrs2(i)+<span class="hljs-string">","</span>)<br><span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<br></code></pre>
+
+</div><div id="wmd-preview-section-47393" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> strs = <span class="hljs-string">"hello"</span><br>strs: <span class="hljs-type">String</span> = hello<br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">0</span> until strs.length) print(i+<span class="hljs-string">" "</span>)<br><span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span> <span class="hljs-number">4</span> <br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">0</span> until strs.length) print(strs(i)+<span class="hljs-string">" "</span>)<br>h e l l o <br>scala&gt; <br></code></pre>
+
+</div><div id="wmd-preview-section-47394" class="wmd-preview-section preview-content">
+
+<h4 id="2-直接遍历集合元素">2. 直接遍历集合元素</h4>
+
+<p>不使用下标而是直接遍历元素集合</p>
+
+</div><div id="wmd-preview-section-47395" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">var</span> arrs2 = (<span class="hljs-number">1</span> to <span class="hljs-number">5</span>).toArray<br>arrs2: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- arrs2) println(i) <span class="hljs-comment">//请注意这里这里并未使用下标</span><br><span class="hljs-number">1</span><br><span class="hljs-number">2</span><br><span class="hljs-number">3</span><br><span class="hljs-number">4</span><br><span class="hljs-number">5</span><br></code></pre>
+
+</div><div id="wmd-preview-section-47396" class="wmd-preview-section preview-content">
+
+<h3 id="高级for循环和for推导式">高级for循环和for推导式</h3>
+
+</div><div id="wmd-preview-section-47397" class="wmd-preview-section preview-content">
+
+<h4 id="高级for循环">高级for循环</h4>
+
+<ol start="1"><li rel="1"><code>变量 &lt;- 表达式</code> 的形式提供更多的生成器</li>
+</ol>
+
+</div><div id="wmd-preview-section-47398" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span>; j &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span>) print(i*<span class="hljs-number">10</span> + j + <span class="hljs-string">" "</span>)<br><span class="hljs-number">11</span> <span class="hljs-number">12</span> <span class="hljs-number">13</span> <span class="hljs-number">21</span> <span class="hljs-number">22</span> <span class="hljs-number">23</span> <span class="hljs-number">31</span> <span class="hljs-number">32</span> <span class="hljs-number">33</span> <br></code></pre>
+
+<ol start="2"><li rel="2">带有条件的for循环</li>
+</ol>
+
+</div><div id="wmd-preview-section-47399" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span>; j &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span> <span class="hljs-keyword">if</span> i!=j) print(i*<span class="hljs-number">10</span> + j + <span class="hljs-string">" "</span>)<span class="hljs-comment">//注意if前无分号</span><br><span class="hljs-number">12</span> <span class="hljs-number">13</span> <span class="hljs-number">21</span> <span class="hljs-number">23</span> <span class="hljs-number">31</span> <span class="hljs-number">32</span> <br></code></pre>
+
+<ol start="3"><li rel="3">使用更多的定义，引入可以在循环中使用的变量</li>
+</ol>
+
+</div><div id="wmd-preview-section-47400" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">3</span>; from = <span class="hljs-number">4</span>-i; j &lt;- from to <span class="hljs-number">3</span>) print(i*<span class="hljs-number">10</span> + j + <span class="hljs-string">" "</span>)<br><span class="hljs-number">13</span> <span class="hljs-number">22</span> <span class="hljs-number">23</span> <span class="hljs-number">31</span> <span class="hljs-number">32</span> <span class="hljs-number">33</span> <br></code></pre>
+
+</div><div id="wmd-preview-section-47401" class="wmd-preview-section preview-content">
+
+<h4 id="for推导式-yield">for推导式 yield</h4>
+
+<p>for循环体以<code>yield</code>开头，则该循环会构造出一个集合，每次循环都会产生一个集合中的一个元素。</p>
+
+</div><div id="wmd-preview-section-47402" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">5</span>) <span class="hljs-keyword">yield</span> i<br>res19: scala.collection.immutable.<span class="hljs-type">IndexedSeq</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Vector</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-47403" class="wmd-preview-section preview-content">
+
+<h3 id="谈谈对scala循环的认识">谈谈对Scala循环的认识</h3>
+
+<ol><li rel="1"><p><strong>Scala的循环并不如其他语言中的循环结构使用的那么频繁，是因为它可以使用强大的函数应用到序列中的所有值进行处理，完成这项工作只需要一次方法调用即可。</strong></p></li>
+<li rel="2"><p>Scala的循环退出，并没有提供break或continue语句。但可以使用如下方式</p>
+
+<ol>
+<li rel="3">使用Boolean型的控制变量</li>
+<li rel="4">使用嵌套函数—-可以在函数中return</li>
+<li rel="5"><p>使用Breaks对象的break方法:</p>
+
+<pre class="prettyprint hljs-light"><code class="hljs swift"><span class="hljs-keyword">import</span> scala.util.control.Breaks._<br>        breakable{<br>            <span class="hljs-keyword">for</span>(....){<br>                <span class="hljs-keyword">if</span>(....){<br>                    <span class="hljs-keyword">break</span>; <span class="hljs-comment">//退出breakable块</span><br>                }   <br>            }<br>        }<br></code></pre>
+
+<p>这里的获得控制权是通过抛出或捕捉到异常获得到的，如果考虑到系统执行时间，应当尽量避免使用该种方式。</p></li></ol></li>
+<li rel="3"><p>高级for循环和yield推导式使用的较少，原因请看第一条认识</p></li>
+</ol></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
