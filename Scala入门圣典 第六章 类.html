@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典 第六章 类</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-99" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-394" class="wmd-preview-section preview-content">
+
+<h1 id="scala入门圣典-第六章-类">Scala入门圣典 第六章 类</h1>
+
+<p>作者：冯琪超 <br>
+微信 : 152 010 98976</p>
+
+<div><div class="toc"><div class="toc">
+<ul>
+<li><a href="#scala入门圣典-第六章-类">Scala入门圣典 第六章 类</a><ul>
+<li><a href="#前言-开发环境的准备">前言 开发环境的准备</a></li>
+<li><a href="#类的定义">类的定义</a><ul>
+<li><a href="#最简单的类定义">最简单的类定义</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div></div><div id="wmd-preview-section-391" class="wmd-preview-section preview-content">
+
+<h2 id="前言-开发环境的准备">前言 开发环境的准备</h2>
+
+<p>类结构比之前的表达式、控制结构格式相对多些，在REPL中写比较麻烦，同时为了熟悉开发中的环境，这里采用IDE,推荐 Intellij Idea 安装Scala插件 <br>
+可以在IDEA中在线安装，也可以选择<a href="https://plugins.jetbrains.com/plugin/?id=1347" target="_blank">单独下载插件</a>安装</p>
+
+<p>当然你可以选择更加轻量级的文本编辑器，例如Sublime Text。只不过在调试上GDB还是较弱。</p>
+
+</div><div id="wmd-preview-section-412" class="wmd-preview-section preview-content">
+
+<h2 id="类的定义">类的定义</h2>
+
+</div><div id="wmd-preview-section-448" class="wmd-preview-section preview-content">
+
+<h3 id="最简单的类定义">最简单的类定义</h3>
+
+</div><div id="wmd-preview-section-675" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-comment">//简单的类写法</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {</span><br><br>}<br><br><span class="hljs-comment">//伴生对象，与类名必须一样，方法为静态，单例</span><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    println(<span class="hljs-string">"hello intellij idea"</span>)<br>  }<br>}<br></code></pre>
+
+<p>带有字段、方法、函数的简单类</p></div><div id="wmd-preview-section-669" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> value = <span class="hljs-number">0</span> <span class="hljs-comment">//字段必须初始化</span><br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span>(</span>) {<br>    value += <span class="hljs-number">1</span><br>  }<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">current</span>(</span>) = value<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    <span class="hljs-keyword">val</span> counter: <span class="hljs-type">Counter</span> = <span class="hljs-keyword">new</span> <span class="hljs-type">Counter</span><br>    <span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">10</span>) {<br>      counter.increment()<br>    }<br>    println(counter.current())<br>  }<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
