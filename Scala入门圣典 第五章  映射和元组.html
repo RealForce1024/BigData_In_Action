@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><title>Scala入门圣典 第五章  映射和元组</title><meta charset='utf-8'><link href='https://dn-maxiang.qbox.me/res-min/themes/marxico.css' rel='stylesheet'><style>
+.note-content  {font-family: 微软雅黑, 'Helvetica Neue', Arial, 'Hiragino Sans GB', STHeiti, 'Microsoft YaHei', 'WenQuanYi Micro Hei', SimSun, Song, sans-serif;}
+
+</style></head><body><div id='preview-contents' class='note-content'>
+                        <div id="wmd-preview" class="preview-content"></div>
+                    <div id="wmd-preview-section-113" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-375" class="wmd-preview-section preview-content">
+
+<h1 id="scala入门圣典-第五章-映射和元组">Scala入门圣典 第五章  映射和元组</h1>
+
+<p>作者：冯琪超 <br>
+微信 : 152 010 98976</p>
+
+<blockquote>
+  <p>如果只能用一种数据结构，那就用哈希表吧</p>
+</blockquote>
+
+<p>哈希表可以更加抽象说成是映射，最灵活多变的数据结构之一。 <br>
+Scala中的映射不仅简洁灵活，且使用方便。</p>
+
+</div><div id="wmd-preview-section-406" class="wmd-preview-section preview-content">
+
+<h2 id="映射与对偶元组的关系">映射与对偶元组的关系</h2>
+
+<p>映射是<strong>键/值</strong>对偶的集合。  <br>
+键值对的说法有Java基础的人肯定不会陌生。<code>对偶</code>是相对于元组这个概念来说的。 <br>
+元组是n个对象的聚集，可以是不同类型的对象。 <br>
+而对偶则是元组的一种特殊情况，即n=2。 <br>
+元组的使用场景：元组是在将需要2个或多个元素组织在一起的时候非常有用。</p></div><div id="wmd-preview-section-460" class="wmd-preview-section preview-content">
+
+<h2 id="映射">映射</h2>
+
+</div><div id="wmd-preview-section-718" class="wmd-preview-section preview-content">
+
+<h3 id="构造映射">构造映射</h3>
+
+</div><div id="wmd-preview-section-1105" class="wmd-preview-section preview-content">
+
+<h4 id="可变与不可变映射">可变与不可变映射</h4>
+
+<ol><li rel="1">Map对象构造不可变映射</li>
+<li rel="2">scala.collection.mutable.Map() 指定可变映射对象</li>
+<li rel="3">构造空集合最好指明对偶（键值对）元素的类型</li>
+</ol></div><div id="wmd-preview-section-1052" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>(<span class="hljs-string">"kobe"</span>-&gt;<span class="hljs-number">1</span>,<span class="hljs-string">"james"</span>-&gt;<span class="hljs-number">2</span>,<span class="hljs-string">"cury"</span>-&gt;<span class="hljs-number">3</span>)<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">1</span>, james -&gt; <span class="hljs-number">2</span>, cury -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br>&lt;console&gt;:<span class="hljs-number">9</span>: error: value update is not a member of scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]<br>              map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br>              ^<br><br>scala&gt; <span class="hljs-keyword">val</span> map = scala.collection.mutable.<span class="hljs-type">Map</span>(<span class="hljs-string">"kobe"</span>-&gt;<span class="hljs-number">1</span>,<span class="hljs-string">"james"</span>-&gt;<span class="hljs-number">2</span>,<span class="hljs-string">"cury"</span>-&gt;<span class="hljs-number">3</span>)<br>map: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">2</span>, kobe -&gt; <span class="hljs-number">1</span>, cury -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br><br>scala&gt; map<br>res2: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">9999</span>, kobe -&gt; <span class="hljs-number">1</span>, cury -&gt; <span class="hljs-number">3</span>)<br></code></pre>
+
+<p>构造空集合最好指明对偶（键值对）元素的类型</p></div><div id="wmd-preview-section-1480" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-type">Map</span><br>res3: scala.collection.immutable.<span class="hljs-type">Map</span>.<span class="hljs-keyword">type</span> = scala.collection.immutable.<span class="hljs-type">Map</span>$@<span class="hljs-number">41e31981</span><br><br>scala&gt; <span class="hljs-keyword">val</span> map =  <span class="hljs-type">Map</span>()<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">Nothing</span>,<span class="hljs-type">Nothing</span>] = <span class="hljs-type">Map</span>()<br><br>scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]()<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>()<br></code></pre>
+
+</div><div id="wmd-preview-section-1793" class="wmd-preview-section preview-content">
+
+<h3 id="映射中创建对偶的方式">映射中创建对偶的方式</h3>
+
+<p>注意：映射中元素是特殊的元组对象，即对偶</p>
+
+</div><div id="wmd-preview-section-1835" class="wmd-preview-section preview-content">
+
+<h4 id="创建对偶"><code>-&gt;</code>创建对偶</h4></div><div id="wmd-preview-section-1808" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">81</span><br>res4: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (kobe,<span class="hljs-number">81</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-1851" class="wmd-preview-section preview-content">
+
+<h4 id="创建对偶-1"><code>( )</code>创建对偶</h4></div><div id="wmd-preview-section-1771" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; (<span class="hljs-string">"jordan"</span>,<span class="hljs-number">69</span>)<br>res5: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (jordan,<span class="hljs-number">69</span>)<br></code></pre></div><div id="wmd-preview-section-1628" class="wmd-preview-section preview-content">
+
+<h2 id="元组">元组</h2></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
