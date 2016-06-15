@@ -64,6 +64,17 @@
 <li><a href="#2元组的构成">2.元组的构成</a></li>
 <li><a href="#3-访问元组">3. 访问元组</a></li>
 <li><a href="#4-元组赋值">4. 元组赋值</a></li>
+<li><a href="#5-元组的地道用法">5. 元组的地道用法</a><ul>
+<li><a href="#1-返回多个值">1. 返回多个值</a></li>
+<li><a href="#2-拉练操作zip">2. 拉练操作zip</a><ul>
+<li><a href="#1-案例1">1. 案例1</a></li>
+<li><a href="#2-案例2">2. 案例2</a></li>
+<li><a href="#案例2-变型">案例2 变型</a></li>
+</ul>
+</li>
+<li><a href="#3-将对偶的集合转换为映射tomap">3. 将对偶的集合转换为映射toMap</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -428,12 +439,60 @@ Option对象要么返回Some（键对应的值），要么返回None</p>
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: constructor cannot be instantiated to expected <span class="hljs-class"><span class="hljs-keyword">type</span>;</span><br> found   : (<span class="hljs-type">T1</span>, <span class="hljs-type">T2</span>)<br> required: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>])<br>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>           ^<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: recursive value x$<span class="hljs-number">1</span> needs <span class="hljs-class"><span class="hljs-keyword">type</span><br></span>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>            ^<br></code></pre>
 
-<p>如果有些组元是不需要的，<code>_</code>来代替</p></div><div id="wmd-preview-section-17762" class="wmd-preview-section preview-content">
+<p>如果有些组元是不需要的，<code>_</code>来代替</p></div><div id="wmd-preview-section-18410" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-light"><code class="hljs stylus">scala&gt; val (<span class="hljs-tag">a</span>,<span class="hljs-tag">b</span>,_) = a_tuple<br><span class="hljs-tag">a</span>: Int = <span class="hljs-number">1</span><br><span class="hljs-tag">b</span>: String = kobe<br><br>scala&gt; val (<span class="hljs-tag">a</span>,_,c) = a_tuple<br><span class="hljs-tag">a</span>: Int = <span class="hljs-number">1</span><br>c: Array[Int] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span></span><br></code></pre>
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> (a,b,_) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>b: <span class="hljs-type">String</span> = kobe<br><br>scala&gt; <span class="hljs-keyword">val</span> (a,_,c) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>c: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
 
-<p>特别注意 需要 <code>( )</code> ，否则就会变量赋值一样了</p>
+<p>特别注意 需要 <code>( )</code> ，否则就会变量赋值一样了</p></div><div id="wmd-preview-section-23622" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-17763" class="wmd-preview-section preview-content">
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a,_,c = a_tuple<br>a: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>_: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>c: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre>
 
-<pre class="prettyprint hljs-light"><code class="hljs julia">scala&gt; val a,_,c = a_tuple<br>a: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>_: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>c: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-23848" class="wmd-preview-section preview-content">
+
+<h3 id="5-元组的地道用法">5. 元组的地道用法</h3></div><div id="wmd-preview-section-23549" class="wmd-preview-section preview-content">
+
+<h4 id="1-返回多个值">1. 返回多个值</h4>
+
+<p>元组有个特殊的用法. <br>
+元组可以为那些需要返回多个值的函数或方法做包装。 <br>
+例如 ：StringOps类中的partition方法</p></div><div id="wmd-preview-section-28350" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> str = <span class="hljs-string">"New York"</span><br>str: <span class="hljs-type">String</span> = <span class="hljs-type">New</span> <span class="hljs-type">York</span><br><br>scala&gt; str.partition(_.isUpper)<br>res10: (<span class="hljs-type">String</span>, <span class="hljs-type">String</span>) = (<span class="hljs-type">NY</span>,ew ork)<span class="hljs-comment">//（满足条件,非满足）</span><br></code></pre></div><div id="wmd-preview-section-32237" class="wmd-preview-section preview-content">
+
+<h4 id="2-拉练操作zip">2. 拉练操作zip</h4>
+
+<p>元组本身是多个值的集合，<strong>即可以绑定多个值在一起</strong>，意味着他们可以同时被处理。Scala中使用zip方法对元组集合处理。</p>
+
+</div><div id="wmd-preview-section-32238" class="wmd-preview-section preview-content">
+
+<h5 id="1-案例1">1. 案例1</h5>
+
+<p>zip方法聚集集合，集合元素为元组</p></div><div id="wmd-preview-section-32319" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> name = <span class="hljs-type">Array</span>(<span class="hljs-string">"kobe"</span>,<span class="hljs-string">"james"</span>,<span class="hljs-string">"jordan"</span>)<br>name: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(kobe, james, jordan)<br><br>scala&gt; <span class="hljs-keyword">val</span> no = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>,<span class="hljs-number">6</span>,<span class="hljs-number">23</span>)<br>no: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>, <span class="hljs-number">6</span>, <span class="hljs-number">23</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> player = name.zip(no)<br>player: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((kobe,<span class="hljs-number">24</span>), (james,<span class="hljs-number">6</span>), (jordan,<span class="hljs-number">23</span>))<br></code></pre>
+
+</div><div id="wmd-preview-section-32320" class="wmd-preview-section preview-content">
+
+<h5 id="2-案例2">2. 案例2</h5></div><div id="wmd-preview-section-32402" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs stylus">scala&gt; val symbols = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-string">"&lt;"</span>,<span class="hljs-string">"-"</span>,<span class="hljs-string">"&gt;"</span>)</span></span><br>symbols: Array[String] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(&lt;, -, &gt;)</span></span><br><br>scala&gt; val counts = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">2</span>)</span></span><br>counts: Array[Int] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2</span>)</span></span><br><br><br>scala&gt; val pairs = symbols.<span class="hljs-function"><span class="hljs-title">zip</span><span class="hljs-params">(counts)</span></span><br>pairs: Array[(String, Int)] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">((&lt;,<span class="hljs-number">2</span>)</span></span>, (-,<span class="hljs-number">10</span>), (&gt;,<span class="hljs-number">2</span>))<br><br>scala&gt; <span class="hljs-function"><span class="hljs-title">for</span><span class="hljs-params">((x,y)</span></span> &lt;- pairs) <span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(x*y)</span></span><br>&lt;&lt;----------&gt;&gt;<br></code></pre>
+
+</div><div id="wmd-preview-section-33712" class="wmd-preview-section preview-content">
+
+<h5 id="案例2-变型">案例2 变型</h5>
+
+<p>注意元组的元素访问形式 <code>_index</code></p></div><div id="wmd-preview-section-34287" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; pairs.map(x =&gt; x)<br>res19: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((&lt;,<span class="hljs-number">2</span>), (-,<span class="hljs-number">10</span>), (&gt;,<span class="hljs-number">2</span>))<br><br>scala&gt; pairs.map((x,y) =&gt; (x,y))<br>&lt;console&gt;:<span class="hljs-number">13</span>: error: wrong number of parameters; expected = <span class="hljs-number">1</span><br>              pairs.map((x,y) =&gt; (x,y))<br>                              ^<br><br>scala&gt; pairs.map(x =&gt; x._1 * x._2)<br>res22: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(&lt;&lt;, ----------, &gt;&gt;)<br></code></pre>
+
+</div><div id="wmd-preview-section-39844" class="wmd-preview-section preview-content">
+
+<h4 id="3-将对偶的集合转换为映射tomap">3. 将<strong>对偶的集合</strong>转换为映射toMap</h4>
+
+<p>如果分别有key和value的集合，可以使用toMap方法转为映射</p></div><div id="wmd-preview-section-38400" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> keys = <span class="hljs-type">Array</span>(<span class="hljs-string">"kobe"</span>,<span class="hljs-string">"james"</span>,<span class="hljs-string">"jordan"</span>)<br>keys: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(kobe, james, jordan)<br><br>scala&gt; <span class="hljs-keyword">val</span> values = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>,<span class="hljs-number">6</span>,<span class="hljs-number">23</span>)<br>values: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>, <span class="hljs-number">6</span>, <span class="hljs-number">23</span>)<br><br>scala&gt; keys.zip(values).toMap<br>res25: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">24</span>, james -&gt; <span class="hljs-number">6</span>, jordan -&gt; <span class="hljs-number">23</span>)<br></code></pre>
+
+<p>toMap方法是可以将<strong>对偶的集合</strong>转换为映射</p></div><div id="wmd-preview-section-39506" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; (<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>).toMap  <span class="hljs-comment">//只是对偶，非集合</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value toMap is not a member of (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)<br>              (<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>).toMap<br>                      ^<br><br>scala&gt; ((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap <span class="hljs-comment">//这也非集合</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value toMap is not a member of (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)<br>              ((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap<br>                        ^<br><br>scala&gt; <span class="hljs-type">Array</span>((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap<br>res28: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(x -&gt; <span class="hljs-number">1</span>)<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
