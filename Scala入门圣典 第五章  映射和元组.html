@@ -3,7 +3,9 @@
 
 </style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-113" class="wmd-preview-section preview-content"></div><div id="wmd-preview-section-1925" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
+
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
 
 <h1 id="scala入门圣典-第五章-映射和元组">Scala入门圣典 第五章  映射和元组</h1>
 
@@ -13,20 +15,57 @@
 <div><div class="toc"><div class="toc">
 <ul>
 <li><a href="#scala入门圣典-第五章-映射和元组">Scala入门圣典 第五章  映射和元组</a><ul>
-<li><a href="#映射与对偶元组的关系">映射与对偶元组的关系</a></li>
-<li><a href="#映射">映射</a><ul>
-<li><a href="#构造映射">构造映射</a><ul>
-<li><a href="#可变与不可变映射">可变与不可变映射</a></li>
-</ul>
-</li>
+<li><a href="#一映射与对偶元组的关系">一、映射与对偶元组的关系</a></li>
+<li><a href="#二映射">二、映射</a><ul>
 <li><a href="#映射中创建对偶的方式">映射中创建对偶的方式</a><ul>
 <li><a href="#创建对偶">-&gt;创建对偶</a></li>
 <li><a href="#创建对偶-1">( )创建对偶</a></li>
 </ul>
 </li>
+<li><a href="#构造映射">构造映射</a><ul>
+<li><a href="#可变与不可变映射">可变与不可变映射</a></li>
 </ul>
 </li>
-<li><a href="#元组">元组</a></li>
+<li><a href="#获取映射中的值">获取映射中的值</a><ul>
+<li><a href="#mapkey">Map(key)</a></li>
+<li><a href="#键不存在异常">键不存在异常</a></li>
+<li><a href="#containskey预判断">contains(key)预判断</a></li>
+<li><a href="#getorelse预判断的增强">getOrElse预判断的增强</a></li>
+<li><a href="#初始option对象">初始Option对象</a></li>
+</ul>
+</li>
+<li><a href="#更新映射中的值">更新映射中的值</a><ul>
+<li><a href="#更新元素">更新元素</a></li>
+<li><a href="#新增一个元素">新增一个元素</a></li>
+</ul>
+</li>
+<li><a href="#迭代映射">迭代映射</a><ul>
+<li><a href="#forkv-map">for((k,v) &lt;- map)</a></li>
+<li><a href="#单独获取keyset-values">单独获取keySet Values</a></li>
+<li><a href="#反转kv">反转k、v</a></li>
+<li><a href="#map高阶函数的使用">map高阶函数的使用</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#映射实现">映射实现</a><ul>
+<li><a href="#已排序映射sortedmap-不可变">已排序映射SortedMap –不可变</a></li>
+<li><a href="#hashmap实现">HashMap实现</a></li>
+<li><a href="#插入顺序-linkedhashmap">插入顺序 LinkedHashMap</a></li>
+<li><a href="#与java-api的交互">与Java api的交互</a><ul>
+<li><a href="#scala使用java-api">scala使用java api</a></li>
+<li><a href="#java-使用-scala-api">Java 使用 scala api</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#三元组">三、元组</a><ul>
+<li><a href="#1-概念">1. 概念</a></li>
+<li><a href="#2元组的构成">2.元组的构成</a></li>
+<li><a href="#3-访问元组">3. 访问元组</a></li>
+<li><a href="#4-元组赋值">4. 元组赋值</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -39,53 +78,362 @@
 </blockquote>
 
 <p>哈希表可以更加抽象说成是映射，最灵活多变的数据结构之一。 <br>
-Scala中的映射不仅简洁灵活，且使用方便。</p></div><div id="wmd-preview-section-406" class="wmd-preview-section preview-content">
+Scala中的映射不仅简洁灵活，且使用方便。</p>
 
-<h2 id="映射与对偶元组的关系">映射与对偶元组的关系</h2>
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content">
+
+<h2 id="一映射与对偶元组的关系">一、映射与对偶元组的关系</h2>
 
 <p>映射是<strong>键/值</strong>对偶的集合。  <br>
 键值对的说法有Java基础的人肯定不会陌生。<code>对偶</code>是相对于元组这个概念来说的。 <br>
 元组是n个对象的聚集，可以是不同类型的对象。 <br>
 而对偶则是元组的一种特殊情况，即n=2。 <br>
-元组的使用场景：元组是在将需要2个或多个元素组织在一起的时候非常有用。</p></div><div id="wmd-preview-section-460" class="wmd-preview-section preview-content">
+元组的使用场景：元组是在将需要2个或多个元素组织在一起的时候非常有用。</p>
 
-<h2 id="映射">映射</h2>
+</div><div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-718" class="wmd-preview-section preview-content">
+<h2 id="二映射">二、映射</h2>
+
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
+
+<h3 id="映射中创建对偶的方式">映射中创建对偶的方式</h3>
+
+<p>注意：映射中元素是特殊的元组对象，即对偶</p>
+
+</div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
+
+<h4 id="创建对偶"><code>-&gt;</code>创建对偶</h4>
+
+</div><div id="wmd-preview-section-7" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">81</span><br>res4: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (kobe,<span class="hljs-number">81</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-8" class="wmd-preview-section preview-content">
+
+<h4 id="创建对偶-1"><code>( )</code>创建对偶</h4>
+
+</div><div id="wmd-preview-section-9" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; (<span class="hljs-string">"jordan"</span>,<span class="hljs-number">69</span>)<br>res5: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (jordan,<span class="hljs-number">69</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-10" class="wmd-preview-section preview-content">
 
 <h3 id="构造映射">构造映射</h3>
 
-</div><div id="wmd-preview-section-1105" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-11" class="wmd-preview-section preview-content">
 
 <h4 id="可变与不可变映射">可变与不可变映射</h4>
 
 <ol><li rel="1">Map对象构造不可变映射</li>
 <li rel="2">scala.collection.mutable.Map() 指定可变映射对象</li>
 <li rel="3">构造空集合最好指明对偶（键值对）元素的类型</li>
-</ol></div><div id="wmd-preview-section-1052" class="wmd-preview-section preview-content">
+</ol>
+
+</div><div id="wmd-preview-section-12" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>(<span class="hljs-string">"kobe"</span>-&gt;<span class="hljs-number">1</span>,<span class="hljs-string">"james"</span>-&gt;<span class="hljs-number">2</span>,<span class="hljs-string">"cury"</span>-&gt;<span class="hljs-number">3</span>)<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">1</span>, james -&gt; <span class="hljs-number">2</span>, cury -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br>&lt;console&gt;:<span class="hljs-number">9</span>: error: value update is not a member of scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]<br>              map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br>              ^<br><br>scala&gt; <span class="hljs-keyword">val</span> map = scala.collection.mutable.<span class="hljs-type">Map</span>(<span class="hljs-string">"kobe"</span>-&gt;<span class="hljs-number">1</span>,<span class="hljs-string">"james"</span>-&gt;<span class="hljs-number">2</span>,<span class="hljs-string">"cury"</span>-&gt;<span class="hljs-number">3</span>)<br>map: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">2</span>, kobe -&gt; <span class="hljs-number">1</span>, cury -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; map(<span class="hljs-string">"james"</span>) = <span class="hljs-number">9999</span><br><br>scala&gt; map<br>res2: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">9999</span>, kobe -&gt; <span class="hljs-number">1</span>, cury -&gt; <span class="hljs-number">3</span>)<br></code></pre>
 
-<p>构造空集合最好指明对偶（键值对）元素的类型</p></div><div id="wmd-preview-section-1480" class="wmd-preview-section preview-content">
+<p>构造空集合最好指明对偶（键值对）元素的类型</p>
+
+</div><div id="wmd-preview-section-13" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-type">Map</span><br>res3: scala.collection.immutable.<span class="hljs-type">Map</span>.<span class="hljs-keyword">type</span> = scala.collection.immutable.<span class="hljs-type">Map</span>$@<span class="hljs-number">41e31981</span><br><br>scala&gt; <span class="hljs-keyword">val</span> map =  <span class="hljs-type">Map</span>()<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">Nothing</span>,<span class="hljs-type">Nothing</span>] = <span class="hljs-type">Map</span>()<br><br>scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]()<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>()<br></code></pre>
 
-</div><div id="wmd-preview-section-1793" class="wmd-preview-section preview-content">
+<p>看过映射中创建元组的案例 <br>
+我们自然会相当还有种方式构造出映射。</p>
 
-<h3 id="映射中创建对偶的方式">映射中创建对偶的方式</h3>
+</div><div id="wmd-preview-section-14" class="wmd-preview-section preview-content">
 
-<p>注意：映射中元素是特殊的元组对象，即对偶</p>
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>((<span class="hljs-string">"kobe"</span>,<span class="hljs-number">81</span>),(<span class="hljs-string">"jordan"</span>,<span class="hljs-number">69</span>),(<span class="hljs-string">"james"</span>,<span class="hljs-number">10</span>))<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>, james -&gt; <span class="hljs-number">10</span>)<br></code></pre>
 
-</div><div id="wmd-preview-section-1835" class="wmd-preview-section preview-content">
+<ul><li>对映射数据结构的认识 <br>
+<strong>映射的这种数据结构是一种将<code>键映射到值的函数</code>，区别在于通常的函数计算值，而<code>映射只是作为查询</code>。</strong></li>
+</ul>
 
-<h4 id="创建对偶"><code>-&gt;</code>创建对偶</h4></div><div id="wmd-preview-section-1808" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-15" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">81</span><br>res4: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (kobe,<span class="hljs-number">81</span>)<br></code></pre>
+<h3 id="获取映射中的值">获取映射中的值</h3>
 
-</div><div id="wmd-preview-section-1851" class="wmd-preview-section preview-content">
+<p>在Scala中，映射与函数的相似性非常明显。使用<code>( )</code>表示法来查询键对应的值。</p>
 
-<h4 id="创建对偶-1"><code>( )</code>创建对偶</h4></div><div id="wmd-preview-section-1771" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-16" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; (<span class="hljs-string">"jordan"</span>,<span class="hljs-number">69</span>)<br>res5: (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>) = (jordan,<span class="hljs-number">69</span>)<br></code></pre></div><div id="wmd-preview-section-1628" class="wmd-preview-section preview-content">
+<h4 id="mapkey">Map(key)</h4>
 
-<h2 id="元组">元组</h2></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+</div><div id="wmd-preview-section-17" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map(<span class="hljs-string">"kobe"</span>)<br>res1: <span class="hljs-type">Int</span> = <span class="hljs-number">81</span><br></code></pre>
+
+</div><div id="wmd-preview-section-18" class="wmd-preview-section preview-content">
+
+<h4 id="键不存在异常">键不存在异常</h4>
+
+</div><div id="wmd-preview-section-19" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map(<span class="hljs-string">"wuzetian"</span>)<br>java.util.<span class="hljs-type">NoSuchElementException</span>: key not found: wuzetian<br>        at scala.collection.<span class="hljs-type">MapLike</span>$<span class="hljs-class"><span class="hljs-keyword">class</span>.<span class="hljs-title">default</span>(</span><span class="hljs-type">MapLike</span>.scala:<span class="hljs-number">228</span>)<br>        ......<br></code></pre>
+
+</div><div id="wmd-preview-section-20" class="wmd-preview-section preview-content">
+
+<h4 id="containskey预判断">contains(key)预判断</h4>
+
+</div><div id="wmd-preview-section-21" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map.contains(<span class="hljs-string">"wuzetian"</span>)<br>res3: <span class="hljs-type">Boolean</span> = <span class="hljs-literal">false</span><br></code></pre>
+
+</div><div id="wmd-preview-section-22" class="wmd-preview-section preview-content">
+
+<h4 id="getorelse预判断的增强">getOrElse预判断的增强</h4>
+
+<p>getOrElse</p>
+
+</div><div id="wmd-preview-section-23" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">if</span>(map.contains(<span class="hljs-string">"kobe"</span>)) map(<span class="hljs-string">"kobe"</span>) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span><br>res4: <span class="hljs-type">Int</span> = <span class="hljs-number">81</span><br><br>scala&gt; map.get<br>get         getOrElse   <br><br>scala&gt; map.get<br>      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span>(</span>key: <span class="hljs-type">A</span>): <span class="hljs-type">Option</span>[<span class="hljs-type">B</span>]   <br><br>scala&gt; map.getOrElse<br>      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getOrElse</span>[</span><span class="hljs-type">B1</span> &gt;: <span class="hljs-type">B</span>](key: <span class="hljs-type">A</span>, <span class="hljs-keyword">default</span>: =&gt; <span class="hljs-type">B1</span>): <span class="hljs-type">B1</span>   <br><br>scala&gt; map.getOrElse(<span class="hljs-string">"kobe"</span>)<br>&lt;console&gt;:<span class="hljs-number">9</span>: error: not enough arguments <span class="hljs-keyword">for</span> method getOrElse: (key: <span class="hljs-type">String</span>, <span class="hljs-keyword">default</span>: =&gt; <span class="hljs-type">B1</span>)<span class="hljs-type">B1</span>.<br><span class="hljs-type">Unspecified</span> value parameter <span class="hljs-keyword">default</span>.<br>              map.getOrElse(<span class="hljs-string">"kobe"</span>)<br>                           ^<br><br>scala&gt; map.getOrElse(<span class="hljs-string">"kobe"</span>,<span class="hljs-number">0</span>)<br>res6: <span class="hljs-type">Int</span> = <span class="hljs-number">81</span><br></code></pre>
+
+</div><div id="wmd-preview-section-24" class="wmd-preview-section preview-content">
+
+<h4 id="初始option对象">初始Option对象</h4>
+
+<p>注意：get(key)方法返回Option选项 <br>
+Option对象要么返回Some（键对应的值），要么返回None</p>
+
+</div><div id="wmd-preview-section-25" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map.get(<span class="hljs-string">"kobe"</span>)<br>res7: <span class="hljs-type">Option</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Some</span>(<span class="hljs-number">81</span>)<br><br>scala&gt; map.get(<span class="hljs-string">"kobe1"</span>)<br>res8: <span class="hljs-type">Option</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">None</span><br></code></pre>
+
+<p>Option对象之后会再细讲。</p>
+
+</div><div id="wmd-preview-section-26" class="wmd-preview-section preview-content">
+
+<h3 id="更新映射中的值">更新映射中的值</h3>
+
+</div><div id="wmd-preview-section-27" class="wmd-preview-section preview-content">
+
+<h4 id="更新元素">更新元素</h4>
+
+</div><div id="wmd-preview-section-28" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; mutable_map(<span class="hljs-string">"james"</span>) = -<span class="hljs-number">1</span><br><br>scala&gt; mutable_map<br>res19: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; -<span class="hljs-number">1</span>, yaoming -&gt; <span class="hljs-number">41</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-29" class="wmd-preview-section preview-content">
+
+<h4 id="新增一个元素">新增一个元素</h4>
+
+<ul><li><strong>要确保是可变map</strong></li>
+</ul>
+
+</div><div id="wmd-preview-section-30" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map<br>res9: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>, james -&gt; <span class="hljs-number">10</span>)<br><br>scala&gt; map += (<span class="hljs-string">"yaoming"</span>-&gt;<span class="hljs-number">41</span>)<br>&lt;console&gt;:<span class="hljs-number">9</span>: error: value += is not a member of scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]<br>              map += (<span class="hljs-string">"yaoming"</span>-&gt;<span class="hljs-number">41</span>)<br>                  ^<br></code></pre>
+
+<ul><li><strong>可变映射新增元组</strong></li>
+</ul>
+
+</div><div id="wmd-preview-section-31" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> mutable_map = scala.collection.mutable.<span class="hljs-type">Map</span>(<span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">81</span>, <span class="hljs-string">"jordan"</span> -&gt; <span class="hljs-number">69</span>, <span class="hljs-string">"james"</span> -&gt; <span class="hljs-number">0</span>)<br>mutable_map: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">0</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br><br>scala&gt; mutable_map += (<span class="hljs-string">"yaoming"</span> -&gt; <span class="hljs-number">41</span>, <span class="hljs-string">"yaoming2"</span> -&gt; <span class="hljs-number">42</span>,<span class="hljs-string">"yaoming3"</span> -&gt; <span class="hljs-number">43</span>)<br>res21: mutable_map.<span class="hljs-keyword">type</span> = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; -<span class="hljs-number">1</span>, yaoming -&gt; <span class="hljs-number">41</span>, yaoming2 -&gt; <span class="hljs-number">42</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br></code></pre>
+
+<ul><li><strong>保存新生成的映射</strong> <br>
+(“james” -&gt; 20, “allen” -&gt; 100) //james被修改为20，allen被新增进来</li>
+</ul>
+
+</div><div id="wmd-preview-section-32" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; mutable_map<br>res23: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; -<span class="hljs-number">1</span>, yaoming -&gt; <span class="hljs-number">41</span>, yaoming2 -&gt; <span class="hljs-number">42</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> new_map = mutable_map + (<span class="hljs-string">"james"</span> -&gt; <span class="hljs-number">20</span>, <span class="hljs-string">"allen"</span> -&gt; <span class="hljs-number">100</span>)<br>new_map: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; <span class="hljs-number">20</span>, yaoming -&gt; <span class="hljs-number">41</span>, allen -&gt; <span class="hljs-number">100</span>, kobe -&gt; <span class="hljs-number">81</span>, yaoming2 -&gt; <span class="hljs-number">42</span>, jordan -&gt; <span class="hljs-number">69</span>)<br></code></pre>
+
+<ul><li><strong>移除元素</strong></li>
+</ul>
+
+</div><div id="wmd-preview-section-33" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; new_map<br>res24: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; <span class="hljs-number">20</span>, yaoming -&gt; <span class="hljs-number">41</span>, allen -&gt; <span class="hljs-number">100</span>, kobe -&gt; <span class="hljs-number">81</span>, yaoming2 -&gt; <span class="hljs-number">42</span>, jordan -&gt; <span class="hljs-number">69</span>)<br><br>scala&gt; new_map -= <span class="hljs-string">"yaoming2"</span><br>res25: new_map.<span class="hljs-keyword">type</span> = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; <span class="hljs-number">20</span>, yaoming -&gt; <span class="hljs-number">41</span>, allen -&gt; <span class="hljs-number">100</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br></code></pre>
+
+<p>移除多个元素</p>
+
+</div><div id="wmd-preview-section-34" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; new_mutable_map<br>res29: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(yaoming3 -&gt; <span class="hljs-number">43</span>, james -&gt; <span class="hljs-number">10</span>, yaoming -&gt; <span class="hljs-number">44</span>, kobe -&gt; <span class="hljs-number">81</span>, yaoming2 -&gt; <span class="hljs-number">42</span>, jordan -&gt; <span class="hljs-number">69</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> new2_mutable_map = new_mutable_map -(<span class="hljs-string">"yaoming3"</span>,<span class="hljs-string">"yaoming2"</span>)<br>new2_mutable_map: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">10</span>, yaoming -&gt; <span class="hljs-number">44</span>, kobe -&gt; <span class="hljs-number">81</span>, jordan -&gt; <span class="hljs-number">69</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-35" class="wmd-preview-section preview-content">
+
+<h3 id="迭代映射">迭代映射</h3>
+
+</div><div id="wmd-preview-section-36" class="wmd-preview-section preview-content">
+
+<h4 id="forkv-map"><code>for((k,v) &lt;- map)</code></h4>
+
+<p>该结构，使用到了模式匹配，之后会细讲。</p>
+
+</div><div id="wmd-preview-section-37" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>(i &lt;- map) println(i)<br>(x,<span class="hljs-number">1</span>)<br>(y,<span class="hljs-number">2</span>)<br>(z,<span class="hljs-number">3</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>((x,y) &lt;- map) println((x,y))<br>(x,<span class="hljs-number">1</span>)<br>(y,<span class="hljs-number">2</span>)<br>(z,<span class="hljs-number">3</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-38" class="wmd-preview-section preview-content">
+
+<h4 id="单独获取keyset-values">单独获取keySet Values</h4>
+
+</div><div id="wmd-preview-section-39" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map<br>res11: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(x -&gt; <span class="hljs-number">1</span>, y -&gt; <span class="hljs-number">2</span>, z -&gt; <span class="hljs-number">3</span>)<br><br>scala&gt; map.keySet<br>res12: scala.collection.immutable.<span class="hljs-type">Set</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Set</span>(x, y, z)<br><br>scala&gt; map.values<br>values           valuesIterator   <br><br>scala&gt; map.values<br>                          <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">values</span>:</span> <span class="hljs-type">Iterable</span>[<span class="hljs-type">B</span>]   <br><br>scala&gt; map.values<br>res13: <span class="hljs-type">Iterable</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">MapLike</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br><br>scala&gt; <span class="hljs-keyword">for</span>(i &lt;- map.values) print(i + <span class="hljs-string">" "</span>)<br><span class="hljs-number">1</span> <span class="hljs-number">2</span> <span class="hljs-number">3</span>  <br></code></pre>
+
+</div><div id="wmd-preview-section-40" class="wmd-preview-section preview-content">
+
+<h4 id="反转kv">反转k、v</h4>
+
+</div><div id="wmd-preview-section-41" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">for</span>((k,v) &lt;- map) <span class="hljs-keyword">yield</span> (v,k)<br>res22: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">Int</span>,<span class="hljs-type">String</span>] = <span class="hljs-type">Map</span>(<span class="hljs-number">1</span> -&gt; x, <span class="hljs-number">2</span> -&gt; y, <span class="hljs-number">3</span> -&gt; z)<br></code></pre>
+
+</div><div id="wmd-preview-section-42" class="wmd-preview-section preview-content">
+
+<h4 id="map高阶函数的使用">map高阶函数的使用</h4>
+
+<p>之前在讲解循环的时候又用到过，for循环的遍历在Scala中不如map函数使用的频率。</p>
+
+</div><div id="wmd-preview-section-43" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; map.map(x =&gt; x)<br>res21: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(x -&gt; <span class="hljs-number">1</span>, y -&gt; <span class="hljs-number">2</span>, z -&gt; <span class="hljs-number">3</span>)<br></code></pre>
+
+</div><div id="wmd-preview-section-44" class="wmd-preview-section preview-content">
+
+<h2 id="映射实现">映射实现</h2>
+
+<p>映射中有很多种实现，默认哈希表结构（但注意前面使用的Map，并非hashMap，下面会说明），还有满足其他功能需求的映射结构，如树形映射(已排序)</p>
+
+</div><div id="wmd-preview-section-45" class="wmd-preview-section preview-content">
+
+<h3 id="已排序映射sortedmap-不可变">已排序映射SortedMap –不可变</h3>
+
+</div><div id="wmd-preview-section-46" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> sorted_map = scala.collection.immutable.<span class="hljs-type">SortedMap</span>(<span class="hljs-string">"james"</span>-&gt;<span class="hljs-number">12</span>,<span class="hljs-string">"kobe"</span> -&gt;<span class="hljs-number">24</span>, <span class="hljs-string">"allen"</span> -&gt;<span class="hljs-number">1</span>)<br>sorted_map: scala.collection.immutable.<span class="hljs-type">SortedMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(allen -&gt; <span class="hljs-number">1</span>, james -&gt; <span class="hljs-number">12</span>, kobe -&gt; <span class="hljs-number">24</span>)<br><br></code></pre>
+
+<p>注意排序是区分字母大小写的</p>
+
+</div><div id="wmd-preview-section-47" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> sorted_map = scala.collection.immutable.<span class="hljs-type">SortedMap</span>(<span class="hljs-string">"James"</span>-&gt;<span class="hljs-number">12</span>,<span class="hljs-string">"kobe"</span> -&gt;<span class="hljs-number">24</span>, <span class="hljs-string">"allen"</span> -&gt;<span class="hljs-number">1</span>)<br>sorted_map: scala.collection.immutable.<span class="hljs-type">SortedMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(<span class="hljs-type">James</span> -&gt; <span class="hljs-number">12</span>, allen -&gt; <span class="hljs-number">1</span>, kobe -&gt; <span class="hljs-number">24</span>)<br></code></pre>
+
+<p>Scala中目前没有可变的SortedMap，可以使用Java中的 TreeMap实现</p>
+
+</div><div id="wmd-preview-section-48" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> mutable_sorted_map = <span class="hljs-keyword">new</span> java.util.<span class="hljs-type">TreeMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]()<br>mutable_sorted_map: java.util.<span class="hljs-type">TreeMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = {}<br></code></pre>
+
+<p>在Scala中请遵守Scala的规范，即使使用Java</p>
+
+</div><div id="wmd-preview-section-49" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> mutable_sorted_map = <span class="hljs-keyword">new</span> java.util.<span class="hljs-type">TreeMap</span>&lt;<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>&gt;()<br>&lt;console&gt;:<span class="hljs-number">1</span>: error: ';' expected but ',' found.<br>       <span class="hljs-keyword">val</span> mutable_sorted_map = <span class="hljs-keyword">new</span> java.util.<span class="hljs-type">TreeMap</span>&lt;<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>&gt;()<br>                                                            ^<br></code></pre>
+
+</div><div id="wmd-preview-section-50" class="wmd-preview-section preview-content">
+
+<h3 id="hashmap实现">HashMap实现</h3>
+
+</div><div id="wmd-preview-section-51" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> map = <span class="hljs-type">Map</span>(<span class="hljs-string">"james"</span> -&gt; <span class="hljs-number">0</span>, <span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">24</span>, <span class="hljs-string">"allen"</span>-&gt;<span class="hljs-number">1</span>)<br>map: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(james -&gt; <span class="hljs-number">0</span>, kobe -&gt; <span class="hljs-number">24</span>, allen -&gt; <span class="hljs-number">1</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> map = scala.collection.immutable.<span class="hljs-type">HashMap</span>(<span class="hljs-string">"james"</span> -&gt; <span class="hljs-number">0</span>, <span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">24</span>, <span class="hljs-string">"allen"</span>-&gt;<span class="hljs-number">1</span>)<br>map: scala.collection.immutable.<span class="hljs-type">HashMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(allen -&gt; <span class="hljs-number">1</span>, kobe -&gt; <span class="hljs-number">24</span>, james -&gt; <span class="hljs-number">0</span>)<br></code></pre>
+
+<p>我们看到HashMap与Map是有区别的，HashMap重新排过序的。</p>
+
+</div><div id="wmd-preview-section-52" class="wmd-preview-section preview-content">
+
+<h3 id="插入顺序-linkedhashmap">插入顺序 LinkedHashMap</h3>
+
+</div><div id="wmd-preview-section-53" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> linked_hashmap = scala.collection.mutable.<span class="hljs-type">LinkedHashMap</span>(<span class="hljs-string">"kobe"</span> -&gt; <span class="hljs-number">1</span>, <span class="hljs-string">"james"</span> -&gt;<span class="hljs-number">2</span>, <span class="hljs-string">"allen"</span> -&gt;<span class="hljs-number">3</span>)<br>linked_hashmap: scala.collection.mutable.<span class="hljs-type">LinkedHashMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">1</span>, james -&gt; <span class="hljs-number">2</span>, allen -&gt; <span class="hljs-number">3</span>)<br></code></pre>
+
+<p>测试结果我们看到与Map一样保持插入顺序。</p>
+
+</div><div id="wmd-preview-section-1886" class="wmd-preview-section preview-content">
+
+<h3 id="与java-api的交互">与Java api的交互</h3>
+
+</div><div id="wmd-preview-section-2974" class="wmd-preview-section preview-content">
+
+<h4 id="scala使用java-api">scala使用java api</h4>
+
+<p>分为两步</p>
+
+<ol start="1"><li rel="1">导入告知编译器要做什么转换,使用什么转换类</li>
+</ol></div><div id="wmd-preview-section-55" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.mapAsScalaMap<br><span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.mapAsScalaMap<br></code></pre>
+
+<ol start="2"><li rel="2">指定转换的类型 触发转换</li>
+</ol>
+
+</div><div id="wmd-preview-section-3037" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> java_treemap:scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-keyword">new</span> java.util.<span class="hljs-type">TreeMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]()<br>java_treemap: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>()<br></code></pre>
+
+<p>案例</p></div><div id="wmd-preview-section-2855" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><br>scala&gt; <span class="hljs-keyword">val</span> properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] = <span class="hljs-type">System</span>.getProperties()<br><br>properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] =<br><span class="hljs-type">Map</span>(java.runtime.name -&gt; <span class="hljs-type">Java</span>(<span class="hljs-type">TM</span>) <span class="hljs-type">SE</span> <span class="hljs-type">Runtime</span> <span class="hljs-type">Environment</span>, sun.boot.library.path -&gt; /<span class="hljs-type">Library</span>/<span class="hljs-type">Java</span>/<span class="hljs-type">JavaVirtualMachines</span>/jdk1<span class="hljs-number">.8</span><span class="hljs-number">.0</span>_77.jdk/<span class="hljs-type">Contents</span>/<span class="hljs-type">Home</span>/jre/lib, java.vm.version -&gt; <span class="hljs-number">25.77</span>-b03, user.country.format -&gt; <span class="hljs-type">CN</span>, gopherProxySet -&gt; <span class="hljs-literal">false</span>, java.vm.vendor -&gt; <span class="hljs-type">Oracle</span> <span class="hljs-type">Corporation</span>, java.vendor.url -&gt; http:<span class="hljs-comment">//java.oracle.com/, path.separator -&gt; :, java.vm.name -&gt; Java HotSpot(TM) 64-Bit Server VM, file.encoding.pkg -&gt; sun.io, user.country -&gt; US, sun.java.launcher -&gt; SUN_STANDARD, sun.os.patch.level -&gt; unknown, java.vm.specification.name -&gt; Java Virtual Machine Specification, user.dir -&gt; /Users/fqc/github, java.runtime.version -&gt; 1.8.0_77-b03, java.awt.graphicsenv -&gt; sun.awt.CGraphicsEnvironment, java.endorsed.dirs -&gt; /Library/Java/JavaVirtualMac...</span><br></code></pre></div><div id="wmd-preview-section-2009" class="wmd-preview-section preview-content">
+
+<h4 id="java-使用-scala-api">Java 使用 scala api</h4>
+
+<p>将scala的map集合作为参数传入给Java方法。  <br>
+步骤如scala使用Java是一样的 <br>
+<strong>设置awt窗口字体</strong></p></div><div id="wmd-preview-section-1657" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><br>scala&gt; <span class="hljs-keyword">var</span> attrs = <span class="hljs-type">Map</span>(<span class="hljs-type">FAMILY</span>-&gt;<span class="hljs-string">"Serif"</span>, <span class="hljs-type">SIZE</span>-&gt;<span class="hljs-number">12</span>)<br>attrs: scala.collection.immutable.<span class="hljs-type">Map</span>[java.awt.font.<span class="hljs-type">TextAttribute</span>,<span class="hljs-type">Any</span>] = <span class="hljs-type">Map</span>(java.awt.font.<span class="hljs-type">TextAttribute</span>(family) -&gt; <span class="hljs-type">Serif</span>, java.awt.font.<span class="hljs-type">TextAttribute</span>(size) -&gt; <span class="hljs-number">12</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">F</span><br><span class="hljs-type">FileDialog</span>             <span class="hljs-type">FlowLayout</span>             <span class="hljs-type">FocusManager</span><br><span class="hljs-type">FocusTraversalPolicy</span>   <span class="hljs-type">Font</span>                   <span class="hljs-type">FontFormatException</span><br><span class="hljs-type">FontMetrics</span>            <span class="hljs-type">Frame</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span><br><span class="hljs-type">Font</span>                  <span class="hljs-type">FontFormatException</span>   <span class="hljs-type">FontMetrics</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span>(attrs)<br>font: java.awt.<span class="hljs-type">Font</span> = java.awt.<span class="hljs-type">Font</span>[family=<span class="hljs-type">Serif</span>,name=<span class="hljs-type">Serif</span>,style=plain,size=<span class="hljs-number">12</span>]<br></code></pre></div><div id="wmd-preview-section-5237" class="wmd-preview-section preview-content">
+
+<h2 id="三元组">三、元组</h2>
+
+</div><div id="wmd-preview-section-5486" class="wmd-preview-section preview-content">
+
+<h3 id="1-概念">1. 概念</h3>
+
+<p>在将映射的时候，有提到过元组及对偶。映射是对偶的集合，对偶是元组的最简单的形式（特例 n=2）。 <br>
+<strong>元组是不同类型的值的聚集。</strong></p>
+
+</div><div id="wmd-preview-section-7081" class="wmd-preview-section preview-content">
+
+<h3 id="2元组的构成">2.元组的构成</h3>
+
+<p><code>(element*)</code></p></div><div id="wmd-preview-section-7532" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a_tuple = (<span class="hljs-number">1</span>,<span class="hljs-string">"kobe"</span>,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>))<br>a_tuple: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre>
+
+</div><div id="wmd-preview-section-12033" class="wmd-preview-section preview-content">
+
+<h3 id="3-访问元组">3. 访问元组</h3>
+
+<p>元组与数组的不同在于</p>
+
+<ul><li><code>只读的</code></li>
+<li><code>下标从1开始</code></li>
+<li><code>_index访问</code></li>
+</ul></div><div id="wmd-preview-section-12694" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple<br>res0: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br><br>scala&gt; a_tuple._0  <span class="hljs-comment">//记住是从1开始的</span><br>&lt;console&gt;:<span class="hljs-number">11</span>: error: value _0 is not a member of (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>])<br>              a_tuple._0<br>                      ^<br>scala&gt; a_tuple._1<br>res4: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; a_tuple._2<br>res5: <span class="hljs-type">String</span> = kobe<br><br>scala&gt; a_tuple._3<br>res6: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
+
+<p>另外 可以使用空格代替 .调用 比如</p>
+
+</div><div id="wmd-preview-section-13633" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple._1<br>res7: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; a_tuple _1<br>res8: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br></code></pre>
+
+</div><div id="wmd-preview-section-13906" class="wmd-preview-section preview-content">
+
+<h3 id="4-元组赋值">4. 元组赋值</h3>
+
+</div><div id="wmd-preview-section-16127" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple<br>res9: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br><br>scala&gt; <span class="hljs-keyword">val</span> (a,b,c) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>b: <span class="hljs-type">String</span> = kobe<br>c: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
+
+<p>需要对应上</p></div><div id="wmd-preview-section-16057" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: constructor cannot be instantiated to expected <span class="hljs-class"><span class="hljs-keyword">type</span>;</span><br> found   : (<span class="hljs-type">T1</span>, <span class="hljs-type">T2</span>)<br> required: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>])<br>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>           ^<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: recursive value x$<span class="hljs-number">1</span> needs <span class="hljs-class"><span class="hljs-keyword">type</span><br></span>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>            ^<br></code></pre>
+
+<p>如果有些组元是不需要的，<code>_</code>来代替</p></div><div id="wmd-preview-section-17762" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs stylus">scala&gt; val (<span class="hljs-tag">a</span>,<span class="hljs-tag">b</span>,_) = a_tuple<br><span class="hljs-tag">a</span>: Int = <span class="hljs-number">1</span><br><span class="hljs-tag">b</span>: String = kobe<br><br>scala&gt; val (<span class="hljs-tag">a</span>,_,c) = a_tuple<br><span class="hljs-tag">a</span>: Int = <span class="hljs-number">1</span><br>c: Array[Int] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span></span><br></code></pre>
+
+<p>特别注意 需要 <code>( )</code> ，否则就会变量赋值一样了</p>
+
+</div><div id="wmd-preview-section-17763" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs julia">scala&gt; val a,_,c = a_tuple<br>a: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>_: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>c: (<span class="hljs-built_in">Int</span>, <span class="hljs-built_in">String</span>, <span class="hljs-built_in">Array</span>[<span class="hljs-built_in">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-built_in">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
