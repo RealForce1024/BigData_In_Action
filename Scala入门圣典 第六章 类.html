@@ -3,9 +3,9 @@
 
 </style></head><body><div id='preview-contents' class='note-content'>
                         <div id="wmd-preview" class="preview-content"></div>
-                    <div id="wmd-preview-section-99" class="wmd-preview-section preview-content">
+                    <div id="wmd-preview-section-1" class="wmd-preview-section preview-content">
 
-</div><div id="wmd-preview-section-394" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-2" class="wmd-preview-section preview-content">
 
 <h1 id="scala入门圣典-第六章-类">Scala入门圣典 第六章 类</h1>
 
@@ -18,6 +18,9 @@
 <li><a href="#前言-开发环境的准备">前言 开发环境的准备</a></li>
 <li><a href="#类的定义">类的定义</a><ul>
 <li><a href="#最简单的类定义">最简单的类定义</a></li>
+<li><a href="#无参方法是否带有的说明">无参方法是否带有()的说明</a></li>
+<li><a href="#天生的getter和setter">天生的getter和setter</a></li>
+<li><a href="#细粒度定制getter和setter">细粒度定制getter和setter</a></li>
 </ul>
 </li>
 </ul>
@@ -25,7 +28,9 @@
 </ul>
 </div>
 </div>
-</div></div><div id="wmd-preview-section-391" class="wmd-preview-section preview-content">
+</div>
+
+</div><div id="wmd-preview-section-3" class="wmd-preview-section preview-content">
 
 <h2 id="前言-开发环境的准备">前言 开发环境的准备</h2>
 
@@ -34,18 +39,77 @@
 
 <p>当然你可以选择更加轻量级的文本编辑器，例如Sublime Text。只不过在调试上GDB还是较弱。</p>
 
-</div><div id="wmd-preview-section-412" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-4" class="wmd-preview-section preview-content">
 
 <h2 id="类的定义">类的定义</h2>
 
-</div><div id="wmd-preview-section-448" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-5" class="wmd-preview-section preview-content">
 
 <h3 id="最简单的类定义">最简单的类定义</h3>
 
-</div><div id="wmd-preview-section-675" class="wmd-preview-section preview-content">
+<p><code>main</code>方法如同java程序的入口一样是Scala程序的入口。 <br>
+<code>object Obj</code>伴生对象，静态单例类，方法静态的。</p>
+
+</div><div id="wmd-preview-section-6" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-comment">//简单的类写法</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {</span><br><br>}<br><br><span class="hljs-comment">//伴生对象，与类名必须一样，方法为静态，单例</span><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    println(<span class="hljs-string">"hello intellij idea"</span>)<br>  }<br>}<br></code></pre>
 
-<p>带有字段、方法、函数的简单类</p></div><div id="wmd-preview-section-669" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-63" class="wmd-preview-section preview-content">
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> value = <span class="hljs-number">0</span> <span class="hljs-comment">//字段必须初始化</span><br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span>(</span>) {<br>    value += <span class="hljs-number">1</span><br>  }<br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">current</span>(</span>) = value<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    <span class="hljs-keyword">val</span> counter: <span class="hljs-type">Counter</span> = <span class="hljs-keyword">new</span> <span class="hljs-type">Counter</span><br>    <span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">10</span>) {<br>      counter.increment()<br>    }<br>    println(counter.current())<br>  }<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
+<h3 id="无参方法是否带有的说明">无参方法是否带有<code>()</code>的说明</h3></div><div id="wmd-preview-section-136" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> value = <span class="hljs-number">0</span> <span class="hljs-comment">//字段必须初始化</span><br><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">increment</span>(</span>) {<br>    value += <span class="hljs-number">1</span><br>  }<br><br>  <span class="hljs-comment">//def current() = value</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">current</span> =</span> value<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Counter</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    <span class="hljs-keyword">val</span> counter: <span class="hljs-type">Counter</span> = <span class="hljs-keyword">new</span> <span class="hljs-type">Counter</span> <span class="hljs-comment">//构造类的对象 省略了()</span><br>    <span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">1</span> to <span class="hljs-number">10</span>) {<br>      counter.increment() <span class="hljs-comment">//改值器[修改对象状态的方法] 使用()</span><br>    }<br>    println(counter.current) <span class="hljs-comment">//取值器[不改变对象状态的方法] 可略()</span><br>  }<br>}<br></code></pre>
+
+<p>关于无参数的时候 <code>()</code>什么时候省略的问题。 <br>
+其实这是个风格的问题 <br>
+一般情况下<code>改值器使用()</code>,<code>取值器去掉()</code> 采取这种风格 <br>
+另一种风格是 <code>只要无参数，都省略()</code></p>
+
+</div><div id="wmd-preview-section-1689" class="wmd-preview-section preview-content">
+
+<h3 id="天生的getter和setter"><code>天生的</code>getter和setter</h3>
+
+<p>public的字段是不受欢迎的，不仅任何人都可以使用，而且破坏了面向对象的封装性。 <br>
+所以<code>Java</code>语言就提供了<code>不太优雅的getter和setter方法</code>。它比公有字段比起来，可以封装业务逻辑，使得外界的干扰可以做出检测，但<strong>同时也使得每个客户端都有对一个对象的状态进行获取和设置的能力，这样的设计显然有些糟糕丑陋</strong>。 <br>
+<strong>Scala则的属性可以由客户端决定是否可以取值和该值。</strong></p></div><div id="wmd-preview-section-2071" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-java hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">People</span></span>{<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getName</span><span class="hljs-params">()</span></span>{<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.name;}<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setName</span><span class="hljs-params">(String name)</span> </span>{<span class="hljs-keyword">this</span>.name = name;}<br>}<br></code></pre>
+
+<p>我们看下定义一个字段，Scala是如何自动带有getter和setter的</p>
+
+</div><div id="wmd-preview-section-2564" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-keyword">var</span> age = <span class="hljs-number">0</span> <span class="hljs-comment">//只编写了一个公有的字段</span><br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    println(<span class="hljs-string">"hello intellij idea"</span>)<br>  }<br>}<br></code></pre>
+
+<p>我们可以通过javap命令反编译查看编译后的代码， <code>var age = 0</code> 被编译成了</p>
+
+</div><div id="wmd-preview-section-2851" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs aspectj"> <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>  <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">age</span><span class="hljs-params">()</span></span>;  <span class="hljs-comment">//age() ==&gt;getter</span><br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> age_$eq(<span class="hljs-keyword">int</span>); <span class="hljs-comment">//age_=  ==&gt;setter</span><br></code></pre>
+
+<p>完整过程</p></div><div id="wmd-preview-section-3034" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs cs">~/src&gt;scalac Animal.scala<br><br>~/src&gt;javap -<span class="hljs-keyword">private</span> Animal<br>Compiled <span class="hljs-keyword">from</span> <span class="hljs-string">"Animal.scala"</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(<span class="hljs-params">java.lang.String[]</span>)</span>;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">age</span>(<span class="hljs-params"></span>)</span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> age_$eq(<span class="hljs-keyword">int</span>);<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Animal</span>(<span class="hljs-params"></span>)</span>;<br>}<br></code></pre>
+
+<p>任何时候，我们都可以自定义Scala中的setter和getter方法。</p>
+
+</div><div id="wmd-preview-section-4701" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> privateAge = <span class="hljs-number">27</span><br><br>  <span class="hljs-comment">//getter</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">age</span> =</span> privateAge<br><br>  <span class="hljs-comment">//setter</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">age_=</span>(</span>age: <span class="hljs-type">Int</span>) {<br>    <span class="hljs-keyword">if</span> (age &gt; privateAge) privateAge = age <span class="hljs-comment">//不能变年轻</span><br>  }<br>}<br><br><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">Animal</span> {</span><br>  <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span>(</span>args: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]) {<br>    <span class="hljs-keyword">val</span> animal: <span class="hljs-type">Animal</span> = <span class="hljs-keyword">new</span> <span class="hljs-type">Animal</span><br>    animal.age = <span class="hljs-number">28</span><br>    animal.age = <span class="hljs-number">26</span><br>    print(animal.age)<br>  }<br>}<br></code></pre>
+
+<p>以上代码我们看到访问时很精简，并且我们并不容易看出setter和getter的实现到底是通过哪种机制设置的。这其实始终非常好的设计，业界称之为<code>统一访问原则</code>。（但作为程序员来说底层实现机制肯定绕不开jvm的实现了，使用方法调用，要么编译器提供，要么程序提供）</p>
+
+</div><div id="wmd-preview-section-5140" class="wmd-preview-section preview-content">
+
+<h3 id="细粒度定制getter和setter">细粒度定制getter和setter</h3>
+
+<p>Scala为每个字段提供getter和setter方法，但有时候我们是不需要的，那么该如何实现呢？</p>
+
+<ol><li rel="1">其实Scala的设计中 val和var的作用此时就会显现。 val是作为只读的，不可被修改，Scala自然不会为其提供setter方法，而只有getter方法。</li>
+<li rel="2">如果不需要任何的getter和setter方法，将字段设置为private[this]</li>
+<li rel="3">如果字段是私有的，那么getter和setter方法也是私有的。</li>
+</ol>
+
+<p>注意命令 javap -private className</p></div><div id="wmd-preview-section-4997" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="hljs java">~/src&gt;scalac Animal.scala<br><br>~/src&gt;javap Animal$.class<br>Compiled from <span class="hljs-string">"Animal.scala"</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span>$ </span>{<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Animal$ MODULE$;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> {};<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(java.lang.String[])</span></span>;<br>}<br><br>~/src&gt;javap -<span class="hljs-keyword">private</span> Animal<br>Compiled from <span class="hljs-string">"Animal.scala"</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Animal</span> </span>{<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> privateAge;<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(java.lang.String[])</span></span>;<br>  <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">privateAge</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> privateAge_$eq(<span class="hljs-keyword">int</span>);<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">age</span><span class="hljs-params">()</span></span>;<br>  <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> age_$eq(<span class="hljs-keyword">int</span>);<br>  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Animal</span><span class="hljs-params">()</span></span>;<br>}<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
