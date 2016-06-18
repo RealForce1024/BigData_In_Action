@@ -72,7 +72,7 @@
 <li><a href="#案例2-变型">案例2 变型</a></li>
 </ul>
 </li>
-<li><a href="#3-将对偶的集合转换为映射tomap">3. 将对偶的集合转换为映射toMap</a></li>
+<li><a href="#3-将对偶的集合转换为映射">3. 将对偶的集合转换为映射</a></li>
 </ul>
 </li>
 </ul>
@@ -357,58 +357,70 @@ Option对象要么返回Some（键对应的值），要么返回None</p>
 
 <p>测试结果我们看到与Map一样保持插入顺序。</p>
 
-</div><div id="wmd-preview-section-1886" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-54" class="wmd-preview-section preview-content">
 
 <h3 id="与java-api的交互">与Java api的交互</h3>
 
-</div><div id="wmd-preview-section-2974" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-55" class="wmd-preview-section preview-content">
 
 <h4 id="scala使用java-api">scala使用java api</h4>
 
 <p>分为两步</p>
 
 <ol start="1"><li rel="1">导入告知编译器要做什么转换,使用什么转换类</li>
-</ol></div><div id="wmd-preview-section-55" class="wmd-preview-section preview-content">
+</ol>
+
+</div><div id="wmd-preview-section-56" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.mapAsScalaMap<br><span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.mapAsScalaMap<br></code></pre>
 
 <ol start="2"><li rel="2">指定转换的类型 触发转换</li>
 </ol>
 
-</div><div id="wmd-preview-section-3037" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-57" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> java_treemap:scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-keyword">new</span> java.util.<span class="hljs-type">TreeMap</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>]()<br>java_treemap: scala.collection.mutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>()<br></code></pre>
 
-<p>案例</p></div><div id="wmd-preview-section-2855" class="wmd-preview-section preview-content">
+<p>案例</p>
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><br>scala&gt; <span class="hljs-keyword">val</span> properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] = <span class="hljs-type">System</span>.getProperties()<br><br>properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] =<br><span class="hljs-type">Map</span>(java.runtime.name -&gt; <span class="hljs-type">Java</span>(<span class="hljs-type">TM</span>) <span class="hljs-type">SE</span> <span class="hljs-type">Runtime</span> <span class="hljs-type">Environment</span>, sun.boot.library.path -&gt; /<span class="hljs-type">Library</span>/<span class="hljs-type">Java</span>/<span class="hljs-type">JavaVirtualMachines</span>/jdk1<span class="hljs-number">.8</span><span class="hljs-number">.0</span>_77.jdk/<span class="hljs-type">Contents</span>/<span class="hljs-type">Home</span>/jre/lib, java.vm.version -&gt; <span class="hljs-number">25.77</span>-b03, user.country.format -&gt; <span class="hljs-type">CN</span>, gopherProxySet -&gt; <span class="hljs-literal">false</span>, java.vm.vendor -&gt; <span class="hljs-type">Oracle</span> <span class="hljs-type">Corporation</span>, java.vendor.url -&gt; http:<span class="hljs-comment">//java.oracle.com/, path.separator -&gt; :, java.vm.name -&gt; Java HotSpot(TM) 64-Bit Server VM, file.encoding.pkg -&gt; sun.io, user.country -&gt; US, sun.java.launcher -&gt; SUN_STANDARD, sun.os.patch.level -&gt; unknown, java.vm.specification.name -&gt; Java Virtual Machine Specification, user.dir -&gt; /Users/fqc/github, java.runtime.version -&gt; 1.8.0_77-b03, java.awt.graphicsenv -&gt; sun.awt.CGraphicsEnvironment, java.endorsed.dirs -&gt; /Library/Java/JavaVirtualMac...</span><br></code></pre></div><div id="wmd-preview-section-2009" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-58" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><span class="hljs-keyword">import</span> scala.collection.<span class="hljs-type">JavaConversions</span>.propertiesAsScalaMap<br><br>scala&gt; <span class="hljs-keyword">val</span> properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] = <span class="hljs-type">System</span>.getProperties()<br><br>properties: scala.collection.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">String</span>] =<br><span class="hljs-type">Map</span>(java.runtime.name -&gt; <span class="hljs-type">Java</span>(<span class="hljs-type">TM</span>) <span class="hljs-type">SE</span> <span class="hljs-type">Runtime</span> <span class="hljs-type">Environment</span>, sun.boot.library.path -&gt; /<span class="hljs-type">Library</span>/<span class="hljs-type">Java</span>/<span class="hljs-type">JavaVirtualMachines</span>/jdk1<span class="hljs-number">.8</span><span class="hljs-number">.0</span>_77.jdk/<span class="hljs-type">Contents</span>/<span class="hljs-type">Home</span>/jre/lib, java.vm.version -&gt; <span class="hljs-number">25.77</span>-b03, user.country.format -&gt; <span class="hljs-type">CN</span>, gopherProxySet -&gt; <span class="hljs-literal">false</span>, java.vm.vendor -&gt; <span class="hljs-type">Oracle</span> <span class="hljs-type">Corporation</span>, java.vendor.url -&gt; http:<span class="hljs-comment">//java.oracle.com/, path.separator -&gt; :, java.vm.name -&gt; Java HotSpot(TM) 64-Bit Server VM, file.encoding.pkg -&gt; sun.io, user.country -&gt; US, sun.java.launcher -&gt; SUN_STANDARD, sun.os.patch.level -&gt; unknown, java.vm.specification.name -&gt; Java Virtual Machine Specification, user.dir -&gt; /Users/fqc/github, java.runtime.version -&gt; 1.8.0_77-b03, java.awt.graphicsenv -&gt; sun.awt.CGraphicsEnvironment, java.endorsed.dirs -&gt; /Library/Java/JavaVirtualMac...</span><br></code></pre>
+
+</div><div id="wmd-preview-section-59" class="wmd-preview-section preview-content">
 
 <h4 id="java-使用-scala-api">Java 使用 scala api</h4>
 
 <p>将scala的map集合作为参数传入给Java方法。  <br>
 步骤如scala使用Java是一样的 <br>
-<strong>设置awt窗口字体</strong></p></div><div id="wmd-preview-section-1657" class="wmd-preview-section preview-content">
+<strong>设置awt窗口字体</strong></p>
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><br>scala&gt; <span class="hljs-keyword">var</span> attrs = <span class="hljs-type">Map</span>(<span class="hljs-type">FAMILY</span>-&gt;<span class="hljs-string">"Serif"</span>, <span class="hljs-type">SIZE</span>-&gt;<span class="hljs-number">12</span>)<br>attrs: scala.collection.immutable.<span class="hljs-type">Map</span>[java.awt.font.<span class="hljs-type">TextAttribute</span>,<span class="hljs-type">Any</span>] = <span class="hljs-type">Map</span>(java.awt.font.<span class="hljs-type">TextAttribute</span>(family) -&gt; <span class="hljs-type">Serif</span>, java.awt.font.<span class="hljs-type">TextAttribute</span>(size) -&gt; <span class="hljs-number">12</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">F</span><br><span class="hljs-type">FileDialog</span>             <span class="hljs-type">FlowLayout</span>             <span class="hljs-type">FocusManager</span><br><span class="hljs-type">FocusTraversalPolicy</span>   <span class="hljs-type">Font</span>                   <span class="hljs-type">FontFormatException</span><br><span class="hljs-type">FontMetrics</span>            <span class="hljs-type">Frame</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span><br><span class="hljs-type">Font</span>                  <span class="hljs-type">FontFormatException</span>   <span class="hljs-type">FontMetrics</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span>(attrs)<br>font: java.awt.<span class="hljs-type">Font</span> = java.awt.<span class="hljs-type">Font</span>[family=<span class="hljs-type">Serif</span>,name=<span class="hljs-type">Serif</span>,style=plain,size=<span class="hljs-number">12</span>]<br></code></pre></div><div id="wmd-preview-section-5237" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-60" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><span class="hljs-keyword">import</span> java.awt.font.<span class="hljs-type">TextAttribute</span>._<br><br>scala&gt; <span class="hljs-keyword">var</span> attrs = <span class="hljs-type">Map</span>(<span class="hljs-type">FAMILY</span>-&gt;<span class="hljs-string">"Serif"</span>, <span class="hljs-type">SIZE</span>-&gt;<span class="hljs-number">12</span>)<br>attrs: scala.collection.immutable.<span class="hljs-type">Map</span>[java.awt.font.<span class="hljs-type">TextAttribute</span>,<span class="hljs-type">Any</span>] = <span class="hljs-type">Map</span>(java.awt.font.<span class="hljs-type">TextAttribute</span>(family) -&gt; <span class="hljs-type">Serif</span>, java.awt.font.<span class="hljs-type">TextAttribute</span>(size) -&gt; <span class="hljs-number">12</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">F</span><br><span class="hljs-type">FileDialog</span>             <span class="hljs-type">FlowLayout</span>             <span class="hljs-type">FocusManager</span><br><span class="hljs-type">FocusTraversalPolicy</span>   <span class="hljs-type">Font</span>                   <span class="hljs-type">FontFormatException</span><br><span class="hljs-type">FontMetrics</span>            <span class="hljs-type">Frame</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span><br><span class="hljs-type">Font</span>                  <span class="hljs-type">FontFormatException</span>   <span class="hljs-type">FontMetrics</span><br><br>scala&gt; <span class="hljs-keyword">val</span> font = <span class="hljs-keyword">new</span> java.awt.<span class="hljs-type">Font</span>(attrs)<br>font: java.awt.<span class="hljs-type">Font</span> = java.awt.<span class="hljs-type">Font</span>[family=<span class="hljs-type">Serif</span>,name=<span class="hljs-type">Serif</span>,style=plain,size=<span class="hljs-number">12</span>]<br></code></pre>
+
+</div><div id="wmd-preview-section-61" class="wmd-preview-section preview-content">
 
 <h2 id="三元组">三、元组</h2>
 
-</div><div id="wmd-preview-section-5486" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-62" class="wmd-preview-section preview-content">
 
 <h3 id="1-概念">1. 概念</h3>
 
 <p>在将映射的时候，有提到过元组及对偶。映射是对偶的集合，对偶是元组的最简单的形式（特例 n=2）。 <br>
 <strong>元组是不同类型的值的聚集。</strong></p>
 
-</div><div id="wmd-preview-section-7081" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-63" class="wmd-preview-section preview-content">
 
 <h3 id="2元组的构成">2.元组的构成</h3>
 
-<p><code>(element*)</code></p></div><div id="wmd-preview-section-7532" class="wmd-preview-section preview-content">
+<p><code>(element*)</code></p>
+
+</div><div id="wmd-preview-section-64" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a_tuple = (<span class="hljs-number">1</span>,<span class="hljs-string">"kobe"</span>,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>))<br>a_tuple: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre>
 
-</div><div id="wmd-preview-section-12033" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-65" class="wmd-preview-section preview-content">
 
 <h3 id="3-访问元组">3. 访问元组</h3>
 
@@ -417,82 +429,106 @@ Option对象要么返回Some（键对应的值），要么返回None</p>
 <ul><li><code>只读的</code></li>
 <li><code>下标从1开始</code></li>
 <li><code>_index访问</code></li>
-</ul></div><div id="wmd-preview-section-12694" class="wmd-preview-section preview-content">
+</ul>
+
+</div><div id="wmd-preview-section-66" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple<br>res0: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br><br>scala&gt; a_tuple._0  <span class="hljs-comment">//记住是从1开始的</span><br>&lt;console&gt;:<span class="hljs-number">11</span>: error: value _0 is not a member of (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>])<br>              a_tuple._0<br>                      ^<br>scala&gt; a_tuple._1<br>res4: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; a_tuple._2<br>res5: <span class="hljs-type">String</span> = kobe<br><br>scala&gt; a_tuple._3<br>res6: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
 
 <p>另外 可以使用空格代替 .调用 比如</p>
 
-</div><div id="wmd-preview-section-13633" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-67" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple._1<br>res7: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br><br>scala&gt; a_tuple _1<br>res8: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br></code></pre>
 
-</div><div id="wmd-preview-section-13906" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-68" class="wmd-preview-section preview-content">
 
 <h3 id="4-元组赋值">4. 元组赋值</h3>
 
-</div><div id="wmd-preview-section-16127" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-69" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; a_tuple<br>res9: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br><br>scala&gt; <span class="hljs-keyword">val</span> (a,b,c) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>b: <span class="hljs-type">String</span> = kobe<br>c: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
 
-<p>需要对应上</p></div><div id="wmd-preview-section-16057" class="wmd-preview-section preview-content">
+<p>需要对应上</p>
+
+</div><div id="wmd-preview-section-70" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: constructor cannot be instantiated to expected <span class="hljs-class"><span class="hljs-keyword">type</span>;</span><br> found   : (<span class="hljs-type">T1</span>, <span class="hljs-type">T2</span>)<br> required: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>])<br>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>           ^<br>&lt;console&gt;:<span class="hljs-number">12</span>: error: recursive value x$<span class="hljs-number">1</span> needs <span class="hljs-class"><span class="hljs-keyword">type</span><br></span>       <span class="hljs-keyword">val</span> (a,b) = a_tuple<br>            ^<br></code></pre>
 
-<p>如果有些组元是不需要的，<code>_</code>来代替</p></div><div id="wmd-preview-section-18410" class="wmd-preview-section preview-content">
+<p>如果有些组元是不需要的，<code>_</code>来代替</p>
+
+</div><div id="wmd-preview-section-71" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> (a,b,_) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>b: <span class="hljs-type">String</span> = kobe<br><br>scala&gt; <span class="hljs-keyword">val</span> (a,_,c) = a_tuple<br>a: <span class="hljs-type">Int</span> = <span class="hljs-number">1</span><br>c: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>)<br></code></pre>
 
-<p>特别注意 需要 <code>( )</code> ，否则就会变量赋值一样了</p></div><div id="wmd-preview-section-23622" class="wmd-preview-section preview-content">
+<p>特别注意 需要 <code>( )</code> ，否则就会变量赋值一样了</p>
+
+</div><div id="wmd-preview-section-72" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> a,_,c = a_tuple<br>a: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>_: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br>c: (<span class="hljs-type">Int</span>, <span class="hljs-type">String</span>, <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>]) = (<span class="hljs-number">1</span>,kobe,<span class="hljs-type">Array</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>))<br></code></pre>
 
-</div><div id="wmd-preview-section-23848" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-73" class="wmd-preview-section preview-content">
 
-<h3 id="5-元组的地道用法">5. 元组的地道用法</h3></div><div id="wmd-preview-section-23549" class="wmd-preview-section preview-content">
+<h3 id="5-元组的地道用法">5. 元组的地道用法</h3>
+
+</div><div id="wmd-preview-section-74" class="wmd-preview-section preview-content">
 
 <h4 id="1-返回多个值">1. 返回多个值</h4>
 
 <p>元组有个特殊的用法. <br>
 元组可以为那些需要返回多个值的函数或方法做包装。 <br>
-例如 ：StringOps类中的partition方法</p></div><div id="wmd-preview-section-28350" class="wmd-preview-section preview-content">
+例如 ：StringOps类中的partition方法</p>
 
-<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> str = <span class="hljs-string">"New York"</span><br>str: <span class="hljs-type">String</span> = <span class="hljs-type">New</span> <span class="hljs-type">York</span><br><br>scala&gt; str.partition(_.isUpper)<br>res10: (<span class="hljs-type">String</span>, <span class="hljs-type">String</span>) = (<span class="hljs-type">NY</span>,ew ork)<span class="hljs-comment">//（满足条件,非满足）</span><br></code></pre></div><div id="wmd-preview-section-32237" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-75" class="wmd-preview-section preview-content">
+
+<pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> str = <span class="hljs-string">"New York"</span><br>str: <span class="hljs-type">String</span> = <span class="hljs-type">New</span> <span class="hljs-type">York</span><br><br>scala&gt; str.partition(_.isUpper)<br>res10: (<span class="hljs-type">String</span>, <span class="hljs-type">String</span>) = (<span class="hljs-type">NY</span>,ew ork)<span class="hljs-comment">//（满足条件,非满足）</span><br></code></pre>
+
+</div><div id="wmd-preview-section-76" class="wmd-preview-section preview-content">
 
 <h4 id="2-拉练操作zip">2. 拉练操作zip</h4>
 
 <p>元组本身是多个值的集合，<strong>即可以绑定多个值在一起</strong>，意味着他们可以同时被处理。Scala中使用zip方法对元组集合处理。</p>
 
-</div><div id="wmd-preview-section-32238" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-77" class="wmd-preview-section preview-content">
 
 <h5 id="1-案例1">1. 案例1</h5>
 
-<p>zip方法聚集集合，集合元素为元组</p></div><div id="wmd-preview-section-32319" class="wmd-preview-section preview-content">
+<p>zip方法聚集集合，集合元素为元组</p>
+
+</div><div id="wmd-preview-section-78" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> name = <span class="hljs-type">Array</span>(<span class="hljs-string">"kobe"</span>,<span class="hljs-string">"james"</span>,<span class="hljs-string">"jordan"</span>)<br>name: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(kobe, james, jordan)<br><br>scala&gt; <span class="hljs-keyword">val</span> no = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>,<span class="hljs-number">6</span>,<span class="hljs-number">23</span>)<br>no: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>, <span class="hljs-number">6</span>, <span class="hljs-number">23</span>)<br><br>scala&gt; <span class="hljs-keyword">val</span> player = name.zip(no)<br>player: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((kobe,<span class="hljs-number">24</span>), (james,<span class="hljs-number">6</span>), (jordan,<span class="hljs-number">23</span>))<br></code></pre>
 
-</div><div id="wmd-preview-section-32320" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-79" class="wmd-preview-section preview-content">
 
-<h5 id="2-案例2">2. 案例2</h5></div><div id="wmd-preview-section-32402" class="wmd-preview-section preview-content">
+<h5 id="2-案例2">2. 案例2</h5>
+
+</div><div id="wmd-preview-section-80" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="hljs stylus">scala&gt; val symbols = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-string">"&lt;"</span>,<span class="hljs-string">"-"</span>,<span class="hljs-string">"&gt;"</span>)</span></span><br>symbols: Array[String] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(&lt;, -, &gt;)</span></span><br><br>scala&gt; val counts = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">2</span>,<span class="hljs-number">10</span>,<span class="hljs-number">2</span>)</span></span><br>counts: Array[Int] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">10</span>, <span class="hljs-number">2</span>)</span></span><br><br><br>scala&gt; val pairs = symbols.<span class="hljs-function"><span class="hljs-title">zip</span><span class="hljs-params">(counts)</span></span><br>pairs: Array[(String, Int)] = <span class="hljs-function"><span class="hljs-title">Array</span><span class="hljs-params">((&lt;,<span class="hljs-number">2</span>)</span></span>, (-,<span class="hljs-number">10</span>), (&gt;,<span class="hljs-number">2</span>))<br><br>scala&gt; <span class="hljs-function"><span class="hljs-title">for</span><span class="hljs-params">((x,y)</span></span> &lt;- pairs) <span class="hljs-function"><span class="hljs-title">print</span><span class="hljs-params">(x*y)</span></span><br>&lt;&lt;----------&gt;&gt;<br></code></pre>
 
-</div><div id="wmd-preview-section-33712" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-81" class="wmd-preview-section preview-content">
 
 <h5 id="案例2-变型">案例2 变型</h5>
 
-<p>注意元组的元素访问形式 <code>_index</code></p></div><div id="wmd-preview-section-34287" class="wmd-preview-section preview-content">
+<p>注意元组的元素访问形式 <code>_index</code></p>
+
+</div><div id="wmd-preview-section-82" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; pairs.map(x =&gt; x)<br>res19: <span class="hljs-type">Array</span>[(<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)] = <span class="hljs-type">Array</span>((&lt;,<span class="hljs-number">2</span>), (-,<span class="hljs-number">10</span>), (&gt;,<span class="hljs-number">2</span>))<br><br>scala&gt; pairs.map((x,y) =&gt; (x,y))<br>&lt;console&gt;:<span class="hljs-number">13</span>: error: wrong number of parameters; expected = <span class="hljs-number">1</span><br>              pairs.map((x,y) =&gt; (x,y))<br>                              ^<br><br>scala&gt; pairs.map(x =&gt; x._1 * x._2)<br>res22: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(&lt;&lt;, ----------, &gt;&gt;)<br></code></pre>
 
-</div><div id="wmd-preview-section-39844" class="wmd-preview-section preview-content">
+</div><div id="wmd-preview-section-83" class="wmd-preview-section preview-content">
 
-<h4 id="3-将对偶的集合转换为映射tomap">3. 将<strong>对偶的集合</strong>转换为映射toMap</h4>
+<h4 id="3-将对偶的集合转换为映射">3. 将<strong>对偶的集合</strong>转换为映射</h4>
 
-<p>如果分别有key和value的集合，可以使用toMap方法转为映射</p></div><div id="wmd-preview-section-38400" class="wmd-preview-section preview-content">
+<p>如果分别有key和value的集合，可以使用toMap方法转为映射</p>
+
+</div><div id="wmd-preview-section-84" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; <span class="hljs-keyword">val</span> keys = <span class="hljs-type">Array</span>(<span class="hljs-string">"kobe"</span>,<span class="hljs-string">"james"</span>,<span class="hljs-string">"jordan"</span>)<br>keys: <span class="hljs-type">Array</span>[<span class="hljs-type">String</span>] = <span class="hljs-type">Array</span>(kobe, james, jordan)<br><br>scala&gt; <span class="hljs-keyword">val</span> values = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>,<span class="hljs-number">6</span>,<span class="hljs-number">23</span>)<br>values: <span class="hljs-type">Array</span>[<span class="hljs-type">Int</span>] = <span class="hljs-type">Array</span>(<span class="hljs-number">24</span>, <span class="hljs-number">6</span>, <span class="hljs-number">23</span>)<br><br>scala&gt; keys.zip(values).toMap<br>res25: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(kobe -&gt; <span class="hljs-number">24</span>, james -&gt; <span class="hljs-number">6</span>, jordan -&gt; <span class="hljs-number">23</span>)<br></code></pre>
 
-<p>toMap方法是可以将<strong>对偶的集合</strong>转换为映射</p></div><div id="wmd-preview-section-39506" class="wmd-preview-section preview-content">
+<p>toMap方法是可以将<strong>对偶的集合</strong>转换为映射</p>
+
+</div><div id="wmd-preview-section-85" class="wmd-preview-section preview-content">
 
 <pre class="prettyprint hljs-light"><code class="language-scala hljs">scala&gt; (<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>).toMap  <span class="hljs-comment">//只是对偶，非集合</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value toMap is not a member of (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)<br>              (<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>).toMap<br>                      ^<br><br>scala&gt; ((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap <span class="hljs-comment">//这也非集合</span><br>&lt;console&gt;:<span class="hljs-number">10</span>: error: value toMap is not a member of (<span class="hljs-type">String</span>, <span class="hljs-type">Int</span>)<br>              ((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap<br>                        ^<br><br>scala&gt; <span class="hljs-type">Array</span>((<span class="hljs-string">"x"</span>,<span class="hljs-number">1</span>)).toMap<br>res28: scala.collection.immutable.<span class="hljs-type">Map</span>[<span class="hljs-type">String</span>,<span class="hljs-type">Int</span>] = <span class="hljs-type">Map</span>(x -&gt; <span class="hljs-number">1</span>)<br></code></pre></div><div id="wmd-preview-section-footnotes" class="preview-content"></div></div></body></html>
